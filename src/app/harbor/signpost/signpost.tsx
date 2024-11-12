@@ -117,6 +117,11 @@ export default function Signpost() {
         What's happening?
       </h2>
       <FeedItems />
+
+      <h2 className="mt-8 font-heading text-2xl font-bold text-center">
+        Special prizes
+      </h2>
+      <p className="mt-2 text-lg font-bold mb-4 text-center">Winners for these will be chosen at end of event!</p>
     </motion.div>
   );
 }
