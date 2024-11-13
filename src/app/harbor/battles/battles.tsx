@@ -265,41 +265,83 @@ export default function Matchups({ session }: { session: HsSession }) {
     { retryTimeout }: { retryTimeout: number } = { retryTimeout: 4000 }
   ) => {
     setLoading(true);
-    try {
-      // require at least 1.25 seconds of loading time for full loop of loading animations
-      const [response, _] = await Promise.all([
-        fetch("/api/battles/matchups"),
-        new Promise((r) => setTimeout(r, 1250)),
-      ]);
-      if (response.ok) {
-        const data: Matchup = await response.json();
-        setMatchup(data);
-      } else {
-        console.error("Failed to fetch matchup");
+    const isTutorial = sessionStorage.getItem("tutorial") === "true";
 
-        toast({
-          title: "Failed to fetch a new thing to vote on.",
-          description: "Retrying automatically...",
-        });
-
-        setTimeout(
-          () =>
-            fetchMatchup({
-              retryTimeout: Math.min(1000 * 60 * 5, retryTimeout * 2),
-            }),
-          retryTimeout
-        );
-      }
-    } catch (error) {
-      console.error("Error fetching matchup:", error);
-    } finally {
+    if (isTutorial) {
+      setMatchup({
+        project1: {
+          id: "hack-club-site",
+          title: "Hack Club Site",
+          repo_url: "https://github.com/hackclub/site",
+          deploy_url: "https://hackclub.com",
+          screenshot_url:
+            "https://cloud-lezyvcdxr-hack-club-bot.vercel.app/0image.png",
+          readme_url:
+            "https://raw.githubusercontent.com/hackclub/site/refs/heads/main/README.md",
+          credited_hours: 123,
+          total_hours: 123,
+          rating: 0,
+          entrant: [],
+          contest: [],
+          matchups: [],
+          matchups_count: 0,
+          wins: [],
+          wins_adjustments: 0,
+          losses: [],
+          losses_adjustments: 0,
+          autonumber: 0,
+          entrant__slack_id: [],
+        },
+        project2: {
+          id: "high-seas",
+          title: "High Seas Website",
+          repo_url: "https://github.com/hackclub/high-seas",
+          deploy_url: "highseas.hackclub.com",
+          screenshot_url:
+            "https://private-user-images.githubusercontent.com/992248/379905543-a7da63c4-eb4b-4fe6-b048-e441d1cb86d9.svg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzE1MzI3NzUsIm5iZiI6MTczMTUzMjQ3NSwicGF0aCI6Ii85OTIyNDgvMzc5OTA1NTQzLWE3ZGE2M2M0LWViNGItNGZlNi1iMDQ4LWU0NDFkMWNiODZkOS5zdmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMTEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTExM1QyMTE0MzVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT04N2UwNDZjNzRmOWRlMjA2ZTA3YjNiZTEzMjgxNWY4MTA4ODFiNTczZWI3ZWViNmY5ZTU4NjJlYTQ1YzE5OWEyJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.Ev7vjObpYoKxzjc-Fv3ZBBj_xa6m_GS2-oChJa5GmFQ",
+          readme_url:
+            "https://raw.githubusercontent.com/hackclub/high-seas/refs/heads/main/README.md",
+          credited_hours: 50,
+          total_hours: 50,
+          rating: 0,
+          entrant: [],
+          contest: [],
+          matchups: [],
+          matchups_count: 0,
+          wins: [],
+          wins_adjustments: 0,
+          losses: [],
+          losses_adjustments: 0,
+          autonumber: 0,
+          entrant__slack_id: [],
+        },
+        signature: "",
+        ts: Date.now(),
+      });
       setLoading(false);
+      fetchVoteBalance();
+    } else {
+      try {
+        const response = await fetch("/api/battles/matchup");
+        if (response.ok) {
+          const data = await response.json();
+          setMatchup(data);
+        } else {
+          // Handle fetch error
+          setMatchup(null);
+        }
+      } catch (error) {
+        console.error("Error fetching matchup:", error);
+        setMatchup(null);
+      } finally {
+        setLoading(false);
+        fetchVoteBalance();
+      }
     }
   };
 
   useEffect(() => {
     fetchMatchup();
-    fetchVoteBalance();
   }, []);
 
   const handleAudioTranscription = (transcript: string) => {

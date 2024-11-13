@@ -31,6 +31,29 @@ const tutorialShips: Ship[] = [
     reshippedFromId: null,
     reshippedToId: null,
   },
+  {
+    id: "another-example-project",
+    title: "Another Example Project",
+    repoUrl: "https://github.com/example/project",
+    deploymentUrl: "https://example.com",
+    screenshotUrl:
+      "https://cloud-example.com/0image.png",
+    readmeUrl:
+      "https://raw.githubusercontent.com/example/project/refs/heads/main/README.md",
+    credited_hours: 50,
+    voteRequirementMet: false,
+    doubloonPayout: 100,
+    shipType: "project",
+    shipStatus: "staged",
+    wakatimeProjectNames: ["another-example-project"],
+    matchups_count: 0,
+    hours: null,
+    total_hours: null,
+    createdTime: "",
+    updateDescription: null,
+    reshippedFromId: null,
+    reshippedToId: null,
+  },
 ];
 
 export default function Shipyard({ session }: any) {

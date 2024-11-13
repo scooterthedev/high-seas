@@ -115,6 +115,10 @@ export async function generateMatchup(
   signature: string;
   ts: number;
 } | null> {
+  if (sessionStorage.getItem("tutorial") === "true") {
+    return null;
+  }
+
   if (attempts >= 5) {
     console.error("Failed to generate a unique matchup after 5 attempts");
     return null;
