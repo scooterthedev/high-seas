@@ -320,23 +320,31 @@ export default function Matchups({ session }: { session: HsSession }) {
       });
       setLoading(false);
       fetchVoteBalance();
-    } else {
-      try {
-        const response = await fetch("/api/battles/matchup");
-        if (response.ok) {
-          const data = await response.json();
-          setMatchup(data);
-        } else {
-          // Handle fetch error
-          setMatchup(null);
-        }
-      } catch (error) {
-        console.error("Error fetching matchup:", error);
-        setMatchup(null);
-      } finally {
-        setLoading(false);
-        fetchVoteBalance();
-      }
+    }  try {
+      // require at least 1.25 seconds of loading time for full loop of loading animations
+      const [response, _] = await Promise.all([
+        fetch("/api/battles/matchups"),
+        new Promise((r) => setTimeout(r, 1250)),
+      ]);
+
+      const data = await response.json();
+      setMatchup(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch matchup");
+
+      toast({
+        title: "Failed to fetch a new thing to vote on.",
+        description: "Retrying automatically...",
+      });
+
+      setTimeout(
+        () =>
+          fetchMatchup({
+            retryTimeout: Math.min(1000 * 60 * 5, retryTimeout * 2),
+          }),
+        retryTimeout
+      );
     }
   };
 
