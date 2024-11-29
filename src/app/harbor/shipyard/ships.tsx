@@ -102,6 +102,8 @@ export default function Ships({
   useEffect(() => {
     const shipUpdateChain = new Map<string, Ship[]>()
 
+    console.log(ships.sort((a, b) => a.autonumber - b.autonumber))
+
     ships
       .sort((a, b) => a.autonumber - b.autonumber)
       .forEach((ship) => {
@@ -202,6 +204,12 @@ export default function Ships({
   //   setShipChains(newShipChains)
   // }, [shippedShips])
 
+  function getChainFromAnyId(id: string) {
+    for (const [_, chain] of shipChains?.[Symbol.iterator]() ?? []) {
+      if (chain.map((s: Ship) => s.id).includes(id)) return chain
+    }
+  }
+
   const SingleShip = ({
     s,
     id,
@@ -239,9 +247,7 @@ export default function Ships({
           </h2>
 
           <div className="flex flex-wrap items-start gap-2 text-sm">
-            {shipChains ? (
-              <ShipPillCluster chain={shipChains.get(s.id)} />
-            ) : null}
+            <ShipPillCluster chain={[s]} />
           </div>
         </div>
 
@@ -291,7 +297,7 @@ export default function Ships({
                   Ship an update!
                 </Button>
               ) : (
-                <p>Ship your Update!</p>
+                <p className="opacity-50 text-sm">Pending draft update!</p>
               )
             ) : (
               <p>Awaiting payout</p>
@@ -524,14 +530,20 @@ export default function Ships({
                   </motion.div>
                 ) : null}
 
-                {shipChains && selectedShip ? (
+                {shipChains &&
+                selectedShip &&
+                shipChains.get(selectedShip.id) &&
+                shipChains.get(selectedShip.id)!.length > 1 ? (
                   <>
                     <button
                       onClick={() => setUpdateChainExpanded((p) => !p)}
                       className="mt-2 inline-flex items-center"
                     >
                       {updateChainExpanded ? 'Hide' : 'View'}{' '}
-                      {shipChains.get(selectedShip.id)?.slice(1).length} updates
+                      {shipChains.get(selectedShip.id)?.length - 1} update
+                      {shipChains.get(selectedShip.id)?.length - 1 === 1
+                        ? ' '
+                        : 's '}
                       <motion.span
                         animate={{
                           rotate: updateChainExpanded ? '0deg' : '-90deg',
@@ -559,52 +571,42 @@ export default function Ships({
                           transition={{ duration: 0.2, ease: 'easeInOut' }}
                         >
                           <ol className="border-l-4 border-[#9AD9EE] pl-2 ml-2 rounded-lg space-y-2">
-                            {shipChains
-                              .get(selectedShip.id)
-                              .slice(1)
-                              .map((shipUpdate: Ship, idx: number) => (
-                                <li key={idx} className="mt-2 ml-2 rounded">
-                                  <p className="inline-flex justify-between items-center w-full text-sm p-1">
-                                    <div
-                                      className="absolute left-2 w-3 h-3 rounded-full bg-[#9AD9EE]"
-                                      style={{ translate: 'calc(-50% + 2px)' }}
-                                    ></div>
-                                    <span>
-                                      Update {idx + 1}{' '}
-                                      <span className="text-xs ml-2 text-indigo-100">
-                                        {timeAgo.format(
-                                          new Date(shipUpdate.createdTime),
-                                        )}
-                                      </span>
-                                    </span>
-                                    <span className="inline-flex gap-1">
-                                      <Pill
-                                        classes="text-xs bg-white/20 text-white"
-                                        msg={`${shipUpdate.hours?.toFixed(2)} hours`}
-                                      />
-
-                                      <Pill
-                                        classes="text-xs bg-white/20 text-white"
-                                        msg={pluralize(
-                                          Math.round(shipUpdate.doubloonPayout),
-                                          'doubloon',
-                                          true,
-                                        )}
-                                        glyphImage={
-                                          <Image
-                                            src={DoubloonsImage}
-                                            alt="doubloons"
-                                            height={16}
+                            {shipChains.get(selectedShip.id)
+                              ? shipChains
+                                  .get(selectedShip.id)
+                                  .map((ship: Ship, idx: number) => (
+                                    <li key={idx} className="mt-2 ml-2 rounded">
+                                      <p className="inline-flex justify-between items-center w-full text-sm p-1">
+                                        <div
+                                          className="absolute left-2 w-3 h-3 rounded-full bg-[#9AD9EE]"
+                                          style={{
+                                            translate: 'calc(-50% + 2px)',
+                                          }}
+                                        ></div>
+                                        <span>
+                                          {ship.shipType === 'project'
+                                            ? 'Start'
+                                            : `Update ${idx + 1}`}
+                                          <span className="text-xs ml-2 text-indigo-100">
+                                            {timeAgo.format(
+                                              new Date(ship.createdTime),
+                                            )}
+                                          </span>
+                                        </span>
+                                        <span className="inline-flex gap-1">
+                                          <ShipPillCluster
+                                            transparent={true}
+                                            size="small"
+                                            chain={[ship]}
                                           />
-                                        }
-                                      />
-                                    </span>
-                                  </p>
-                                  <p className="text-xs p-1 text-indigo-100">
-                                    {shipUpdate.updateDescription}
-                                  </p>
-                                </li>
-                              ))}
+                                        </span>
+                                      </p>
+                                      <p className="text-xs p-1 text-indigo-100">
+                                        {ship.updateDescription}
+                                      </p>
+                                    </li>
+                                  ))
+                              : null}
                           </ol>
 
                           <Button
