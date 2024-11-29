@@ -21,6 +21,7 @@ export type ShipType = 'project' | 'update'
 export type ShipStatus = 'shipped' | 'staged' | 'deleted'
 export interface Ship {
   id: string // The Airtable row's ID.
+  autonumber: number
   title: string
   repoUrl: string
   deploymentUrl?: string
@@ -89,8 +90,11 @@ export async function fetchShips(
       ? wakatimeProjectNameRaw.split('$$xXseparatorXx$$')
       : []
 
+    console.log(r.fields)
+
     const ship: Ship = {
       id: r.id,
+      autonumber: parseInt(r.fields.autonumber),
       title: r.fields.title,
       repoUrl: r.fields.repo_url,
       deploymentUrl: r.fields.deploy_url,

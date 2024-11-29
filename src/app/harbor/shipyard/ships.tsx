@@ -96,26 +96,26 @@ export default function Ships({
   useEffect(() => {
     const shipUpdateChain = new Map<string, Ship[]>()
 
-    const rootShips = ships.filter((ship, idx) => !ship.reshippedFromId)
-    // Just for quick lookups
-    const shipMap = new Map<string, Ship>()
-    ships.forEach((ship) => {
-      shipMap.set(ship.id, ship)
-    })
+    ships
+      .sort((a, b) => a.autonumber - b.autonumber)
+      .forEach((ship) => {
+        if (!ship.reshippedFromId) {
+          // If the ship is a root ship, start a new chain
+          shipUpdateChain.set(ship.id, [ship])
+        } else {
+          // If the ship has a parent, find the chain by finding the HEAD ship with id ship.reshippedFromId
+          //const targetChain = shipUpdateChain.iter().map(|chain: Ship[]| chain[-1].id === ship.reshippedFromId) // look at the beautiful pseudocode
 
-    ships.forEach((ship) => {
-      if (!ship.reshippedFromId) {
-        // If the ship is a root ship, start a new chain
-        shipUpdateChain.set(ship.id, [ship])
-      } else {
-        // If the ship has a parent, find the chain and append it
-        const parentShip = shipMap.get(ship.reshippedFromId)
-        if (parentShip) {
-          const parentChain = shipUpdateChain.get(parentShip.id) || []
-          shipUpdateChain.set(parentShip.id, [...parentChain, ship])
+          for (const [chainId, chain] of shipUpdateChain[Symbol.iterator]()) {
+            if (chain.at(-1)!.id === ship.reshippedFromId) {
+              shipUpdateChain.set(chainId, [...chain, ship])
+              break
+            }
+          }
         }
-      }
-    })
+      })
+
+    setShipChains(shipUpdateChain)
 
     console.log({ shipUpdateChain, ships })
 
@@ -185,18 +185,18 @@ export default function Ships({
   }, [ships])
 
   // Populate shipChains with data from shippedShips in useEffect to avoid updating on every render
-  useEffect(() => {
-    console.log({ shippedShips })
-    const newShipChains = new Map<string, string[]>()
-    for (const ship of shippedShips) {
-      const wakatimeProjectName = ship.wakatimeProjectNames.join(',')
-      if (ship.reshippedAll) {
-        newShipChains.set(wakatimeProjectName, ship.reshippedAll)
-      }
-    }
-    console.log({ newShipChains })
-    setShipChains(newShipChains)
-  }, [shippedShips])
+  // useEffect(() => {
+  //   console.log({ shippedShips })
+  //   const newShipChains = new Map<string, string[]>()
+  //   for (const ship of shippedShips) {
+  //     const wakatimeProjectName = ship.wakatimeProjectNames.join(',')
+  //     if (ship.reshippedAll) {
+  //       newShipChains.set(wakatimeProjectName, ship.reshippedAll)
+  //     }
+  //   }
+  //   console.log({ newShipChains })
+  //   setShipChains(newShipChains)
+  // }, [shippedShips])
 
   const SingleShip = ({
     s,
@@ -338,7 +338,7 @@ export default function Ships({
       )}
 
       <div className="w-full relative">
-        {shippedShips.length > 0 ? (
+        {shipChains && shipChains.size > 0 ? (
           <div className={`space-y-4 ${bareShips ? '' : 'mt-8'}`}>
             {bareShips ? null : (
               <h2 className="text-center text-2xl text-blue-500">
@@ -346,14 +346,16 @@ export default function Ships({
               </h2>
             )}
 
-            {shippedShips.map((ship: Ship, idx: number) => (
-              <SingleShip
-                s={ship}
-                key={ship.id}
-                id={`shipped-ship-${idx}`}
-                setNewShipVisible={setNewShipVisible}
-              />
-            ))}
+            {Object.values(Object.fromEntries(shipChains)).map(
+              (ships: Ship[], idx: number) => (
+                <SingleShip
+                  s={ships[0]}
+                  key={ships[0].id}
+                  id={`shipped-ship-${idx}`}
+                  setNewShipVisible={setNewShipVisible}
+                />
+              ),
+            )}
           </div>
         ) : null}
 
