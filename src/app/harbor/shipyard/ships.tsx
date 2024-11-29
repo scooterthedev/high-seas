@@ -365,7 +365,7 @@ export default function Ships({
           </div>
         ) : null}
 
-        {shippedShips.length < 1 && stagedShips.length < 1 ? (
+        {shipChains?.size === 0 ? (
           <>
             <div className="text-white mx-auto w-fit flex absolute -left-28 right-0 -top-28 pointer-events-none">
               <img src="/curly-arrow.svg" alt="" width="64" />
@@ -500,9 +500,8 @@ export default function Ships({
                         opacity: 0,
                         height: 0,
                       }}
-                      transition={{ duration: 0.2, ease: 'easeInOut' }}
                     >
-                      <Card className="p-2 mt-2 bg-neutral-100">
+                      <Card className="p-2 mt-2 text-white !bg-white/15">
                         <EditShipForm
                           ship={selectedShip}
                           closeForm={() => setIsEditingShip(false)}

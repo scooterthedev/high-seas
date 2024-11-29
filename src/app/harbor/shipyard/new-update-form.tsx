@@ -131,7 +131,7 @@ export default function NewUpdateForm({
           cols={50}
           minLength={10}
           required
-          className="w-full p-2 border rounded"
+          className="w-full p-2 rounded bg-white/50"
         />
 
         <Button
