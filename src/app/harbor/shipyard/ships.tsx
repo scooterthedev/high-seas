@@ -13,6 +13,9 @@ import NewShipForm from './new-ship-form'
 import EditShipForm from './edit-ship-form'
 import { getSession, HsSession } from '@/app/utils/auth'
 import Link from 'next/link'
+import TimeAgo from 'javascript-time-ago'
+import DoubloonsImage from '/public/doubloon.svg'
+import pluralize from '../../../../lib/pluralize'
 
 import ShipPillCluster from '@/components/ui/ship-pill-cluster'
 import NoImgDino from '/public/no-img-dino.png'
@@ -21,6 +24,7 @@ import ReadmeHelperImg from '/public/readme-helper.png'
 import NewUpdateForm from './new-update-form'
 import Modal from '../../../components/ui/modal'
 import RepoLink from '@/components/ui/repo_link'
+import Pill from '@/components/ui/pill'
 
 export default function Ships({
   ships = [],
@@ -35,7 +39,7 @@ export default function Ships({
   const [previousSelectedShip, setPreviousSelectedShip] = useState<Ship | null>(
     null,
   )
-
+  const [updateChainExpanded, setUpdateChainExpanded] = useState(false)
   const [readmeText, setReadmeText] = useState<string | null>(null)
   const [newShipVisible, setNewShipVisible] = useState(false)
   const [newUpdateShip, setNewUpdateShip] = useState<Ship | null>(null)
@@ -47,6 +51,8 @@ export default function Ships({
 
   const [isShipping, setIsShipping] = useState(false)
   const [shipChains, setShipChains] = useState<Map<string, Ship[]>>()
+
+  const timeAgo = new TimeAgo('en-US')
 
   useEffect(() => {
     getSession().then((sesh) => setSession(sesh))
@@ -116,8 +122,6 @@ export default function Ships({
       })
 
     setShipChains(shipUpdateChain)
-
-    console.log({ shipUpdateChain, ships })
 
     //   // console.log('Loop', loopIdx)
     //   if (loopIdx > 100) break
@@ -235,7 +239,9 @@ export default function Ships({
           </h2>
 
           <div className="flex flex-wrap items-start gap-2 text-sm">
-            <ShipPillCluster ship={s} shipChains={shipChains} />
+            {shipChains ? (
+              <ShipPillCluster chain={shipChains.get(s.id)} />
+            ) : null}
           </div>
         </div>
 
@@ -405,7 +411,7 @@ export default function Ships({
         close={() => setSelectedShip(null)}
         hideCloseButton={false}
       >
-        <Card
+        <div
           className="relative w-full max-w-2xl"
           style={{
             maxHeight: '75vh',
@@ -413,11 +419,15 @@ export default function Ships({
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="absolute top-0 left-0 right-0 h-48 z-10">
+          <div className="absolute top-0 left-0 right-0 h-48">
             <Image
               src={selectedShip?.screenshotUrl}
+              style={{
+                maskImage:
+                  'linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))',
+              }}
               alt={`Screenshot of ${selectedShip?.title}`}
-              className="object-cover max-w-full"
+              className="object-cover max-w-full rounded"
               fill={true}
               priority
               unoptimized
@@ -426,13 +436,12 @@ export default function Ships({
                 target.src = NoImgBanner.src
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white" />
           </div>
 
-          <div className=" flex-grow pt-48" id="selected-ship-card">
-            <CardHeader className="relative">
+          <div className=" flex-grow pt-32" id="selected-ship-card">
+            <div className="relative">
               <h2 className="text-3xl font-bold">{selectedShip?.title}</h2>
-              <p className="opacity-50">
+              <p className="opacity-75">
                 {selectedShip?.wakatimeProjectNames ? (
                   `Wakatime project name: ${selectedShip?.wakatimeProjectNames}`
                 ) : (
@@ -442,9 +451,9 @@ export default function Ships({
                   </div>
                 )}
               </p>
-            </CardHeader>
+            </div>
 
-            <CardContent className="space-y-4">
+            <div className="space-y-4 mt-4">
               <div>
                 <div className="flex flex-row gap-3 h-12">
                   <Link
@@ -455,7 +464,7 @@ export default function Ships({
                     prefetch={false}
                   >
                     <Button
-                      className="w-full h-full"
+                      className="w-full h-full text-lg"
                       disabled={!selectedShip?.deploymentUrl}
                     >
                       Play
@@ -504,16 +513,123 @@ export default function Ships({
                   )}
                 </AnimatePresence>
 
-                <motion.div className="flex items-center gap-4 mt-4">
-                  <ShipPillCluster
-                    ship={selectedShip}
-                    shipChains={shipChains}
-                  />
-                </motion.div>
+                {shipChains && selectedShip ? (
+                  <motion.div className="flex items-center gap-4 mt-4">
+                    <ShipPillCluster
+                      transparent={true}
+                      chain={shipChains.get(selectedShip.id)}
+                    />
+                  </motion.div>
+                ) : null}
+
+                {shipChains && selectedShip ? (
+                  <>
+                    <button
+                      onClick={() => setUpdateChainExpanded((p) => !p)}
+                      className="mt-2 inline-flex items-center"
+                    >
+                      {updateChainExpanded ? 'Hide' : 'View'}{' '}
+                      {shipChains.get(selectedShip.id)?.slice(1).length} updates
+                      <motion.span
+                        animate={{
+                          rotate: updateChainExpanded ? '0deg' : '-90deg',
+                        }}
+                      >
+                        <Icon glyph="down-caret" />
+                      </motion.span>
+                    </button>
+
+                    <AnimatePresence>
+                      {updateChainExpanded ? (
+                        <motion.div
+                          initial={{
+                            opacity: 0,
+                            height: 0,
+                          }}
+                          animate={{
+                            opacity: 1,
+                            height: 'fit-content',
+                          }}
+                          exit={{
+                            opacity: 0,
+                            height: 0,
+                          }}
+                          transition={{ duration: 0.2, ease: 'easeInOut' }}
+                        >
+                          <ol className="border-l-4 border-[#9AD9EE] pl-2 ml-2 rounded-lg space-y-2">
+                            {shipChains
+                              .get(selectedShip.id)
+                              .slice(1)
+                              .map((shipUpdate: Ship, idx: number) => (
+                                <li key={idx} className="mt-2 ml-2 rounded">
+                                  <p className="inline-flex justify-between items-center w-full text-sm p-1">
+                                    <div
+                                      className="absolute left-2 w-3 h-3 rounded-full bg-[#9AD9EE]"
+                                      style={{ translate: 'calc(-50% + 2px)' }}
+                                    ></div>
+                                    <span>
+                                      Update {idx + 1}{' '}
+                                      <span className="text-xs ml-2 text-indigo-100">
+                                        {timeAgo.format(
+                                          new Date(shipUpdate.createdTime),
+                                        )}
+                                      </span>
+                                    </span>
+                                    <span className="inline-flex gap-1">
+                                      <Pill
+                                        classes="text-xs bg-white/20 text-white"
+                                        msg={`${shipUpdate.hours?.toFixed(2)} hours`}
+                                      />
+
+                                      <Pill
+                                        classes="text-xs bg-white/20 text-white"
+                                        msg={pluralize(
+                                          Math.round(shipUpdate.doubloonPayout),
+                                          'doubloon',
+                                          true,
+                                        )}
+                                        glyphImage={
+                                          <Image
+                                            src={DoubloonsImage}
+                                            alt="doubloons"
+                                            height={16}
+                                          />
+                                        }
+                                      />
+                                    </span>
+                                  </p>
+                                  <p className="text-xs p-1 text-indigo-100">
+                                    {shipUpdate.updateDescription}
+                                  </p>
+                                </li>
+                              ))}
+                          </ol>
+
+                          <Button
+                            onClick={async (e) => {
+                              e.stopPropagation()
+                              setNewUpdateShip(selectedShip)
+                            }}
+                            className={`${buttonVariants({ variant: 'outline' })} block mx-auto mt-4`}
+                          >
+                            Ship a new update
+                          </Button>
+                        </motion.div>
+                      ) : null}
+                    </AnimatePresence>
+                  </>
+                ) : null}
 
                 {selectedShip?.shipType === 'update' ? (
                   <>
-                    <hr className="my-5" />
+                    <Image
+                      src="/hr.svg"
+                      className="w-2/3 mx-auto my-3"
+                      alt=""
+                      width={461}
+                      height={11}
+                    />
+
                     <div>
                       <h3 className="text-xl">Update description</h3>
                       <p>{selectedShip?.updateDescription}</p>
@@ -521,7 +637,13 @@ export default function Ships({
                   </>
                 ) : null}
 
-                <hr className="my-5" />
+                <Image
+                  src="/hr.svg"
+                  className="w-2/3 mx-auto my-3"
+                  alt=""
+                  width={461}
+                  height={11}
+                />
 
                 {readmeText ? (
                   <div className="prose max-w-none">
@@ -546,7 +668,6 @@ export default function Ships({
                       </div>
                     ) : (
                       <>
-                        <h3 className="text-xl">Main Project README</h3>
                         <ReactMarkdown
                           components={markdownComponents}
                           rehypePlugins={[rehypeRaw]}
@@ -560,9 +681,9 @@ export default function Ships({
                   <p className="text-center">Loading README...</p>
                 )}
               </div>
-            </CardContent>
+            </div>
           </div>
-        </Card>
+        </div>
       </Modal>
 
       <Modal isOpen={!!errorModal} close={() => setErrorModal(undefined)}>

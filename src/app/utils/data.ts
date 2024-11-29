@@ -90,8 +90,6 @@ export async function fetchShips(
       ? wakatimeProjectNameRaw.split('$$xXseparatorXx$$')
       : []
 
-    console.log(r.fields)
-
     const ship: Ship = {
       id: r.id,
       autonumber: parseInt(r.fields.autonumber),
