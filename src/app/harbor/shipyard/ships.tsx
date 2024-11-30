@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Card, CardHeader, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { stagedToShipped } from './ship-utils'
 import type { Ship } from '@/app/utils/data'
 import Image from 'next/image'
@@ -14,9 +14,6 @@ import EditShipForm from './edit-ship-form'
 import { getSession, HsSession } from '@/app/utils/auth'
 import Link from 'next/link'
 import TimeAgo from 'javascript-time-ago'
-import DoubloonsImage from '/public/doubloon.svg'
-import pluralize from '../../../../lib/pluralize'
-
 import ShipPillCluster from '@/components/ui/ship-pill-cluster'
 import NoImgDino from '/public/no-img-dino.png'
 import NoImgBanner from '/public/no-img-banner.png'
@@ -24,7 +21,6 @@ import ReadmeHelperImg from '/public/readme-helper.png'
 import NewUpdateForm from './new-update-form'
 import Modal from '../../../components/ui/modal'
 import RepoLink from '@/components/ui/repo_link'
-import Pill from '@/components/ui/pill'
 
 export default function Ships({
   ships = [],
@@ -47,7 +43,6 @@ export default function Ships({
   const [isEditingShip, setIsEditingShip] = useState(false)
   const [errorModal, setErrorModal] = useState<string>()
   const canvasRef = useRef(null)
-  const [shippedShips, setShippedShips] = useState<Ship[]>([])
 
   const [isShipping, setIsShipping] = useState(false)
   const [shipChains, setShipChains] = useState<Map<string, Ship[]>>()
@@ -113,7 +108,6 @@ export default function Ships({
         } else {
           // If the ship has a parent, find the chain by finding the HEAD ship with id ship.reshippedFromId
           //const targetChain = shipUpdateChain.iter().map(|chain: Ship[]| chain[-1].id === ship.reshippedFromId) // look at the beautiful pseudocode
-
           for (const [chainId, chain] of shipUpdateChain[Symbol.iterator]()) {
             if (chain.at(-1)!.id === ship.reshippedFromId) {
               shipUpdateChain.set(chainId, [...chain, ship])
@@ -124,85 +118,7 @@ export default function Ships({
       })
 
     setShipChains(shipUpdateChain)
-
-    //   // console.log('Loop', loopIdx)
-    //   if (loopIdx > 100) break
-
-    //   shipsCopy.forEach((ship, idx) => {
-    //     const parentId = ship.reshippedFromId
-
-    //     // Search for it
-    //     for (const [key, value] of shipUpdateChain) {
-    //       if (ship.reshippedFromId === value.at(-1)?.id) {
-    //         console.log('Add it to the SUC, remove it from shipsCopy')
-    //         shipUpdateChain.set(key, [...value, ship])
-    //         shipsCopy.splice(idx, 1)
-    //       }
-    //       // value.forEach((s) => {
-    //       //   if (s.id === parentId) {
-    //       //     // Add it to the SUC, remove it from shipsCopy
-
-    //       //   }
-    //       // })
-    //     }
-    //   })
-    //   loopIdx++
-    // }
-
-    // console.log({ shipUpdateChain, shipsCopy, rootShips })
-
-    /*
-    const localShippedShips = ships.filter(
-      (ship: Ship) =>
-        ship.shipStatus === 'shipped' && ship.shipType === 'project',
-    )
-
-    const localUpdateShips = ships.filter(
-      (ship: Ship) =>
-        ship.shipStatus === 'shipped' && ship.shipType === 'update',
-    )
-
-    // Consolidate projects and updates in a Map to handle "reshipping" logic efficiently
-    const shippedShipsMap = new Map(
-      localShippedShips.map((ship) => [ship.id, { ...ship }]),
-    )
-
-    for (const update of localUpdateShips) {
-      const reshippedFromId = update.reshippedFromId
-      const updateCopy = { ...update }
-
-      if (reshippedFromId && shippedShipsMap.has(reshippedFromId)) {
-        const originalShip = shippedShipsMap.get(reshippedFromId)
-        shippedShipsMap.set(reshippedFromId, {
-          ...updateCopy,
-          doubloonPayout:
-            updateCopy.doubloonPayout + (originalShip?.doubloonPayout || 0),
-        })
-      } else {
-        shippedShipsMap.set(updateCopy.id, updateCopy)
-      }
-    }
-
-    const sortedShips = Array.from(shippedShipsMap.values()).sort(
-      (a, b) => new Date(b?.createdTime) - new Date(a?.createdTime),
-    ) as Ship[]
-    setShippedShips(sortedShips)
-    */
   }, [ships])
-
-  // Populate shipChains with data from shippedShips in useEffect to avoid updating on every render
-  // useEffect(() => {
-  //   console.log({ shippedShips })
-  //   const newShipChains = new Map<string, string[]>()
-  //   for (const ship of shippedShips) {
-  //     const wakatimeProjectName = ship.wakatimeProjectNames.join(',')
-  //     if (ship.reshippedAll) {
-  //       newShipChains.set(wakatimeProjectName, ship.reshippedAll)
-  //     }
-  //   }
-  //   console.log({ newShipChains })
-  //   setShipChains(newShipChains)
-  // }, [shippedShips])
 
   function getChainFromAnyId(id: string) {
     for (const [_, chain] of shipChains?.[Symbol.iterator]() ?? []) {
@@ -586,7 +502,15 @@ export default function Ships({
                                         <span>
                                           {ship.shipType === 'project'
                                             ? 'Start'
-                                            : `Update ${idx + 1}`}
+                                            : `Update ${
+                                                idx +
+                                                  shipChains.get(
+                                                    selectedShip.id,
+                                                  )[0].shipType ===
+                                                'project'
+                                                  ? 0
+                                                  : 1
+                                              }`}
                                           <span className="text-xs ml-2 text-indigo-100">
                                             {timeAgo.format(
                                               new Date(ship.createdTime),
