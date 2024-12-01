@@ -163,7 +163,9 @@ export default function Ships({
           </h2>
 
           <div className="flex flex-wrap items-start gap-2 text-sm">
-            <ShipPillCluster chain={[s]} />
+            <ShipPillCluster
+              chain={s.shipType === 'project' ? getChainFromAnyId(s.id) : [s]}
+            />
           </div>
         </div>
 
@@ -203,11 +205,8 @@ export default function Ships({
                 <Button
                   onClick={async (e) => {
                     e.stopPropagation()
-                    alert(
-                      'Blimeys!! Sorry, but updates are broken right now – the dev team is working on a fix',
-                    )
-                    //console.log('Shipping an update...', s)
-                    //setNewUpdateShip(s)
+                    console.log('Shipping an update...', s)
+                    setNewUpdateShip(s)
                   }}
                 >
                   Ship an update!

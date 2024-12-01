@@ -60,7 +60,7 @@ export default function ShipPillCluster({
                 color="blue"
                 glyph="event-add"
                 glyphSize={size === 'small' ? 16 : 20}
-                percentage={Math.max(chain.at(-1)?.matchups_count * 10, 5)}
+                // percentage={Math.max(chain.at(-1)?.matchups_count * 10, 5)}
               />
             )
           ) : (
