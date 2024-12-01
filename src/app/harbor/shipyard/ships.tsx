@@ -126,6 +126,10 @@ export default function Ships({
     }
   }
 
+  const selectedShipChain = selectedShip
+    ? shipChains?.get(selectedShip.id)
+    : undefined
+
   const SingleShip = ({
     s,
     id,
@@ -440,25 +444,20 @@ export default function Ships({
                   <motion.div className="flex items-center gap-4 mt-4">
                     <ShipPillCluster
                       transparent={true}
-                      chain={shipChains.get(selectedShip.id)}
+                      chain={selectedShipChain}
                     />
                   </motion.div>
                 ) : null}
 
-                {shipChains &&
-                selectedShip &&
-                shipChains.get(selectedShip.id) &&
-                shipChains.get(selectedShip.id)!.length > 1 ? (
+                {selectedShipChain && selectedShipChain!.length > 1 ? (
                   <>
                     <button
                       onClick={() => setUpdateChainExpanded((p) => !p)}
                       className="mt-2 inline-flex items-center"
                     >
                       {updateChainExpanded ? 'Hide' : 'View'}{' '}
-                      {shipChains.get(selectedShip.id)?.length - 1} update
-                      {shipChains.get(selectedShip.id)?.length - 1 === 1
-                        ? ' '
-                        : 's '}
+                      {selectedShipChain.length - 1} update
+                      {selectedShipChain.length - 1 === 1 ? ' ' : 's '}
                       <motion.span
                         animate={{
                           rotate: updateChainExpanded ? '0deg' : '-90deg',
@@ -486,10 +485,9 @@ export default function Ships({
                           transition={{ duration: 0.2, ease: 'easeInOut' }}
                         >
                           <ol className="border-l-4 border-[#9AD9EE] pl-2 ml-2 rounded-lg space-y-2">
-                            {shipChains.get(selectedShip.id)
-                              ? shipChains
-                                  .get(selectedShip.id)
-                                  .map((ship: Ship, idx: number) => (
+                            {selectedShipChain
+                              ? selectedShipChain.map(
+                                  (ship: Ship, idx: number) => (
                                     <li key={idx} className="mt-2 ml-2 rounded">
                                       <p className="inline-flex justify-between items-center w-full text-sm p-1">
                                         <div
@@ -503,9 +501,8 @@ export default function Ships({
                                             ? 'Start'
                                             : `Update ${
                                                 idx +
-                                                  shipChains.get(
-                                                    selectedShip.id,
-                                                  )[0].shipType ===
+                                                  selectedShipChain[0]
+                                                    .shipType ===
                                                 'project'
                                                   ? 0
                                                   : 1
@@ -528,19 +525,22 @@ export default function Ships({
                                         {ship.updateDescription}
                                       </p>
                                     </li>
-                                  ))
+                                  ),
+                                )
                               : null}
                           </ol>
 
-                          <Button
-                            onClick={async (e) => {
-                              e.stopPropagation()
-                              setNewUpdateShip(selectedShip)
-                            }}
-                            className={`${buttonVariants({ variant: 'outline' })} block mx-auto mt-4`}
-                          >
-                            Ship a new update
-                          </Button>
+                          {selectedShipChain.at(-1)?.shipStatus !== 'staged' ? (
+                            <Button
+                              onClick={async (e) => {
+                                e.stopPropagation()
+                                setNewUpdateShip(selectedShip)
+                              }}
+                              className={`${buttonVariants({ variant: 'outline' })} block mx-auto mt-4`}
+                            >
+                              Ship a new update
+                            </Button>
+                          ) : null}
                         </motion.div>
                       ) : null}
                     </AnimatePresence>
