@@ -47,14 +47,14 @@ export default function NewUpdateForm({
         total: number
       }[],
     ): number => {
-      const project = projects.find((p) =>
+      const ps = projects.filter((p) =>
         (shipToUpdate.wakatimeProjectNames || []).includes(p.key),
       )
 
-      if (!project) return 0
+      if (!ps || ps.length === 0) return 0
 
-      const creditedTime =
-        project.total / 3600 - (shipToUpdate.total_hours || 0)
+      const total = ps.reduce((acc, curr) => (acc += curr.total), 0)
+      const creditedTime = total / 3600 - (shipToUpdate.total_hours || 0)
       return Math.round(creditedTime * 1000) / 1000
     },
     [shipToUpdate],
