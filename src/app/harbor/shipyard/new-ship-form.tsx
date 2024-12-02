@@ -1,40 +1,40 @@
 // Import necessary modules and components
-import React from 'react'
-import Link from 'next/link'
-import { createShip, Ship } from './ship-utils'
-import { Button } from '@/components/ui/button'
-import JSConfetti from 'js-confetti'
-import { useEffect, useRef, useState } from 'react'
-import { getWakaSessions } from '@/app/utils/waka'
-import { AnimatePresence, motion } from 'framer-motion'
-import { useToast } from '@/hooks/use-toast'
-import Icon from '@hackclub/icons'
-import { MultiSelect } from '../../../components/ui/multi-select'
+import React from "react";
+import Link from "next/link";
+import { createShip, Ship } from "./ship-utils";
+import { Button } from "@/components/ui/button";
+import JSConfetti from "js-confetti";
+import { useEffect, useRef, useState } from "react";
+import { getWakaSessions } from "@/app/utils/waka";
+import { AnimatePresence, motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
+import Icon from "@hackclub/icons";
+import { MultiSelect } from "../../../components/ui/multi-select";
 
 async function testReadmeLink(url: string) {
-  const response = await fetch(url)
+  const response = await fetch(url);
   if (response.status !== 200) {
-    return false
+    return false;
   }
-  const responseText = await response.text()
-  if (!responseText || responseText === '404: Not Found') {
-    return false
+  const responseText = await response.text();
+  if (!responseText || responseText === "404: Not Found") {
+    return false;
   }
-  return true
+  return true;
 }
 
 async function getReadmeFromRepo(url: string) {
-  if (!url.includes('github.com')) {
-    return null
+  if (!url.includes("github.com")) {
+    return null;
   }
   // https://api.github.com/repos/OWNER/REPO/readme
   const readmeUrl = url.replace(
     /https:\/\/github.com\/(.*?)\/(.*?)\/?$/,
-    'https://api.github.com/repos/$1/$2/readme',
-  )
-  const readmeData = await fetch(readmeUrl).then((d) => d.json())
-  const readmeURI = readmeData.download_url
-  return (await testReadmeLink(readmeURI)) ? readmeURI : null
+    "https://api.github.com/repos/$1/$2/readme"
+  );
+  const readmeData = await fetch(readmeUrl).then((d) => d.json());
+  const readmeURI = readmeData.download_url;
+  return (await testReadmeLink(readmeURI)) ? readmeURI : null;
 }
 
 export default function NewShipForm({
@@ -44,171 +44,181 @@ export default function NewShipForm({
   session,
   ...props
 }: {
-  ships: Ship[]
-  canvasRef: any
-  closeForm: any
-  session: any
+  ships: Ship[];
+  canvasRef: any;
+  closeForm: any;
+  session: any;
 }) {
-  const [staging, setStaging] = useState(false)
-  const confettiRef = useRef<JSConfetti | null>(null)
-  const [usedRepos, setUsedRepos] = useState<string[]>([])
+  const [staging, setStaging] = useState(false);
+  const confettiRef = useRef<JSConfetti | null>(null);
+  const [usedRepos, setUsedRepos] = useState<string[]>([]);
   const [projects, setProjects] = useState<
     { key: string; total: number }[] | null
-  >(null)
+  >(null);
   const [selectedProjects, setSelectedProjects] = useState<
     | [
         {
-          key: string
-          total: number
-        },
+          key: string;
+          total: number;
+        }
       ]
     | null
-  >(null)
-  const [isShipUpdate, setIsShipUpdate] = useState(false)
-  const { toast } = useToast()
+  >(null);
+  const [isShipUpdate, setIsShipUpdate] = useState(false);
+  const { toast } = useToast();
 
   // Initialize confetti on mount
   useEffect(() => {
-    confettiRef.current = new JSConfetti({ canvas: canvasRef.current })
-  }, [canvasRef.current])
+    confettiRef.current = new JSConfetti({ canvas: canvasRef.current });
+  }, [canvasRef.current]);
 
   // Fetch projects from the API using the Slack ID
   useEffect(() => {
     async function fetchProjects() {
       try {
-        if (sessionStorage.getItem('tutorial') === 'true') {
-          setProjects([{ key: 'hack-club-site', total: 123 * 60 * 60 }])
+        if (sessionStorage.getItem("tutorial") === "true") {
+          setProjects([{ key: "hack-club-site", total: 123 * 60 * 60 }]);
         } else {
-          const res = await getWakaSessions()
+          const res = await getWakaSessions();
           const shippedShips = ships
-            .filter((s) => s.shipStatus !== 'deleted')
-            .flatMap((s) => s.wakatimeProjectNames)
+            .filter((s) => s.shipStatus !== "deleted")
+            .flatMap((s) => s.wakatimeProjectNames);
           setProjects(
             res.projects.filter(
               (p: { key: string; total: number }) =>
-                p.key !== '<<LAST_PROJECT>>' && !shippedShips.includes(p.key),
-            ),
-          )
+                p.key !== "<<LAST_PROJECT>>" && !shippedShips.includes(p.key)
+            )
+          );
         }
       } catch (error) {
-        console.error('Error fetching projects:', error)
+        console.error("Error fetching projects:", error);
       }
     }
-    fetchProjects()
-  }, [ships])
+    fetchProjects();
+  }, [ships]);
 
   const handleForm = async (formData: FormData) => {
-    setStaging(true)
+    setStaging(true);
 
-    const deploymentUrl = formData.get('deployment_url') as string
+    const deploymentUrl = formData.get("deployment_url") as string;
     if (
-      ['github.com', 'gitlab.com', 'bitbucket.org'].some((domain) =>
-        deploymentUrl.includes(domain),
+      ["github.com", "gitlab.com", "bitbucket.org"].some((domain) =>
+        deploymentUrl.includes(domain)
       )
     ) {
       toast({
         title: "That's not a demo link!",
         description:
-          'Submit a link to a deployed project or a video demo of what your project is instead!',
-      })
-      setStaging(false)
-      return
+          "Submit a link to a deployed project or a video demo of what your project is instead!",
+      });
+      setStaging(false);
+      return;
     }
 
-    const repoUrl = formData.get('repo_url') as string
+    const repoUrl = formData.get("repo_url") as string;
     if (usedRepos.includes(repoUrl)) {
       toast({
-        title: 'You already submitted a project from this repo!',
+        title: "You already submitted a project from this repo!",
         description:
           "If you're shipping an update to a project, use the 'ship an update' button instead.",
-      })
+      });
     }
 
-    const screenshotUrl = formData.get('screenshot_url') as string
-    const readmeUrl = formData.get('readme_url') as string
+    const screenshotUrl = formData.get("screenshot_url") as string;
+    const readmeUrl = formData.get("readme_url") as string;
     const [screenshotRes, readmeRes] = await Promise.all([
       fetch(screenshotUrl).catch((e) => console.error(e)),
       fetch(readmeUrl).catch((e) => console.error(e)),
-    ])
+    ]);
     if (!screenshotRes) {
       toast({
         title: "We couldn't load your screenshot link!",
-        description: 'Try #cdn instead!',
-      })
-      setStaging(false)
-      return
+        description: "Try #cdn instead!",
+      });
+      setStaging(false);
+      return;
     }
-    if (!screenshotRes?.headers?.get('content-type')?.startsWith('image')) {
+    if (!screenshotRes?.headers?.get("content-type")?.startsWith("image")) {
       toast({
         title: "That's not an image!",
-        description: 'Submit a link to an image of your project instead!',
-      })
-      setStaging(false)
-      return
+        description: "Submit a link to an image of your project instead!",
+      });
+      setStaging(false);
+      return;
     }
 
-    if (screenshotUrl.includes('cdn.discordapp.com')) {
+    if (screenshotUrl.includes("cdn.discordapp.com")) {
       toast({
         title: "That screenshot doesn't work!",
         description:
-          'Discord links are temporary, please host your files in #cdn!',
-      })
-      setStaging(false)
-      return
+          "Discord links are temporary, please host your files in #cdn!",
+      });
+      setStaging(false);
+      return;
     }
 
-    if (readmeUrl.includes('github.com')) {
+    if (!screenshotUrl.startsWith("http")) {
+      toast({
+        title: "That screenshot doesn't work!",
+        description:
+          "Please use http or https links (no data urls), please host your files in #cdn!",
+      });
+      setStaging(false);
+      return;
+    }
+
+    if (readmeUrl.includes("github.com")) {
       toast({
         title: "This isn't a markdown link!",
         description:
-          'Submit a link to the raw README file in your repo instead!',
-      })
-      setStaging(false)
-      return
+          "Submit a link to the raw README file in your repo instead!",
+      });
+      setStaging(false);
+      return;
     }
 
     if (
       readmeRes.status !== 200 ||
-      !['text/plain', 'text/markdown'].includes(
-        readmeRes?.headers?.get('content-type')?.split(';')[0] || '',
+      !["text/plain", "text/markdown"].includes(
+        readmeRes?.headers?.get("content-type")?.split(";")[0] || ""
       )
     ) {
       toast({
         title: "That's not a valid README link!",
-        description: 'Submit a link to a README file in your repo instead!',
-      })
-      setStaging(false)
-      return
+        description: "Submit a link to a README file in your repo instead!",
+      });
+      setStaging(false);
+      return;
     }
 
-    const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
-    confettiRef.current?.addConfetti()
-    closeForm()
+    const isTutorial = sessionStorage?.getItem("tutorial") === "true";
+    confettiRef.current?.addConfetti();
+    closeForm();
     if (isTutorial) {
-      window.location.reload()
+      window.location.reload();
     } else {
-      const _newShip = await createShip(formData, false)
-      setStaging(false)
+      const _newShip = await createShip(formData, false);
+      setStaging(false);
     }
 
     // ideally we don't have to reload the page here.
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   const projectDropdownList = projects?.map((p: any) => ({
     label: `${p.key} (${(p.total / 60 / 60).toFixed(2)} hrs)`,
     value: p.key,
     icon: () => <Icon glyph="clock" size={24} />,
-  }))
+  }));
 
   return (
     <div
       {...props}
-      style={{ maxHeight: '75vh', overflowY: 'auto' }}
+      style={{ maxHeight: "75vh", overflowY: "auto" }}
       id="new-ship-form-container-card"
     >
       <h1 className="text-2xl font-bold mb-4">
-        {isShipUpdate ? 'Update a' : 'New'} Ship
+        {isShipUpdate ? "Update a" : "New"} Ship
       </h1>
       <form action={handleForm} className="space-y-3">
         <div className="flex items-center space-x-2">
@@ -227,7 +237,7 @@ export default function NewShipForm({
               <br />
               For example: maybe you already built a game, and you want to ship
               an amazing update to it! Click this box and describe the update.
-              If you {"don't"} understand this, please ask in{' '}
+              If you {"don't"} understand this, please ask in{" "}
               <Link
                 className="underline"
                 href="https://hackclub.slack.com/archives/C07PZNMBPBN"
@@ -243,7 +253,7 @@ export default function NewShipForm({
           {isShipUpdate ? (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'fit-content', opacity: 1 }}
+              animate={{ height: "fit-content", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
             >
               <label htmlFor="updateDescription">
@@ -297,7 +307,7 @@ export default function NewShipForm({
             type="hidden"
             id="wakatime-project-name"
             name="wakatime_project_name"
-            value={selectedProjects?.join('$$xXseparatorXx$$') ?? ''}
+            value={selectedProjects?.join("$$xXseparatorXx$$") ?? ""}
           />
         </div>
 
@@ -312,12 +322,12 @@ export default function NewShipForm({
             onChange={({ target }) => {
               getReadmeFromRepo(target.value).then((readme) => {
                 if (readme && document) {
-                  const readmeEl = document.getElementById('readme_url')
+                  const readmeEl = document.getElementById("readme_url");
                   if (readmeEl) {
-                    readmeEl.setAttribute('value', readme)
+                    readmeEl.setAttribute("value", readme);
                   }
                 }
-              })
+              });
             }}
           />
         </div>
@@ -351,7 +361,7 @@ export default function NewShipForm({
             Screenshot URL
             <br />
             <span className="text-xs opacity-50">
-              No dataURLs please. You can upload to{' '}
+              No dataURLs please. You can upload to{" "}
               <Link
                 className="underline"
                 href="https://hackclub.slack.com/archives/C016DEDUL87"
@@ -359,7 +369,7 @@ export default function NewShipForm({
                 rel="noopener noreferrer"
               >
                 #cdn
-              </Link>{' '}
+              </Link>{" "}
               if you like!
             </span>
           </label>
@@ -379,7 +389,7 @@ export default function NewShipForm({
               Staging!
             </>
           ) : (
-            'Submit as a draft'
+            "Submit as a draft"
           )}
         </Button>
         <p className="text-xs opacity-50">
@@ -388,5 +398,5 @@ export default function NewShipForm({
         </p>
       </form>
     </div>
-  )
+  );
 }
