@@ -99,17 +99,17 @@ export default function NewShipForm({
 
   const handleForm = async (formData: FormData) => {
     setStaging(true)
-    
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     if (selectedProjects === null || selectedProjects?.length === 0) {
       toast({
-        title: "Select a project",
+        title: 'Select a project',
         description:
           "Shipping 0 projects doesn't make sense. Please select at least one!",
       })
-      setStaging(false);
-      return;
+      setStaging(false)
+      return
     }
 
     const deploymentUrl = formData.get('deployment_url') as string

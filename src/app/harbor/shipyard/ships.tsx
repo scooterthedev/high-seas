@@ -42,7 +42,7 @@ export default function Ships({
   const [session, setSession] = useState<HsSession | null>(null)
   const [isEditingShip, setIsEditingShip] = useState(false)
   const [errorModal, setErrorModal] = useState<string>()
-  const [shipReqModal, setShipReqModal] = useState<boolean>(false);
+  const [shipReqModal, setShipReqModal] = useState<boolean>(false)
   const canvasRef = useRef(null)
 
   const [isShipping, setIsShipping] = useState(false)
@@ -198,12 +198,14 @@ export default function Ships({
 
                   try {
                     setIsShipping(true)
-                    const shippingResult: boolean = await stagedToShipped(s, ships);
+                    const shippingResult: boolean = await stagedToShipped(
+                      s,
+                      ships,
+                    )
                     if (!shippingResult) {
-                      setShipReqModal(true);
-                    }
-                    else {
-                      location.reload();
+                      setShipReqModal(true)
+                    } else {
+                      location.reload()
                     }
                   } catch (err: unknown) {
                     if (err instanceof Error) {
@@ -520,10 +522,19 @@ export default function Ships({
       </Modal>
 
       <Modal isOpen={shipReqModal} close={() => setShipReqModal(false)}>
-        <p className="text-3xl mb-4">Shiver Me Timbers!<br /> Spend more time on this ship!</p>
-          <p className="text-xl mb-4">I know you want to ship that draft, but listen. <br />
-            To get that sweet bounty, ye need to spend at least an hour on this ship </p>
-        <p className="text-lg">Add some features, make it responsive, work on styling. There are many thing ye can do!</p>
+        <p className="text-3xl mb-4">
+          Shiver Me Timbers!
+          <br /> Spend more time on this ship!
+        </p>
+        <p className="text-xl mb-4">
+          I know you want to ship that draft, but listen. <br />
+          To get that sweet bounty, ye need to spend at least an hour on this
+          ship{' '}
+        </p>
+        <p className="text-lg">
+          Add some features, make it responsive, work on styling. There are many
+          thing ye can do!
+        </p>
       </Modal>
 
       <Modal isOpen={!!errorModal} close={() => setErrorModal(undefined)}>
