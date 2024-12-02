@@ -30,13 +30,16 @@ export default function ShipPillCluster({
 
   return (
     <>
-      <Pill
-        classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
-        msg={pluralize(roundedHr, 'hr', true)}
-        glyphSize={size === 'small' ? 16 : 20}
-        glyph="clock"
-      />
-
+      {!chain[0].reshippedFromId && chain[0].shipStatus === 'staged' ? (
+        <Pill msg="Pending" glyph="clock" />
+      ) : (
+        <Pill
+          classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
+          msg={pluralize(roundedHr, 'hr', true)}
+          glyphSize={size === 'small' ? 16 : 20}
+          glyph="clock"
+        />
+      )}
       {chain[0].shipStatus === 'shipped' ? (
         <>
           {allShipsHaveVoteRequirementMet ? (
