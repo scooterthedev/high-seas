@@ -132,6 +132,12 @@ export default function Ships({
     ? shipChains?.get(selectedShip.id)
     : undefined
 
+  const shippedShips = shipChains
+    ? Object.values(Object.fromEntries(shipChains)).filter(
+        (ships: Ship[]) => ships[0].shipStatus === 'shipped',
+      )
+    : []
+
   const SingleShip = ({
     s,
     id,
@@ -276,10 +282,7 @@ export default function Ships({
       )}
 
       <div className="w-full relative">
-        {shipChains &&
-        Array.from(shipChains).filter(
-          ([_, sc]) => sc[0].shipStatus === 'shipped',
-        ).length > 0 ? (
+        {shipChains && shippedShips.length > 0 ? (
           <div className={`space-y-4 ${bareShips ? '' : 'mt-8'}`}>
             {bareShips ? null : (
               <h2 className="text-center text-2xl text-blue-500">
@@ -287,16 +290,14 @@ export default function Ships({
               </h2>
             )}
 
-            {Object.values(Object.fromEntries(shipChains)).map(
-              (ships: Ship[], idx: number) => (
-                <SingleShip
-                  s={ships[0]}
-                  key={ships[0].id}
-                  id={`shipped-ship-${idx}-${ships[0].shipStatus}`}
-                  setNewShipVisible={setNewShipVisible}
-                />
-              ),
-            )}
+            {shippedShips.map((ships: Ship[], idx: number) => (
+              <SingleShip
+                s={ships[0]}
+                key={ships[0].id}
+                id={`shipped-ship-${idx}-${ships[0].shipStatus}`}
+                setNewShipVisible={setNewShipVisible}
+              />
+            ))}
           </div>
         ) : null}
 
