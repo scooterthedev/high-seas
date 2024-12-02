@@ -273,14 +273,21 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
     projectHours.reduce((prev, curr) => prev + curr, 0) -
     (previousShip?.total_hours ?? 0)
 
+  const fields = {
+    ship_status: 'shipped',
+    credited_hours: totalHours,
+  }
+
+  if (ship.shipType === 'update') {
+    // @ts-ignore
+    delete fields.credited_hours
+  }
+
   base()(shipsTableName).update(
     [
       {
         id: ship.id,
-        fields: {
-          ship_status: 'shipped',
-          credited_hours: totalHours,
-        },
+        fields,
       },
     ],
     (err: Error, records: any) => {

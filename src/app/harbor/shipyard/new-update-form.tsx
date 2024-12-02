@@ -127,7 +127,8 @@ export default function NewUpdateForm({
       </h1>
 
       <p className="mb-2">
-        You are adding {projectHours} hours of work to this project
+        You are adding {projectHours <= 0 ? 'no' : projectHours} hours of work
+        to this project
       </p>
 
       <form
