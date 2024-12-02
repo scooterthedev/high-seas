@@ -275,7 +275,9 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
 
   if (totalHours <= 0) {
     const err = new Error(
-      `Tried to stagedToShipped a ship with totalHours: ${JSON.stringify(totalHours)}`,
+      `You can't ship a project you haven't logged hours on! Spend a little more time on this one.
+
+(Tried to stagedToShipped a ship with totalHours: ${JSON.stringify(totalHours)})`,
     )
     console.error(err)
     throw err
