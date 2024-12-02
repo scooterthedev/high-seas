@@ -11,8 +11,8 @@ export default function ShipPillCluster({
   size = 'default',
 }: {
   chain: Ship[]
-  transparent: boolean
-  size: 'small' | 'default'
+  transparent?: boolean
+  size?: 'small' | 'default'
 }) {
   if (!chain) return null
 

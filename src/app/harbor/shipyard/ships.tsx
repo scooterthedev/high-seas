@@ -272,7 +272,10 @@ export default function Ships({
       )}
 
       <div className="w-full relative">
-        {shipChains && shipChains.size > 0 ? (
+        {shipChains &&
+        Array.from(shipChains).filter(
+          ([_, sc]) => sc[0].shipStatus === 'shipped',
+        ).length > 0 ? (
           <div className={`space-y-4 ${bareShips ? '' : 'mt-8'}`}>
             {bareShips ? null : (
               <h2 className="text-center text-2xl text-blue-500">
@@ -285,7 +288,7 @@ export default function Ships({
                 <SingleShip
                   s={ships[0]}
                   key={ships[0].id}
-                  id={`shipped-ship-${idx}`}
+                  id={`shipped-ship-${idx}-${ships[0].shipStatus}`}
                   setNewShipVisible={setNewShipVisible}
                 />
               ),
@@ -440,7 +443,7 @@ export default function Ships({
                   )}
                 </AnimatePresence>
 
-                {shipChains && selectedShip ? (
+                {selectedShipChain ? (
                   <motion.div className="flex items-center gap-4 mt-4">
                     <ShipPillCluster
                       transparent={true}
