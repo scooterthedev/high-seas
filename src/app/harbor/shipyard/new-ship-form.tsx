@@ -157,7 +157,7 @@ export default function NewShipForm({
       return
     }
 
-    if (!screenshotUrl.startsWith('http')) {
+    if (!screenshotUrl.startsWith('https://')) {
       toast({
         title: "That screenshot doesn't work!",
         description:
