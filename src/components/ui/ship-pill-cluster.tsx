@@ -31,7 +31,11 @@ export default function ShipPillCluster({
   return (
     <>
       {!chain[0].reshippedFromId && chain[0].shipStatus === 'staged' ? (
-        <Pill msg="Pending" glyph="clock" />
+        <Pill
+          classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
+          msg="Pending"
+          glyph="clock"
+        />
       ) : (
         <Pill
           classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
