@@ -100,6 +100,17 @@ export default function NewShipForm({
   const handleForm = async (formData: FormData) => {
     setStaging(true)
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    if (selectedProjects === null || selectedProjects?.length === 0) {
+      toast({
+        title: 'Select a project',
+        description: 'Please select at least one Hackatime project!',
+      })
+      setStaging(false)
+      return
+    }
+
     const deploymentUrl = formData.get('deployment_url') as string
     if (
       ['github.com', 'gitlab.com', 'bitbucket.org'].some((domain) =>
