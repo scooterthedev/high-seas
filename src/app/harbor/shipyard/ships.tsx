@@ -523,17 +523,10 @@ export default function Ships({
 
       <Modal isOpen={shipReqModal} close={() => setShipReqModal(false)}>
         <p className="text-3xl mb-4">
-          Shiver Me Timbers!
-          <br /> Spend more time on this ship!
+          Avast, Sailor!
         </p>
         <p className="text-xl mb-4">
-          I know you want to ship that draft, but listen. <br />
-          To get that sweet bounty, ye need to spend at least an hour on this
-          ship{' '}
-        </p>
-        <p className="text-lg">
-          Add some features, make it responsive, work on styling. There are many
-          thing ye can do!
+          Projects must be at least one hour. Spend a little more time on this one!
         </p>
       </Modal>
 
