@@ -166,6 +166,18 @@ export default function NewShipForm({
       setStaging(false)
       return
     }
+    if (
+      deploymentUrl.includes('localhost') ||
+      deploymentUrl.includes('127.0.0.1')
+    ) {
+      toast({
+        title: "That's not a demo link!",
+        description:
+          'Please make sure your link isnt a local link.. Please submit a deployed link instead!',
+      })
+      setStaging(false)
+      return
+    }
 
     if (readmeUrl.includes('github.com')) {
       toast({
