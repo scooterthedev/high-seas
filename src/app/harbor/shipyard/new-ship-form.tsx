@@ -157,6 +157,28 @@ export default function NewShipForm({
       return
     }
 
+    if (!screenshotUrl.startsWith('https://')) {
+      toast({
+        title: "That screenshot doesn't work!",
+        description:
+          'Please use http or https links (no data urls), please host your files in #cdn!',
+      })
+      setStaging(false)
+      return
+    }
+    if (
+      deploymentUrl.includes('localhost') ||
+      deploymentUrl.includes('127.0.0.1')
+    ) {
+      toast({
+        title: "That's not a demo link!",
+        description:
+          'Please make sure your link isnt a local link.. Please submit a deployed link instead!',
+      })
+      setStaging(false)
+      return
+    }
+
     if (readmeUrl.includes('github.com')) {
       toast({
         title: "This isn't a markdown link!",
