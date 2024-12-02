@@ -273,6 +273,14 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
     projectHours.reduce((prev, curr) => prev + curr, 0) -
     (previousShip?.total_hours ?? 0)
 
+  if (totalHours <= 0) {
+    const err = new Error(
+      `Tried to stagedToShipped a ship with totalHours: ${JSON.stringify(totalHours)}`,
+    )
+    console.error(err)
+    throw err
+  }
+
   const fields = {
     ship_status: 'shipped',
     credited_hours: totalHours,
