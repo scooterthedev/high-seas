@@ -279,7 +279,7 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
   }
 
   if (ship.shipType === 'update') {
-    // @ts-ignore
+    // @ts-expect-error
     delete fields.credited_hours
   }
 
