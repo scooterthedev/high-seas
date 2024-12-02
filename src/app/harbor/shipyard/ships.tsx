@@ -198,7 +198,11 @@ export default function Ships({
                 }}
                 disabled={isShipping}
               >
-                {isShipping ? 'Shipping...' : 'SHIP SHIP!'}
+                {isShipping
+                  ? 'Shipping...'
+                  : s.shipType === 'project'
+                    ? 'SHIP SHIP!'
+                    : 'SHIP UPDATE!'}
               </Button>
             ) : s.paidOut ? (
               !stagedShips.find(
@@ -253,9 +257,7 @@ export default function Ships({
       {stagedShips.length === 0 ? null : (
         <div className={`w-full mt-8`}>
           {bareShips ? null : (
-            <h2 className="text-center text-2xl mb-2 text-blue-500">
-              Draft Ships
-            </h2>
+            <h2 className="text-center text-2xl mb-2 text-blue-500">Drafts</h2>
           )}
 
           <div id="staged-ships-container" className="space-y-4">
@@ -330,6 +332,7 @@ export default function Ships({
       >
         <NewUpdateForm
           shipToUpdate={newUpdateShip}
+          shipChain={getChainFromAnyId(newUpdateShip?.id)}
           canvasRef={canvasRef}
           closeForm={() => setNewUpdateShip(null)}
           setShips={setShips}

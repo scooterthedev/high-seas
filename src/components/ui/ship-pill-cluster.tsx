@@ -21,7 +21,7 @@ export default function ShipPillCluster({
     chain.reduce((acc, curr) => (acc += curr.doubloonPayout), 0),
   )
   const roundedHr = chain
-    .reduce((acc, curr) => (acc += curr.total_hours ?? 0), 0)
+    .reduce((acc, curr) => (acc += curr.credited_hours ?? 0), 0)
     .toFixed(2)
 
   const allShipsHaveVoteRequirementMet = !chain.some(
@@ -76,7 +76,7 @@ export default function ShipPillCluster({
       ) : (
         <Pill
           classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
-          msg="Draft ship"
+          msg={`Draft ${chain.at(-1)?.shipType === 'project' ? 'ship' : 'update'}`}
           glyph="attachment"
           glyphSize={size === 'small' ? 16 : 20}
         />

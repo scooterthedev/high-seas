@@ -9,12 +9,14 @@ import Icon from '@hackclub/icons'
 
 export default function NewUpdateForm({
   shipToUpdate,
+  shipChain,
   canvasRef,
   closeForm,
   session,
   setShips,
 }: {
   shipToUpdate: Ship
+  shipChain: Ship[]
   canvasRef: any
   closeForm: any
   session: any
@@ -47,6 +49,12 @@ export default function NewUpdateForm({
         total: number
       }[],
     ): number => {
+      const shipChainTotalHours = shipChain.reduce(
+        (acc, curr) => (acc += curr.total_hours ?? 0),
+        0,
+      )
+      console.log({ TOTALHOURS: shipToUpdate, shipChain, shipChainTotalHours })
+
       const ps = projects.filter((p) =>
         (shipToUpdate.wakatimeProjectNames || []).includes(p.key),
       )
@@ -54,7 +62,7 @@ export default function NewUpdateForm({
       if (!ps || ps.length === 0) return 0
 
       const total = ps.reduce((acc, curr) => (acc += curr.total), 0)
-      const creditedTime = total / 3600 - (shipToUpdate.total_hours || 0)
+      const creditedTime = total / 3600 - shipChainTotalHours
       return Math.round(creditedTime * 1000) / 1000
     },
     [shipToUpdate],
@@ -86,8 +94,19 @@ export default function NewUpdateForm({
   const handleForm = async (formData: FormData) => {
     setStaging(true)
 
+    if (!shipChain.at(-1)) {
+      console.error(
+        'shipChain.at(-1) FAILED while trying to ship an update to ship in chain',
+        shipChain,
+      )
+      closeForm()
+      setStaging(false)
+      return
+    }
+
     const updatedShip = await createShipUpdate(
-      shipToUpdate.id,
+      // shipToUpdate.id,
+      shipChain.at(-1)!.id,
       projectHours,
       formData,
     )
