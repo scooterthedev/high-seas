@@ -297,12 +297,14 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
         id: ship.id,
         fields,
       },
-    )
-
-    return true
-  } else {
-    return false
-  }
+    ],
+    (err: Error, records: any) => {
+      if (err) {
+        console.error(err)
+        throw err
+      }
+    },
+  )
 }
 
 export async function deleteShip(shipId: string) {
