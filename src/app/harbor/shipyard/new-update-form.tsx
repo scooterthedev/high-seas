@@ -48,7 +48,7 @@ export default function NewUpdateForm({
       }[],
     ): number => {
       const shipChainTotalHours = shipChain.reduce(
-        (acc, curr) => (acc += curr.total_hours ?? 0),
+        (acc, curr) => (acc += curr.credited_hours ?? 0),
         0,
       )
       console.log({ shipChain, shipChainTotalHours })
@@ -73,11 +73,13 @@ export default function NewUpdateForm({
 
       if (res && shipChain[0].total_hours) {
         let creditedTime = calculateCreditedTime(res.projects)
+        console.log('Flow one', { ps: res.projects, creditedTime })
 
         if (creditedTime < 0) {
           const anyScopeRes = await fetchWakaSessions('any')
           if (anyScopeRes) {
             creditedTime = calculateCreditedTime(anyScopeRes.projects)
+            console.error('fetchAndSetProjectHours::Flow two', { creditedTime })
           }
         }
 
