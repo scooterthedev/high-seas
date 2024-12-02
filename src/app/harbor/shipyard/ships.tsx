@@ -522,11 +522,10 @@ export default function Ships({
       </Modal>
 
       <Modal isOpen={shipReqModal} close={() => setShipReqModal(false)}>
-        <p className="text-3xl mb-4">
-          Avast, Sailor!
-        </p>
+        <p className="text-3xl mb-4">Avast, Sailor!</p>
         <p className="text-xl mb-4">
-          Projects must be at least one hour. Spend a little more time on this one!
+          Projects must be at least one hour. Spend a little more time on this
+          one!
         </p>
       </Modal>
 
