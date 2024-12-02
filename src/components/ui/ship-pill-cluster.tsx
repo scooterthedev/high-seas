@@ -34,6 +34,7 @@ export default function ShipPillCluster({
         <Pill
           classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
           msg="Pending"
+          glyphSize={size === 'small' ? 16 : 20}
           glyph="clock"
         />
       ) : (
