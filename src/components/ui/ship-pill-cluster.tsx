@@ -21,8 +21,13 @@ export default function ShipPillCluster({
     chain.reduce((acc, curr) => (acc += curr.doubloonPayout), 0),
   )
   const roundedHr = chain
-    .reduce((acc, curr) => (acc += curr.credited_hours ?? 0), 0)
-    .toFixed(2)
+    .reduce((acc, curr) => {
+      if (!curr.reshippedToId && curr.shipStatus === 'staged') return acc
+
+      return (acc += curr.credited_hours ?? 0)
+    }, 0)
+    .toFixed(1)
+  console.log('byeeee')
 
   const allShipsHaveVoteRequirementMet = !chain.some(
     (s) => !s.voteRequirementMet,
@@ -30,21 +35,25 @@ export default function ShipPillCluster({
 
   return (
     <>
-      {!chain[0].reshippedFromId && chain[0].shipStatus === 'staged' ? (
-        <Pill
-          classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
-          msg="Pending"
-          glyphSize={size === 'small' ? 16 : 20}
-          glyph="clock"
-        />
-      ) : (
-        <Pill
-          classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
-          msg={pluralize(roundedHr, 'hr', true)}
-          glyphSize={size === 'small' ? 16 : 20}
-          glyph="clock"
-        />
-      )}
+      {/* {JSON.stringify(chain[0].reshippedFromId)},,
+      {JSON.stringify(chain[0].shipStatus)} */}
+      {
+        /*!chain[0].reshippedFromId && */ chain[0].shipStatus === 'staged' ? (
+          <Pill
+            classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
+            msg="Pending"
+            glyphSize={size === 'small' ? 16 : 20}
+            glyph="clock"
+          />
+        ) : (
+          <Pill
+            classes={`${transparent && 'bg-white/15 text-white'} ${size === 'small' ? 'text-xs' : ''}`}
+            msg={pluralize(roundedHr, 'hr', true)}
+            glyphSize={size === 'small' ? 16 : 20}
+            glyph="clock"
+          />
+        )
+      }
       {chain[0].shipStatus === 'shipped' ? (
         <>
           {allShipsHaveVoteRequirementMet ? (
