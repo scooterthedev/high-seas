@@ -105,7 +105,6 @@ export default function NewUpdateForm({
     }
 
     const updatedShip = await createShipUpdate(
-      // shipToUpdate.id,
       shipChain.at(-1)!.id,
       projectHours,
       formData,
