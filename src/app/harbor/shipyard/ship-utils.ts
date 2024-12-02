@@ -290,10 +290,12 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
           throw err
         }
       },
-    )
+    );
+
+    return true;
   }
   else {
-    console.log("You can't ship project under 1 hour!");
+    return false;
   }
 }
 
