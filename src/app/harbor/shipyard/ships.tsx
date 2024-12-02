@@ -120,7 +120,9 @@ export default function Ships({
     setShipChains(shipUpdateChain)
   }, [ships])
 
-  function getChainFromAnyId(id: string) {
+  function getChainFromAnyId(id?: string) {
+    if (!id) return
+
     for (const [_, chain] of shipChains?.[Symbol.iterator]() ?? []) {
       if (chain.map((s: Ship) => s.id).includes(id)) return chain
     }
@@ -327,12 +329,11 @@ export default function Ships({
       </Modal>
 
       <Modal
-        isOpen={newUpdateShip && session}
+        isOpen={getChainFromAnyId(newUpdateShip?.id) && session}
         close={() => setNewUpdateShip(null)}
       >
         <NewUpdateForm
-          shipToUpdate={newUpdateShip}
-          shipChain={getChainFromAnyId(newUpdateShip?.id)}
+          shipChain={getChainFromAnyId(newUpdateShip?.id)!}
           canvasRef={canvasRef}
           closeForm={() => setNewUpdateShip(null)}
           setShips={setShips}

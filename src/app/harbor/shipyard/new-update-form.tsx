@@ -8,14 +8,12 @@ import { getWakaSessions } from '@/app/utils/waka'
 import Icon from '@hackclub/icons'
 
 export default function NewUpdateForm({
-  shipToUpdate,
   shipChain,
   canvasRef,
   closeForm,
   session,
   setShips,
 }: {
-  shipToUpdate: Ship
   shipChain: Ship[]
   canvasRef: any
   closeForm: any
@@ -53,10 +51,10 @@ export default function NewUpdateForm({
         (acc, curr) => (acc += curr.total_hours ?? 0),
         0,
       )
-      console.log({ TOTALHOURS: shipToUpdate, shipChain, shipChainTotalHours })
+      console.log({ shipChain, shipChainTotalHours })
 
       const ps = projects.filter((p) =>
-        (shipToUpdate.wakatimeProjectNames || []).includes(p.key),
+        (shipChain[0].wakatimeProjectNames || []).includes(p.key),
       )
 
       if (!ps || ps.length === 0) return 0
@@ -65,7 +63,7 @@ export default function NewUpdateForm({
       const creditedTime = total / 3600 - shipChainTotalHours
       return Math.round(creditedTime * 1000) / 1000
     },
-    [shipToUpdate],
+    [shipChain],
   )
 
   useEffect(() => {
@@ -73,7 +71,7 @@ export default function NewUpdateForm({
       setLoading(true)
       const res = await fetchWakaSessions()
 
-      if (res && shipToUpdate.total_hours) {
+      if (res && shipChain[0].total_hours) {
         let creditedTime = calculateCreditedTime(res.projects)
 
         if (creditedTime < 0) {
@@ -89,7 +87,7 @@ export default function NewUpdateForm({
     }
 
     fetchAndSetProjectHours()
-  }, [fetchWakaSessions, calculateCreditedTime, shipToUpdate])
+  }, [fetchWakaSessions, calculateCreditedTime, shipChain])
 
   const handleForm = async (formData: FormData) => {
     setStaging(true)
@@ -114,8 +112,6 @@ export default function NewUpdateForm({
     setStaging(false)
 
     if (setShips) {
-      console.log('Set ships is passed! Adding stagged ship', shipToUpdate.id)
-
       setShips((previousShips: Ship[]) => {
         return [...previousShips, updatedShip]
       })
@@ -127,7 +123,7 @@ export default function NewUpdateForm({
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-2">
-        Ship an update to {shipToUpdate.title}
+        Ship an update to {shipChain[0].title}
       </h1>
 
       <p className="mb-2">
