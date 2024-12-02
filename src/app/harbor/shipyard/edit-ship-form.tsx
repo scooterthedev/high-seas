@@ -1,44 +1,44 @@
-import { Button, buttonVariants } from "@/components/ui/button";
-import { deleteShip, updateShip } from "./ship-utils";
-import type { Ship } from "@/app/utils/data";
-import { useToast } from "@/hooks/use-toast";
-import Icon from "@hackclub/icons";
-import React, { useState } from "react";
-import Modal from "../../../components/ui/modal";
+import { Button, buttonVariants } from '@/components/ui/button'
+import { deleteShip, updateShip } from './ship-utils'
+import type { Ship } from '@/app/utils/data'
+import { useToast } from '@/hooks/use-toast'
+import Icon from '@hackclub/icons'
+import React, { useState } from 'react'
+import Modal from '../../../components/ui/modal'
 
 const editMessages = [
-  "Orpheus hopes you know that she put a lot of effort into recording your changes~",
-  "Heidi scribbles down your changes hastily...",
+  'Orpheus hopes you know that she put a lot of effort into recording your changes~',
+  'Heidi scribbles down your changes hastily...',
   "Orpheus put your Ship changes in the logbook. They're going nowhere, rest assured.",
-];
+]
 
 const deleteMessages = [
-  "is no more!",
-  "has been struck from the logbook",
-  "has been lost to time...",
-];
+  'is no more!',
+  'has been struck from the logbook',
+  'has been lost to time...',
+]
 
 export default function EditShipForm({
   ship,
   closeForm,
   setShips,
 }: {
-  ship: Ship;
-  closeForm: () => void;
-  setShips: any;
+  ship: Ship
+  closeForm: () => void
+  setShips: any
 }) {
-  const [deleting, setDeleting] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const allowDeletion = ship.shipStatus === "staged";
+  const [deleting, setDeleting] = useState(false)
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const allowDeletion = ship.shipStatus === 'staged'
 
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   const handleSubmit = async (e) => {
-    setSaving(true);
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const formValues = Object.fromEntries(formData.entries());
+    setSaving(true)
+    e.preventDefault()
+    const formData = new FormData(e.target)
+    const formValues = Object.fromEntries(formData.entries())
 
     const newShip: Ship = {
       ...ship,
@@ -50,63 +50,63 @@ export default function EditShipForm({
       deploymentUrl: formValues.deploymentUrl as string,
       readmeUrl: formValues.readmeUrl as string,
       screenshotUrl: formValues.screenshotUrl as string,
-    };
-    console.log("updating...", formValues, ship, newShip);
-    await updateShip(newShip);
+    }
+    console.log('updating...', formValues, ship, newShip)
+    await updateShip(newShip)
 
     if (setShips) {
-      console.log("Set ships is passed! Updating ship with ID", newShip.id);
+      console.log('Set ships is passed! Updating ship with ID', newShip.id)
 
       setShips((previousShips: Ship[]) => {
-        console.log("the previous ships were", previousShips);
+        console.log('the previous ships were', previousShips)
         const newShips = previousShips.map((s: Ship) =>
-          s.id === newShip.id ? newShip : s
-        );
+          s.id === newShip.id ? newShip : s,
+        )
 
-        setSaving(false);
-        return newShips;
-      });
+        setSaving(false)
+        return newShips
+      })
     } else {
-      console.error("Updated a ship but can't setShips bc you didn't pass it.");
+      console.error("Updated a ship but can't setShips bc you didn't pass it.")
     }
-    closeForm();
+    closeForm()
 
     toast({
-      title: "Ship updated!",
+      title: 'Ship updated!',
       description:
         editMessages[Math.floor(Math.random() * editMessages.length)],
-    });
+    })
 
-    setSaving(false);
-  };
+    setSaving(false)
+  }
 
   const handleDelete = async (e) => {
-    setDeleting(true);
+    setDeleting(true)
 
-    e.preventDefault();
-    console.log("trying to delete ", ship.id, ship.title);
-    await deleteShip(ship.id);
+    e.preventDefault()
+    console.log('trying to delete ', ship.id, ship.title)
+    await deleteShip(ship.id)
 
     if (setShips) {
-      console.log(`Deleted ${ship.title} (${ship.id})`);
+      console.log(`Deleted ${ship.title} (${ship.id})`)
 
       setShips((previousShips: Ship[]) =>
-        previousShips.filter((s: Ship) => s.id !== ship.id)
-      );
+        previousShips.filter((s: Ship) => s.id !== ship.id),
+      )
     } else {
-      console.error("Deleted a ship but can't setShips bc you didn't pass it.");
+      console.error("Deleted a ship but can't setShips bc you didn't pass it.")
     }
-    closeForm();
+    closeForm()
 
     toast({
-      title: "Ship deleted!",
-      description: `${ship.shipType === "update" ? "Your update to " : ""}${
+      title: 'Ship deleted!',
+      description: `${ship.shipType === 'update' ? 'Your update to ' : ''}${
         ship.title
       } ${deleteMessages[Math.floor(Math.random() * deleteMessages.length)]}`,
-    });
+    })
 
-    setDeleting(false);
-  };
+    setDeleting(false)
+  }
 
   return (
     <form
@@ -174,7 +174,7 @@ export default function EditShipForm({
       <div>
         <label htmlFor="screenshotUrl">Screenshot URL</label>
         <p className="text-sm text-gray-500">
-          No dataurls please. If you need an image host, upload your image in{" "}
+          No dataurls please. If you need an image host, upload your image in{' '}
           <a href="https://hackclub.slack.com/archives/C016DEDUL87">#cdn</a>
         </p>
         <input
@@ -189,7 +189,7 @@ export default function EditShipForm({
       <div className="flex justify-between">
         <Button
           id="submit"
-          className={buttonVariants({ variant: "default" })}
+          className={buttonVariants({ variant: 'default' })}
           type="submit"
           disabled={saving}
         >
@@ -199,10 +199,10 @@ export default function EditShipForm({
 
         {allowDeletion && (
           <Button
-            className={`${buttonVariants({ variant: "destructive" })} ml-auto`}
+            className={`${buttonVariants({ variant: 'destructive' })} ml-auto`}
             onClick={(e) => {
-              e.preventDefault();
-              setOpenDeleteModal(true);
+              e.preventDefault()
+              setOpenDeleteModal(true)
             }}
             disabled={deleting}
           >
@@ -220,19 +220,19 @@ export default function EditShipForm({
           <div className="flex gap-1">
             <Button
               onClick={() => setOpenDeleteModal(false)}
-              className={`${buttonVariants({ variant: "outline" })} flex-grow`}
+              className={`${buttonVariants({ variant: 'outline' })} flex-grow`}
             >
               NNONNO WAIT ヽ(O_O )ﾉ
             </Button>
             <Button
               onClick={handleDelete}
-              className={`${buttonVariants({ variant: "destructive" })}`}
+              className={`${buttonVariants({ variant: 'destructive' })}`}
             >
-              Yes {"ദ്ദി(｡•̀ ,<)~✩‧₊"}
+              Yes {'ദ്ദി(｡•̀ ,<)~✩‧₊'}
             </Button>
           </div>
         </div>
       </Modal>
     </form>
-  );
+  )
 }
