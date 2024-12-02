@@ -290,12 +290,11 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
           throw err
         }
       },
-    );
+    )
 
-    return true;
-  }
-  else {
-    return false;
+    return true
+  } else {
+    return false
   }
 }
 
