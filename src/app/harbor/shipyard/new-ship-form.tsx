@@ -105,8 +105,7 @@ export default function NewShipForm({
     if (selectedProjects === null || selectedProjects?.length === 0) {
       toast({
         title: 'Select a project',
-        description:
-          "Please select at least one Hackatime project!",
+        description: 'Please select at least one Hackatime project!',
       })
       setStaging(false)
       return
