@@ -42,6 +42,7 @@ export default function Ships({
   const [session, setSession] = useState<HsSession | null>(null)
   const [isEditingShip, setIsEditingShip] = useState(false)
   const [errorModal, setErrorModal] = useState<string>()
+  const [shipReqModal, setShipReqModal] = useState<boolean>(false)
   const canvasRef = useRef(null)
 
   const [isShipping, setIsShipping] = useState(false)
@@ -192,8 +193,15 @@ export default function Ships({
 
                   try {
                     setIsShipping(true)
-                    await stagedToShipped(s, ships)
-                    location.reload()
+                    const shippingResult: boolean = await stagedToShipped(
+                      s,
+                      ships,
+                    )
+                    if (!shippingResult) {
+                      setShipReqModal(true)
+                    } else {
+                      location.reload()
+                    }
                   } catch (err: unknown) {
                     if (err instanceof Error) {
                       setErrorModal(err.message)
@@ -618,6 +626,14 @@ export default function Ships({
             </div>
           </div>
         </div>
+      </Modal>
+
+      <Modal isOpen={shipReqModal} close={() => setShipReqModal(false)}>
+        <p className="text-3xl mb-4">Avast, Sailor!</p>
+        <p className="text-xl mb-4">
+          Projects must be at least one hour. Spend a little more time on this
+          one!
+        </p>
       </Modal>
 
       <Modal isOpen={!!errorModal} close={() => setErrorModal(undefined)}>
