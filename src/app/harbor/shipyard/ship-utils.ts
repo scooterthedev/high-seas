@@ -273,29 +273,40 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
     projectHours.reduce((prev, curr) => prev + curr, 0) -
     (previousShip?.total_hours ?? 0)
 
-  if (totalHours > 1.0) {
-    base()(shipsTableName).update(
-      [
-        {
-          id: ship.id,
-          fields: {
-            ship_status: 'shipped',
-            credited_hours: totalHours,
-          },
-        },
-      ],
-      (err: Error, records: any) => {
-        if (err) {
-          console.error(err)
-          throw err
-        }
-      },
-    )
+  if (totalHours < 1) {
+    const err = new Error(
+      `Projects must be at least one hour. Spend a little more time on this one!
 
-    return true
-  } else {
-    return false
+(Tried to stagedToShipped a ship with totalHours: ${JSON.stringify(totalHours)})`,
+    )
+    console.error(err)
+    throw err
   }
+
+  const fields = {
+    ship_status: 'shipped',
+    credited_hours: totalHours,
+  }
+
+  if (ship.shipType === 'update') {
+    // @ts-expect-error This doesn't need to be optional
+    delete fields.credited_hours
+  }
+
+  base()(shipsTableName).update(
+    [
+      {
+        id: ship.id,
+        fields,
+      },
+    ],
+    (err: Error, records: any) => {
+      if (err) {
+        console.error(err)
+        throw err
+      }
+    },
+  )
 }
 
 export async function deleteShip(shipId: string) {
