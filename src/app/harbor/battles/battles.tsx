@@ -319,7 +319,11 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [cursed, setCursed] = useState(false)
   const [blessed, setBlessed] = useState(false)
-
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      return Boolean(selectedProject)   
+ }
+})
   // const turnstileRef = useRef(null);
   // const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
