@@ -55,10 +55,21 @@ export default function EditShipForm({
 
     // If you're updating a ship WITH a reshippedFromId, updates to the updateDescription should be applied to that ship, not the root ship (AS WELL as the update to the root ship).
     if (ship.reshippedFromId) {
-      await updateShip({
+      const theChildShipThatJustHadItsDescriptionUpdated = {
         ...ship,
         updateDescription: formValues.update_description as string,
-      })
+      }
+      await updateShip(theChildShipThatJustHadItsDescriptionUpdated)
+
+      if (setShips) {
+        setShips((previousShips: Ship[]) => {
+          return previousShips.map((s: Ship) =>
+            s.id === theChildShipThatJustHadItsDescriptionUpdated.id
+              ? theChildShipThatJustHadItsDescriptionUpdated
+              : s,
+          )
+        })
+      }
     }
 
     const newShip: Ship = {
