@@ -182,6 +182,8 @@ export async function createShipUpdate(
       },
     )
 
+    await cookies().delete('ships')
+
     return {
       ...reshippedFromShip,
       id: res.id,
@@ -213,26 +215,32 @@ export async function updateShip(ship: Ship) {
 
   console.log('updating!', ship)
 
-  base()(shipsTableName).update(
-    [
-      {
-        id: ship.id,
-        fields: {
-          title: ship.title,
-          repo_url: ship.repoUrl,
-          readme_url: ship.readmeUrl,
-          deploy_url: ship.deploymentUrl,
-          screenshot_url: ship.screenshotUrl,
-          ...(ship.updateDescription && {
-            update_description: ship.updateDescription,
-          }),
+  await new Promise((resolve, reject) => {
+    base()(shipsTableName).update(
+      [
+        {
+          id: ship.id,
+          fields: {
+            title: ship.title,
+            repo_url: ship.repoUrl,
+            readme_url: ship.readmeUrl,
+            deploy_url: ship.deploymentUrl,
+            screenshot_url: ship.screenshotUrl,
+            ...(ship.updateDescription && {
+              update_description: ship.updateDescription,
+            }),
+          },
         },
+      ],
+      (err: Error, records: any) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(records)
       },
-    ],
-    (err: Error, records: any) => {
-      if (err) console.error(err)
-    },
-  )
+    )
+  })
+  await cookies().delete('ships')
 }
 
 // Good function. I like. Wawaweewah very nice.
@@ -301,6 +309,7 @@ export async function stagedToShipped(
       },
     )
   })
+  await cookies().delete('ships')
   return { ok: true }
 }
 
@@ -314,17 +323,23 @@ export async function deleteShip(shipId: string) {
     throw error
   }
 
-  base()(shipsTableName).update(
-    [
-      {
-        id: shipId,
-        fields: {
-          ship_status: 'deleted',
+  await new Promise((resolve, reject) => {
+    base()(shipsTableName).update(
+      [
+        {
+          id: shipId,
+          fields: {
+            ship_status: 'deleted',
+          },
         },
+      ],
+      (err: Error, records: any) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(records)
       },
-    ],
-    (err: Error, records: any) => {
-      if (err) console.error(err)
-    },
-  )
+    )
+  })
+  await cookies().delete('ships')
 }
