@@ -20,10 +20,12 @@ const deleteMessages = [
 
 export default function EditShipForm({
   ship,
+  shipChain,
   closeForm,
   setShips,
 }: {
   ship: Ship
+  shipChain: Ship[]
   closeForm: () => void
   setShips: any
 }) {
@@ -41,7 +43,7 @@ export default function EditShipForm({
     const formValues = Object.fromEntries(formData.entries())
 
     const newShip: Ship = {
-      ...ship,
+      ...shipChain[0],
       title: formValues.title as string,
       ...(formValues.update_description && {
         updateDescription: formValues.update_description as string,
