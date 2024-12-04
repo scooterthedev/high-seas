@@ -21,6 +21,7 @@ import ReadmeHelperImg from '/public/readme-helper.png'
 import NewUpdateForm from './new-update-form'
 import Modal from '../../../components/ui/modal'
 import RepoLink from '@/components/ui/repo_link'
+import { EditableShipFields } from '../../utils/data'
 
 export default function Ships({
   ships = [],
@@ -271,14 +272,34 @@ export default function Ships({
           )}
 
           <div id="staged-ships-container" className="space-y-4">
-            {stagedShips.map((ship: Ship, idx: number) => (
-              <SingleShip
-                s={ship}
-                key={ship.id}
-                id={`staged-ship-${idx}`}
-                setNewShipVisible={setNewShipVisible}
-              />
-            ))}
+            {/* If the ship has a reshippedFromId, we're going to fill in the editable fields from the root ship. */}
+            {stagedShips.map((ship: Ship, idx: number) => {
+              const stagedShipParent = getChainFromAnyId(ship.id)
+
+              const editableFields: EditableShipFields = {
+                title: stagedShipParent?.[0].title,
+                repoUrl: stagedShipParent?.[0].repoUrl,
+                deploymentUrl: stagedShipParent?.[0].deploymentUrl,
+                readmeUrl: stagedShipParent?.[0].readmeUrl,
+                screenshotUrl: stagedShipParent?.[0].screenshotUrl,
+              }
+
+              return (
+                <SingleShip
+                  s={
+                    ship.reshippedFromId && stagedShipParent
+                      ? {
+                          ...editableFields,
+                          ...ship,
+                        }
+                      : ship
+                  }
+                  key={ship.id}
+                  id={`staged-ship-${idx}`}
+                  setNewShipVisible={setNewShipVisible}
+                />
+              )
+            })}
           </div>
         </div>
       )}
