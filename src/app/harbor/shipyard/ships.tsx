@@ -192,13 +192,15 @@ export default function Ships({
 
                   try {
                     setIsShipping(true)
-                    await stagedToShipped(s, ships)
-                    location.reload()
+                    const { error } = await stagedToShipped(s, ships)
+                    if (error) {
+                      setErrorModal(String(error))
+                    } else {
+                      location.reload()
+                    }
                   } catch (err: unknown) {
                     if (err instanceof Error) {
                       setErrorModal(err.message)
-                    } else {
-                      setErrorModal(String(err))
                     }
                   } finally {
                     setIsShipping(false)

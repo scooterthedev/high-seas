@@ -235,30 +235,31 @@ export async function updateShip(ship: Ship) {
 }
 
 // Good function. I like. Wawaweewah very nice.
-export async function stagedToShipped(ship: Ship, ships: Ship[]) {
+export async function stagedToShipped(
+  ship: Ship,
+  ships: Ship[],
+): Promise<{ error?: string; ok: boolean }> {
   const session = await getSession()
   if (!session) {
-    const error = new Error(
-      "You tried to ship a draft Ship, but you're not signed in!",
-    )
-    console.log(error)
-    throw error
+    const error = "You tried to ship a draft Ship, but you're not signed in!"
+    return { error, ok: false }
   }
 
   const p = await person()
 
   if (!p.fields.academy_completed) {
-    throw new Error(
-      "You can't ship a Ship if you haven't completed Pirate Academy!",
-    )
+    const error =
+      "You can't ship a Ship if you haven't completed Pirate Academy!"
+    return { error, ok: false }
   }
   if (!p.fields.verified_eligible) {
-    throw new Error("You can't ship a Ship before you've been verified!")
+    const error = "You can't ship a Ship before you've been verified!"
+    return { error, ok: false }
   }
   if (!ship.wakatimeProjectNames) {
-    throw new Error(
-      "You can't ship a Ship that has no Hackatime projects associated with it!",
-    )
+    const error =
+      "You can't ship a Ship that has no Hackatime projects associated with it!"
+    return { error, ok: false }
   }
 
   const previousShip = ships.find((s) => s.id === ship.reshippedFromId)
@@ -274,13 +275,9 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
     (previousShip?.total_hours ?? 0)
 
   if (totalHours < 1) {
-    const err = new Error(
-      `Projects must be at least one hour. Spend a little more time on this one!
-
-(Tried to stagedToShipped a ship with totalHours: ${JSON.stringify(totalHours)})`,
-    )
-    console.error(err)
-    throw err
+    const error =
+      'Projects must be at least one hour. Spend a little more time on this one!'
+    return { error, ok: false }
   }
 
   const fields = {
@@ -293,20 +290,24 @@ export async function stagedToShipped(ship: Ship, ships: Ship[]) {
     delete fields.credited_hours
   }
 
-  base()(shipsTableName).update(
-    [
-      {
-        id: ship.id,
-        fields,
+  await new Promise((resolve, reject) => {
+    base()(shipsTableName).update(
+      [
+        {
+          id: ship.id,
+          fields,
+        },
+      ],
+      (err: Error, records: any) => {
+        if (err) {
+          console.error(err)
+          reject(err)
+        }
+        resolve(records)
       },
-    ],
-    (err: Error, records: any) => {
-      if (err) {
-        console.error(err)
-        throw err
-      }
-    },
-  )
+    )
+  })
+  return { ok: true }
 }
 
 export async function deleteShip(shipId: string) {
