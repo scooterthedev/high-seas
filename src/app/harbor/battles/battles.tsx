@@ -130,22 +130,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   },
                 }))
               }}
-              onAuxClick={(e) => {
-                if (e.button === 1 || e.button === 2) {
-                  setAnalyticsState((prev) => ({
-                    ...prev,
-                    projectResources: {
-                      ...prev.projectResources,
-                      [project.id]: {
-                        readmeOpened: false,
-                        repoOpened: false,
-                        demoOpened: false,
-                        ...prev.projectResources[project.id],
-                        repoOpened: true,
-                      },
+              onContextMenu={(e) => {
+                setAnalyticsState((prev) => ({
+                  ...prev,
+                  projectResources: {
+                    ...prev.projectResources,
+                    [project.id]: {
+                      readmeOpened: false,
+                      repoOpened: false,
+                      demoOpened: false,
+                      ...prev.projectResources[project.id],
+                      repoOpened: true,
                     },
-                  }))
-                }
+                  },
+                }))
               }}
             >
               <Pill
@@ -177,22 +175,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   },
                 }))
               }}
-              onAuxClick={(e) => {
-                if (e.button === 1 || e.button === 2) {
-                  setAnalyticsState((prev) => ({
-                    ...prev,
-                    projectResources: {
-                      ...prev.projectResources,
-                      [project.id]: {
-                        readmeOpened: false,
-                        repoOpened: false,
-                        demoOpened: false,
-                        ...prev.projectResources[project.id],
-                        demoOpened: true,
-                      },
+              onContextMenu={(e) => {
+                setAnalyticsState((prev) => ({
+                  ...prev,
+                  projectResources: {
+                    ...prev.projectResources,
+                    [project.id]: {
+                      readmeOpened: false,
+                      repoOpened: false,
+                      demoOpened: false,
+                      ...prev.projectResources[project.id],
+                      demoOpened: true,
                     },
-                  }))
-                }
+                  },
+                }))
               }}
             >
               <Pill msg="Demo" color="green" glyph="link" classes="text-lg" />
