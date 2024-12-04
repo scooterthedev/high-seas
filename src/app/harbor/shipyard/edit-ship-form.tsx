@@ -77,7 +77,6 @@ export default function EditShipForm({
       ...editableFieldsForRootShipUpdate,
     }
     // If we're editing the root ship, update the desc with the new one from the form
-    console.log('WAWAWEEWAH', { ship })
     if (!ship.reshippedFromId && ship.shipType === 'update') {
       newShip.updateDescription = formValues.update_description as string
     }
