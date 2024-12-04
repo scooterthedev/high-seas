@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast'
 import Icon from '@hackclub/icons'
 import React, { useState } from 'react'
 import Modal from '../../../components/ui/modal'
+import { EditableShipFields } from '../../utils/data'
 
 const editMessages = [
   'Orpheus hopes you know that she put a lot of effort into recording your changes~',
@@ -42,8 +43,7 @@ export default function EditShipForm({
     const formData = new FormData(e.target)
     const formValues = Object.fromEntries(formData.entries())
 
-    const newShip: Ship = {
-      ...shipChain[0],
+    const editableFields: EditableShipFields = {
       title: formValues.title as string,
       ...(formValues.update_description && {
         updateDescription: formValues.update_description as string,
@@ -52,6 +52,11 @@ export default function EditShipForm({
       deploymentUrl: formValues.deploymentUrl as string,
       readmeUrl: formValues.readmeUrl as string,
       screenshotUrl: formValues.screenshotUrl as string,
+    }
+
+    const newShip: Ship = {
+      ...shipChain[0],
+      ...editableFields,
     }
     console.log('updating...', formValues, ship, newShip)
     await updateShip(newShip)
