@@ -289,8 +289,8 @@ export default function Ships({
                   s={
                     ship.reshippedFromId && stagedShipParent
                       ? {
-                          ...editableFields,
                           ...ship,
+                          ...editableFields,
                         }
                       : ship
                   }
