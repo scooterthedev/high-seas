@@ -463,7 +463,7 @@ export default function Ships({
                       <Card className="p-2 mt-2 text-white !bg-white/15">
                         <EditShipForm
                           ship={selectedShip}
-                          shipChain={selectedShipChain}
+                          shipChain={getChainFromAnyId(selectedShip.id)}
                           closeForm={() => setIsEditingShip(false)}
                           setShips={setShips}
                         />

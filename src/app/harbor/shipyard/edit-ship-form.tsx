@@ -54,6 +54,8 @@ export default function EditShipForm({
       screenshotUrl: formValues.screenshotUrl as string,
     }
 
+    console.log({ shipChain })
+
     const newShip: Ship = {
       ...shipChain[0],
       ...editableFields,
