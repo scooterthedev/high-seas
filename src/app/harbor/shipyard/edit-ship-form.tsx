@@ -37,29 +37,40 @@ export default function EditShipForm({
 
   const { toast } = useToast()
 
+  console.log('editshipformupdateshipchain', { shipChain })
+
   const handleSubmit = async (e) => {
     setSaving(true)
     e.preventDefault()
     const formData = new FormData(e.target)
     const formValues = Object.fromEntries(formData.entries())
 
-    const editableFields: EditableShipFields = {
+    const editableFieldsForRootShipUpdate: EditableShipFields = {
       title: formValues.title as string,
-      ...(formValues.update_description && {
-        updateDescription: formValues.update_description as string,
-      }),
       repoUrl: formValues.repoUrl as string,
       deploymentUrl: formValues.deploymentUrl as string,
       readmeUrl: formValues.readmeUrl as string,
       screenshotUrl: formValues.screenshotUrl as string,
     }
 
-    console.log({ shipChain })
+    // If you're updating a ship WITH a reshippedFromId, updates to the updateDescription should be applied to that ship, not the root ship (AS WELL as the update to the root ship).
+    if (ship.reshippedFromId) {
+      await updateShip({
+        ...ship,
+        updateDescription: formValues.update_description as string,
+      })
+    }
 
     const newShip: Ship = {
       ...shipChain[0],
-      ...editableFields,
+      ...editableFieldsForRootShipUpdate,
     }
+    // If we're editing the root ship, update the desc with the new one from the form
+    console.log('WAWAWEEWAH', { ship })
+    if (!ship.reshippedFromId && ship.shipType === 'update') {
+      newShip.updateDescription = formValues.update_description as string
+    }
+
     console.log('updating...', formValues, ship, newShip)
     await updateShip(newShip)
 
