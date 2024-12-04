@@ -37,8 +37,6 @@ export default function EditShipForm({
 
   const { toast } = useToast()
 
-  console.log('editshipformupdateshipchain', { shipChain })
-
   const handleSubmit = async (e) => {
     setSaving(true)
     e.preventDefault()
