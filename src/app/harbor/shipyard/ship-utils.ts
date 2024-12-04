@@ -8,6 +8,7 @@ import { cookies } from 'next/headers'
 import type { Ship } from '@/app/utils/data'
 import Airtable from 'airtable'
 import { withLock } from '../../../../lib/redis-lock'
+import sum from '../../../../lib/sum'
 
 const peopleTableName = 'people'
 const shipsTableName = 'ships'
@@ -270,9 +271,7 @@ export async function stagedToShipped(
     ship.wakatimeProjectNames.includes(key),
   )
   const projectHours = associatedProjects.map(({ total }) => total / 60 / 60)
-  const totalHours =
-    projectHours.reduce((prev, curr) => prev + curr, 0) -
-    (previousShip?.total_hours ?? 0)
+  const totalHours = sum(projectHours) - (previousShip?.total_hours ?? 0)
 
   if (totalHours < 1) {
     const error =
@@ -283,11 +282,6 @@ export async function stagedToShipped(
   const fields = {
     ship_status: 'shipped',
     credited_hours: totalHours,
-  }
-
-  if (ship.shipType === 'update') {
-    // @ts-expect-error This doesn't need to be optional
-    delete fields.credited_hours
   }
 
   await new Promise((resolve, reject) => {
