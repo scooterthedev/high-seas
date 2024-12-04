@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useToast } from '@/hooks/use-toast'
 import Icon from '@hackclub/icons'
 import { MultiSelect } from '../../../components/ui/multi-select'
+import { SingleSelect } from '@/components/ui/single-select'
 
 async function testReadmeLink(url: string) {
   const response = await fetch(url)
@@ -66,6 +67,27 @@ export default function NewShipForm({
   >(null)
   const [isShipUpdate, setIsShipUpdate] = useState(false)
   const { toast } = useToast()
+  const [yswsType, setYswsType] = useState<string>('none');
+  const yswsTypeOptions = [
+    { label: 'none', value: '' },
+    { label: 'onboard', value: 'onboard' },
+    { label: 'blot', value: 'blot' },
+    { label: 'sprig', value: 'sprig' },
+    { label: 'bin', value: 'bin' },
+    { label: 'hackpad', value: 'hackpad' },
+    { label: 'llm', value: 'llm' },
+    { label: 'boba', value: 'boba' },
+    { label: 'cascade', value: 'cascade' },
+    { label: 'retrospect', value: 'retrospect' },
+    { label: 'hackcraft', value: 'hackcraft' },
+    { label: 'cider', value: 'cider' },
+    { label: 'browser buddy', value: 'browser buddy' },
+    { label: 'cargo-cult', value: 'cargo-cult' },
+    { label: 'fraps', value: 'fraps' },
+    { label: 'riceathon', value: 'riceathon' },
+    { label: 'counterspell', value: 'counterspell' },
+    { label: 'anchor', value: 'anchor' },
+  ];
 
   // Initialize confetti on mount
   useEffect(() => {
@@ -213,6 +235,8 @@ export default function NewShipForm({
       setStaging(false)
       return
     }
+
+    formData.append('yswsType', yswsType);
 
     const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
     confettiRef.current?.addConfetti()
@@ -402,6 +426,16 @@ export default function NewShipForm({
             name="screenshot_url"
             required
             className="w-full p-2 border rounded"
+          />
+        </div>
+
+        <div id="yswsType-field">
+          <label htmlFor="yswsType">YSWS contest type</label>
+          <SingleSelect
+            options={yswsTypeOptions}
+            onValueChange={(t) => setYswsType(t)}
+            defaultValue={'none'}
+            variant="inverted"
           />
         </div>
 

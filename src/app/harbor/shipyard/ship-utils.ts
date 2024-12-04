@@ -66,6 +66,7 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
               : null,
             wakatime_project_name: formData.get('wakatime_project_name'),
             project_source: isTutorial ? 'tutorial' : 'high_seas',
+            for_ysws: formData.get("yswsType"),
           },
         },
       ],
@@ -137,6 +138,7 @@ export async function createShipUpdate(
                     ]
                   : [reshippedFromShip.id],
                 credited_hours,
+                for_ysws: reshippedFromShip.yswsType,
               },
             },
           ],
@@ -199,6 +201,7 @@ export async function createShipUpdate(
       credited_hours,
       total_hours: (reshippedFromShip.total_hours ?? 0) + credited_hours,
       wakatimeProjectNames: reshippedFromShip.wakatimeProjectNames,
+      for_ysws: formData.get("yswsType"),
     }
   })
 }
@@ -212,6 +215,7 @@ export async function updateShip(ship: Ship) {
   }
 
   console.log('updating!', ship)
+  console.log(ship.yswsType);
 
   base()(shipsTableName).update(
     [
@@ -226,6 +230,7 @@ export async function updateShip(ship: Ship) {
           ...(ship.updateDescription && {
             update_description: ship.updateDescription,
           }),
+          for_ysws: ship.yswsType,
         },
       },
     ],
