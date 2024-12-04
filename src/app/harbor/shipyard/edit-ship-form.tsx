@@ -60,13 +60,13 @@ export default function EditShipForm({
       await updateShip(theChildShipThatJustHadItsDescriptionUpdated)
 
       if (setShips) {
-        setShips((previousShips: Ship[]) => {
-          return previousShips.map((s: Ship) =>
+        setShips((previousShips: Ship[]) =>
+          previousShips.map((s: Ship) =>
             s.id === theChildShipThatJustHadItsDescriptionUpdated.id
               ? theChildShipThatJustHadItsDescriptionUpdated
               : s,
-          )
-        })
+          ),
+        )
       }
     }
 
