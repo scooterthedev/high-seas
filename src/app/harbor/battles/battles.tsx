@@ -115,7 +115,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={project.repo_url}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => {
+              onClick={(e) => {
                 setAnalyticsState((prev) => ({
                   ...prev,
                   projectResources: {
@@ -129,6 +129,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     },
                   },
                 }))
+              }}
+              onAuxClick={(e) => {
+                if (e.button === 1 || e.button === 2) {
+                  setAnalyticsState((prev) => ({
+                    ...prev,
+                    projectResources: {
+                      ...prev.projectResources,
+                      [project.id]: {
+                        readmeOpened: false,
+                        repoOpened: false,
+                        demoOpened: false,
+                        ...prev.projectResources[project.id],
+                        repoOpened: true,
+                      },
+                    },
+                  }))
+                }
               }}
             >
               <Pill
@@ -145,7 +162,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={project.deploy_url}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => {
+              onClick={(e) => {
                 setAnalyticsState((prev) => ({
                   ...prev,
                   projectResources: {
@@ -159,6 +176,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     },
                   },
                 }))
+              }}
+              onAuxClick={(e) => {
+                if (e.button === 1 || e.button === 2) {
+                  setAnalyticsState((prev) => ({
+                    ...prev,
+                    projectResources: {
+                      ...prev.projectResources,
+                      [project.id]: {
+                        readmeOpened: false,
+                        repoOpened: false,
+                        demoOpened: false,
+                        ...prev.projectResources[project.id],
+                        demoOpened: true,
+                      },
+                    },
+                  }))
+                }
               }}
             >
               <Pill msg="Demo" color="green" glyph="link" classes="text-lg" />
