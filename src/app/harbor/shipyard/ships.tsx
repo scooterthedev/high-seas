@@ -21,6 +21,7 @@ import ReadmeHelperImg from '/public/readme-helper.png'
 import NewUpdateForm from './new-update-form'
 import Modal from '../../../components/ui/modal'
 import RepoLink from '@/components/ui/repo_link'
+import ThinkingDino from '/public/thinking.png'
 
 export default function Ships({
   ships = [],
@@ -211,8 +212,13 @@ export default function Ships({
                   id="ship-ship"
                   onClick={async (e) => {
                     e.stopPropagation()
-                    setShipToShip(s)
-                    setShipModal(true)
+                    if (sessionStorage.getItem('tutorial') === 'true') {
+                      await tryToShip(s)
+                    }
+                    else {
+                      setShipToShip(s)
+                      setShipModal(true)
+                    }
                   }}
                   disabled={isShipping}
                 >
@@ -228,6 +234,9 @@ export default function Ships({
                     <h2 className="text-3xl font-bold text-center">Confirm Shipping</h2>
                     <p className="text-xl mt-5 text-center">Are you sure you want to ship {s.title}?</p>
                     <p className="mt-3 text-center">Keep in mind that this can't be reverted! <br /> Your ship will start getting into matchups.</p>
+                    <div className="flex justify-center">
+                      <Image src={ThinkingDino} alt="Thinking Dino"/>
+                    </div>
                     <div className="flex justify-end mt-5">
                       <Button
                         onClick={() => setShipModal(false)}
