@@ -826,7 +826,7 @@ export default async function Marketing() {
         </div>
       </div>
 
-      <Projects />
+      {/* <Projects /> */}
 
       <div className="bg-[#F567D7] p-8">
         <div className="xl:mx-44 md:mx-22 mt-4">
