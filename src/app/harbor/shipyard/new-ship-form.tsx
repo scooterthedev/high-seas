@@ -431,7 +431,7 @@ export default function NewShipForm({
 
         {sessionStorage?.getItem('tutorial') !== 'true' && (
           <div id="yswsType-field">
-            <label htmlFor="yswsType">YSWS contest type</label>
+            <label htmlFor="yswsType">YSWS Contest</label>
             <SingleSelect
               options={yswsTypeOptions}
               onValueChange={(t) => setYswsType(t)}
