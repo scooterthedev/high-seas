@@ -1,6 +1,10 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
@@ -36,15 +40,16 @@ const singleSelectVariants = cva(
   },
 )
 
-interface SingleSelectProps extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-VariantProps<typeof singleSelectVariants> {
+interface SingleSelectProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof singleSelectVariants> {
   options: {
-    label: string,
-    value: string,
-    icon?: React.ComponentType<{className?: string}>
+    label: string
+    value: string
+    icon?: React.ComponentType<{ className?: string }>
   }[]
 
-  onValueChange: (value: string) => void;
+  onValueChange: (value: string) => void
 
   defaultValue: string
   modalPopover?: boolean
@@ -67,10 +72,11 @@ export const SingleSelect = React.forwardRef<
       className,
       ...props
     },
-      ref,
+    ref,
   ) => {
-    const [selectedValue, setSelectedValue] = React.useState<string>(defaultValue);
-    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
+    const [selectedValue, setSelectedValue] =
+      React.useState<string>(defaultValue)
+    const [isPopoverOpen, setIsPopoverOpen] = React.useState(false)
 
     const handleInputKeyDown = (
       event: React.KeyboardEvent<HTMLInputElement>,
@@ -213,7 +219,7 @@ export const SingleSelect = React.forwardRef<
         </PopoverContent>
       </Popover>
     )
-  }
+  },
 )
 
-SingleSelect.displayName = 'SingleSelect';
+SingleSelect.displayName = 'SingleSelect'

@@ -67,7 +67,7 @@ export default function NewShipForm({
   >(null)
   const [isShipUpdate, setIsShipUpdate] = useState(false)
   const { toast } = useToast()
-  const [yswsType, setYswsType] = useState<string>('none');
+  const [yswsType, setYswsType] = useState<string>('none')
   const yswsTypeOptions = [
     { label: 'none', value: 'none' },
     { label: 'Onboard', value: 'onboard' },
@@ -87,7 +87,7 @@ export default function NewShipForm({
     { label: 'Riceathon', value: 'riceathon' },
     { label: 'Counterspell', value: 'counterspell' },
     { label: 'Anchor', value: 'anchor' },
-  ];
+  ]
 
   // Initialize confetti on mount
   useEffect(() => {
@@ -236,7 +236,7 @@ export default function NewShipForm({
       return
     }
 
-    formData.append('yswsType', yswsType);
+    formData.append('yswsType', yswsType)
 
     const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
     confettiRef.current?.addConfetti()

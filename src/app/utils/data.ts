@@ -19,9 +19,25 @@ import { cookies } from 'next/headers'
 //#region Ships
 export type ShipType = 'project' | 'update'
 export type ShipStatus = 'shipped' | 'staged' | 'deleted'
-export type YswsType = 'none' | 'onboard' | 'blot' | 'sprig' | 'bin' | 'hackpad'
-  | 'llm' | 'boba' | 'cascade' | 'retrospect' | 'hackcraft' | 'cider' | 'browser buddy'
-  | 'cargo-cult' | 'fraps' | 'riceathon' | 'counterspell' | 'anchor';
+export type YswsType =
+  | 'none'
+  | 'onboard'
+  | 'blot'
+  | 'sprig'
+  | 'bin'
+  | 'hackpad'
+  | 'llm'
+  | 'boba'
+  | 'cascade'
+  | 'retrospect'
+  | 'hackcraft'
+  | 'cider'
+  | 'browser buddy'
+  | 'cargo-cult'
+  | 'fraps'
+  | 'riceathon'
+  | 'counterspell'
+  | 'anchor'
 export interface Ship {
   id: string // The Airtable row's ID.
   autonumber: number

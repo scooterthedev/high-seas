@@ -49,9 +49,8 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
 
     const isShipUpdate = formData.get('isShipUpdate')
 
-    let for_ysws: FormDataEntryValue | null = formData.get("yswsType");
-    if (for_ysws == 'none')
-      for_ysws = null;
+    let for_ysws: FormDataEntryValue | null = formData.get('yswsType')
+    if (for_ysws == 'none') for_ysws = null
 
     const newShip = await base()(shipsTableName).create(
       [
@@ -188,9 +187,8 @@ export async function createShipUpdate(
       },
     )
 
-    let for_ysws: FormDataEntryValue | null = formData.get("yswsType");
-    if (for_ysws == 'none')
-      for_ysws = null;
+    let for_ysws: FormDataEntryValue | null = formData.get('yswsType')
+    if (for_ysws == 'none') for_ysws = null
 
     return {
       ...reshippedFromShip,
@@ -223,7 +221,7 @@ export async function updateShip(ship: Ship) {
   }
 
   console.log('updating!', ship)
-  console.log(ship.yswsType);
+  console.log(ship.yswsType)
 
   base()(shipsTableName).update(
     [
