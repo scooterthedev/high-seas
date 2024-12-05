@@ -80,15 +80,11 @@ export default function EmailSubmissionForm() {
         </form>
 
         {errorText ? (
-          <div
-            className="mt-2 border-2 border-[#3852CD] bg-blues px-4 py-2 rounded-md text-white"
-          >
+          <div className="mt-2 border-2 border-[#3852CD] bg-blues px-4 py-2 rounded-md text-white">
             {errorText}
           </div>
         ) : (
-          <div
-            className="mt-2 border-2 opacity-0 border-[#3852CD] bg-blues px-4 py-2 rounded-md text-white"
-          >
+          <div className="mt-2 border-2 opacity-0 border-[#3852CD] bg-blues px-4 py-2 rounded-md text-white">
             You need to enter an Email
           </div>
         )}
