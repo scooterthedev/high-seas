@@ -214,8 +214,7 @@ export default function Ships({
                     e.stopPropagation()
                     if (sessionStorage.getItem('tutorial') === 'true') {
                       await tryToShip(s)
-                    }
-                    else {
+                    } else {
                       setShipToShip(s)
                       setShipModal(true)
                     }
@@ -231,11 +230,18 @@ export default function Ships({
 
                 <Modal isOpen={shipModal} close={() => setShipModal(false)}>
                   <div className="p-4">
-                    <h2 className="text-3xl font-bold text-center">Confirm Shipping</h2>
-                    <p className="text-xl mt-5 text-center">Are you sure you want to ship {s.title}?</p>
-                    <p className="mt-3 text-center">Keep in mind that this can't be reverted! <br /> Your ship will start getting into matchups.</p>
+                    <h2 className="text-3xl font-bold text-center">
+                      Confirm Shipping
+                    </h2>
+                    <p className="text-xl mt-5 text-center">
+                      Are you sure you want to ship {s.title}?
+                    </p>
+                    <p className="mt-3 text-center">
+                      Keep in mind that this can't be reverted! <br /> Your ship
+                      will start getting into matchups.
+                    </p>
                     <div className="flex justify-center">
-                      <Image src={ThinkingDino} alt="Thinking Dino"/>
+                      <Image src={ThinkingDino} alt="Thinking Dino" />
                     </div>
                     <div className="flex justify-end mt-5">
                       <Button
@@ -248,7 +254,7 @@ export default function Ships({
                       <Button
                         onClick={async () => {
                           if (shipToShip) {
-                            await tryToShip(shipToShip);
+                            await tryToShip(shipToShip)
                           }
                           setShipModal(false)
                         }}
