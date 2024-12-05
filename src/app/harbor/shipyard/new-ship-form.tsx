@@ -69,24 +69,24 @@ export default function NewShipForm({
   const { toast } = useToast()
   const [yswsType, setYswsType] = useState<string>('none');
   const yswsTypeOptions = [
-    { label: 'none', value: '' },
-    { label: 'onboard', value: 'onboard' },
-    { label: 'blot', value: 'blot' },
-    { label: 'sprig', value: 'sprig' },
-    { label: 'bin', value: 'bin' },
-    { label: 'hackpad', value: 'hackpad' },
-    { label: 'llm', value: 'llm' },
-    { label: 'boba', value: 'boba' },
-    { label: 'cascade', value: 'cascade' },
-    { label: 'retrospect', value: 'retrospect' },
-    { label: 'hackcraft', value: 'hackcraft' },
-    { label: 'cider', value: 'cider' },
-    { label: 'browser buddy', value: 'browser buddy' },
-    { label: 'cargo-cult', value: 'cargo-cult' },
-    { label: 'fraps', value: 'fraps' },
-    { label: 'riceathon', value: 'riceathon' },
-    { label: 'counterspell', value: 'counterspell' },
-    { label: 'anchor', value: 'anchor' },
+    { label: 'none', value: 'none' },
+    { label: 'Onboard', value: 'onboard' },
+    { label: 'Blot', value: 'blot' },
+    { label: 'Sprig', value: 'sprig' },
+    { label: 'Bin', value: 'bin' },
+    { label: 'Hackpad', value: 'hackpad' },
+    { label: 'LLM', value: 'llm' },
+    { label: 'Boba', value: 'boba' },
+    { label: 'Cascade', value: 'cascade' },
+    { label: 'Retrospect', value: 'retrospect' },
+    { label: 'Hackcraft', value: 'hackcraft' },
+    { label: 'Cider', value: 'cider' },
+    { label: 'Browser buddy', value: 'browser buddy' },
+    { label: 'Cargo Cult', value: 'cargo-cult' },
+    { label: 'Fraps', value: 'fraps' },
+    { label: 'Riceathon', value: 'riceathon' },
+    { label: 'Counterspell', value: 'counterspell' },
+    { label: 'Anchor', value: 'anchor' },
   ];
 
   // Initialize confetti on mount
@@ -429,15 +429,17 @@ export default function NewShipForm({
           />
         </div>
 
-        <div id="yswsType-field">
-          <label htmlFor="yswsType">YSWS contest type</label>
-          <SingleSelect
-            options={yswsTypeOptions}
-            onValueChange={(t) => setYswsType(t)}
-            defaultValue={'none'}
-            variant="inverted"
-          />
-        </div>
+        {sessionStorage?.getItem('tutorial') !== 'true' && (
+          <div id="yswsType-field">
+            <label htmlFor="yswsType">YSWS contest type</label>
+            <SingleSelect
+              options={yswsTypeOptions}
+              onValueChange={(t) => setYswsType(t)}
+              defaultValue={'none'}
+              variant="inverted"
+            />
+          </div>
+        )}
 
         <Button type="submit" disabled={staging} id="new-ship-submit">
           {staging ? (

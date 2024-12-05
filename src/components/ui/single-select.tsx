@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/command'
 
 const singleSelectVariants = cva(
-  'm-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300',
+  'm-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 rounded-full',
   {
     variants: {
       variant: {
@@ -46,7 +46,7 @@ VariantProps<typeof singleSelectVariants> {
 
   onValueChange: (value: string) => void;
 
-  defaultValue?: string
+  defaultValue: string
   modalPopover?: boolean
   asChild?: boolean
   className?: string
@@ -86,7 +86,8 @@ export const SingleSelect = React.forwardRef<
     }
 
     const handleClear = () => {
-      setSelectedValue('none')
+      setSelectedValue(defaultValue)
+      onValueChange(defaultValue)
     }
 
     const handleTogglePopover = () => {
@@ -123,23 +124,9 @@ export const SingleSelect = React.forwardRef<
                       <IconComponent className="h-4 w-4 mr-2" />
                     )}
                     {option?.label}
-                    <XCircle
-                      className="ml-2 h-4 w-4 cursor-pointer"
-                      onClick={(event) => {
-                        event.stopPropagation()
-                        toggleOption(selectedValue)
-                      }}
-                    />
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <XIcon
-                    className="h-4 mx-2 cursor-pointer text-muted-foreground"
-                    onClick={(event) => {
-                      event.stopPropagation()
-                      handleClear()
-                    }}
-                  />
                   <Separator
                     orientation="vertical"
                     className="flex min-h-6 h-full"
@@ -176,11 +163,11 @@ export const SingleSelect = React.forwardRef<
                     <CommandItem
                       key={option.value}
                       onSelect={() => toggleOption(option.value)}
-                      className="cursor-pointer"
+                      className="cursor-pointer rounded-full"
                     >
                       <div
                         className={cn(
-                          'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
+                          'mr-2 flex h-4 w-4 items-center justify-center rounded-full border border-primary',
                           isSelected
                             ? 'bg-primary text-primary-foreground'
                             : 'opacity-50 [&_svg]:invisible',
@@ -228,3 +215,5 @@ export const SingleSelect = React.forwardRef<
     )
   }
 )
+
+SingleSelect.displayName = 'SingleSelect';
