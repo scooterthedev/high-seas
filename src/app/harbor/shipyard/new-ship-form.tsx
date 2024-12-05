@@ -76,7 +76,7 @@ export default function NewShipForm({
     { label: 'Bin', value: 'bin' },
     { label: 'Hackpad', value: 'hackpad' },
     { label: 'LLM', value: 'llm' },
-    { label: 'Boba', value: 'boba' },
+    { label: 'Boba Drops', value: 'boba' },
     { label: 'Cascade', value: 'cascade' },
     { label: 'Retrospect', value: 'retrospect' },
     { label: 'Hackcraft', value: 'hackcraft' },
@@ -431,7 +431,12 @@ export default function NewShipForm({
 
         {sessionStorage?.getItem('tutorial') !== 'true' && (
           <div id="yswsType-field">
-            <label htmlFor="yswsType">YSWS Contest</label>
+            <label htmlFor="yswsType">
+              Was this created for a YSWS program? (optional) <br />
+            </label>
+            <span className="text-xs opacity-50">
+              This doesn't affect your submission, it's just feedback for us!
+            </span>
             <SingleSelect
               options={yswsTypeOptions}
               onValueChange={(t) => setYswsType(t)}
