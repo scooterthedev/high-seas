@@ -54,7 +54,7 @@ async function addToShipChains(): Promise<void> {
           'reshipped_from != BLANK()',
           'reshipped_to = BLANK()',
         ),
-        maxRecords: 3,
+        maxRecords: 1,
       })
       .all()
 
