@@ -19,14 +19,29 @@ import { cookies } from 'next/headers'
 //#region Ships
 export type ShipType = 'project' | 'update'
 export type ShipStatus = 'shipped' | 'staged' | 'deleted'
-export interface Ship {
+export type YswsType =
+  | 'none'
+  | 'onboard'
+  | 'blot'
+  | 'sprig'
+  | 'bin'
+  | 'hackpad'
+  | 'llm'
+  | 'boba'
+  | 'cascade'
+  | 'retrospect'
+  | 'hackcraft'
+  | 'cider'
+  | 'browser buddy'
+  | 'cargo-cult'
+  | 'fraps'
+  | 'riceathon'
+  | 'counterspell'
+  | 'anchor'
+
+export interface Ship extends EditableShipFields {
   id: string // The Airtable row's ID.
   autonumber: number
-  title: string
-  repoUrl: string
-  deploymentUrl?: string
-  readmeUrl: string
-  screenshotUrl: string
   // doubloonsPaid?: number;
   matchups_count: number
   hours: number | null
@@ -45,6 +60,14 @@ export interface Ship {
   reshippedAll: string[] | null
   reshippedFromAll: string[] | null
   paidOut: boolean
+  yswsType: YswsType
+}
+export interface EditableShipFields {
+  title: string
+  repoUrl: string
+  deploymentUrl?: string
+  readmeUrl: string
+  screenshotUrl: string
 }
 
 export async function fetchShips(
@@ -117,6 +140,7 @@ export async function fetchShips(
       reshippedAll,
       reshippedFromAll,
       paidOut: Boolean(r.fields.paid_out),
+      yswsType: r.fields.yswsType,
     }
 
     return ship

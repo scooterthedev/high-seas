@@ -115,7 +115,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={project.repo_url}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => {
+              onClick={(e) => {
+                setAnalyticsState((prev) => ({
+                  ...prev,
+                  projectResources: {
+                    ...prev.projectResources,
+                    [project.id]: {
+                      readmeOpened: false,
+                      repoOpened: false,
+                      demoOpened: false,
+                      ...prev.projectResources[project.id],
+                      repoOpened: true,
+                    },
+                  },
+                }))
+              }}
+              onContextMenu={(e) => {
                 setAnalyticsState((prev) => ({
                   ...prev,
                   projectResources: {
@@ -145,7 +160,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={project.deploy_url}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => {
+              onClick={(e) => {
+                setAnalyticsState((prev) => ({
+                  ...prev,
+                  projectResources: {
+                    ...prev.projectResources,
+                    [project.id]: {
+                      readmeOpened: false,
+                      repoOpened: false,
+                      demoOpened: false,
+                      ...prev.projectResources[project.id],
+                      demoOpened: true,
+                    },
+                  },
+                }))
+              }}
+              onContextMenu={(e) => {
                 setAnalyticsState((prev) => ({
                   ...prev,
                   projectResources: {
@@ -319,7 +349,11 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [cursed, setCursed] = useState(false)
   const [blessed, setBlessed] = useState(false)
-
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      return Boolean(selectedProject)
+    }
+  }, [])
   // const turnstileRef = useRef(null);
   // const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
