@@ -581,15 +581,9 @@ export default function Ships({
                                           }}
                                         ></div>
                                         <span>
-                                          {ship.shipType === 'project'
+                                          {idx === 0
                                             ? 'Start'
-                                            : `Update ${
-                                                idx +
-                                                (selectedShipChain[0]
-                                                  .shipType === 'project'
-                                                  ? 0
-                                                  : 1)
-                                              }`}
+                                            : `Update ${idx + 1}`}
                                           <span className="text-xs ml-2 text-indigo-100">
                                             {timeAgo.format(
                                               new Date(ship.createdTime),
