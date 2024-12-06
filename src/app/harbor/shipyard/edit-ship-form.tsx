@@ -148,6 +148,7 @@ export default function EditShipForm({
           id="title"
           name="title"
           defaultValue={ship.title}
+          maxLength={100}
           required
           className="w-full p-2 rounded bg-white/50"
         />
@@ -173,6 +174,7 @@ export default function EditShipForm({
           name="repoUrl"
           defaultValue={ship.repoUrl}
           required
+          maxLength={160}
           className="w-full p-2 rounded bg-white/50"
         />
       </div>
@@ -183,6 +185,7 @@ export default function EditShipForm({
           id="deploymentUrl"
           name="deploymentUrl"
           defaultValue={ship.deploymentUrl}
+          maxLength={200}
           required
           className="w-full p-2 rounded bg-white/50"
         />
@@ -195,6 +198,7 @@ export default function EditShipForm({
           name="readmeUrl"
           defaultValue={ship.readmeUrl}
           required
+          maxLength={600}
           className="w-full p-2 rounded bg-white/50"
         />
       </div>
@@ -210,6 +214,7 @@ export default function EditShipForm({
           name="screenshotUrl"
           defaultValue={ship.screenshotUrl}
           required
+          maxLength={300}
           className="w-full p-2 rounded bg-white/50"
         />
       </div>

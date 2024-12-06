@@ -78,7 +78,8 @@ async function addToShipChains(): Promise<void> {
           chainID,
         )
         const shipChainRecord = await base('ship_chains').find(chainID)
-        const oldLinkedShips = (shipChainRecord?.fields?.ships || []) as string[]
+        const oldLinkedShips = (shipChainRecord?.fields?.ships ||
+          []) as string[]
         const mergedShips = uniq(shipsInChain.concat(oldLinkedShips))
 
         await base('ship_chains').update([
