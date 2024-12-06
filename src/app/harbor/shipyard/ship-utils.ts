@@ -189,7 +189,7 @@ export async function createShipUpdate(
 
     let for_ysws: FormDataEntryValue | null = formData.get('yswsType')
     if (for_ysws == 'none') for_ysws = null
-    
+
     await cookies().delete('ships')
 
     return {
