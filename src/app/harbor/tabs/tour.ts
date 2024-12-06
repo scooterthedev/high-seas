@@ -97,7 +97,7 @@ function setupSteps(tourManager: Tour) {
   controller = new AbortController()
   signal = controller.signal
 
-  tourManager.on('show', async (e) => {
+  tourManager.on('show', (e) => {
     if (e.step.id === 'ts-draft-field-submit') {
       setCookie('tour-step', 'ts-staged-ship-0')
     }
@@ -106,7 +106,7 @@ function setupSteps(tourManager: Tour) {
       setCookie('tour-step', e.step.id)
     }
 
-    await reportTourStep(e.step.id)
+    reportTourStep(e.step.id)
   })
 
   tourManager.on('complete', async () => {

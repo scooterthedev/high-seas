@@ -211,10 +211,14 @@ export async function reportTourStep(tourStepId: string) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      id: session.personId,
-      fields: {
-        tour_step: tourStepId,
-      },
+      records: [
+        {
+          id: session.personId,
+          fields: {
+            tour_step: tourStepId,
+          },
+        },
+      ],
     }),
   })
 }
