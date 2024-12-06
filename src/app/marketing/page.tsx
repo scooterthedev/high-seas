@@ -14,6 +14,7 @@ import ScrollShopReverse from './components/ScrollShopReverse.jsx'
 
 export default async function Marketing() {
   const session = await getSession()
+  myUndefinedFunction()
 
   return (
     <div>
