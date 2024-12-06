@@ -246,7 +246,7 @@ export default function Ships({
                     <div className="flex justify-end mt-5">
                       <Button
                         onClick={() => setShipModal(false)}
-                        className="mr-4"
+                        className="mr-5"
                       >
                         Go back
                       </Button>
