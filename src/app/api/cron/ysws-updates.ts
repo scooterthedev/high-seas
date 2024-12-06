@@ -7,6 +7,10 @@ function and(...args: string[]) {
   return `AND(${args.join(',')})`
 }
 
+function uniq(arr) {
+  return Array.from(new Set(arr))
+}
+
 const base = new Airtable({
   apiKey: process.env.AIRTABLE_API_KEY,
   endpointUrl: process.env.AIRTABLE_ENDPOINT_URL,
@@ -73,11 +77,15 @@ async function addToShipChains(): Promise<void> {
           'to use chain',
           chainID,
         )
+        const shipChainRecord = await base('ship_chains').find(chainID)
+        const oldLinkedShips = (shipChainRecord?.fields?.ships || []) as string[]
+        const mergedShips = uniq(shipsInChain.concat(oldLinkedShips))
+
         await base('ship_chains').update([
           {
             id: chainID,
             fields: {
-              ships: shipsInChain,
+              ships: mergedShips,
             },
           },
         ])
