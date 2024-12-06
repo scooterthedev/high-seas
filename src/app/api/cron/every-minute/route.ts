@@ -4,6 +4,7 @@ import yswsUpdates from '../ysws-updates'
 
 export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
+export const maxDuration = 59
 
 export async function GET() {
   await Promise.all([
