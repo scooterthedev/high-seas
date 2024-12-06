@@ -16,6 +16,11 @@ const base = new Airtable({
   endpointUrl: process.env.AIRTABLE_ENDPOINT_URL,
 }).base('appTeNFYcUiYfGcR6')
 
+const yswsBase = new Airtable({
+  apiKey: process.env.AIRTABLE_API_KEY,
+  endpointUrl: process.env.AIRTABLE_ENDPOINT_URL,
+}).base('app3A5kJwYqxMLOgh')
+
 async function createNewShipChains(): Promise<void> {
   await withLock('create-ship-chains', async () => {
     console.log('finding ysws to update')
@@ -54,7 +59,7 @@ async function addToShipChains(): Promise<void> {
           'reshipped_from != BLANK()',
           'reshipped_to = BLANK()',
         ),
-        maxRecords: 1,
+        maxRecords: 3,
       })
       .all()
 
@@ -65,8 +70,13 @@ async function addToShipChains(): Promise<void> {
 
     console.log('adding to ship chains!')
 
+    let alreadyProcessed = [] as string[]
     for (let i = 0; i < shipsMissingChains.length; i++) {
       const leafShip = shipsMissingChains[i]
+      if (alreadyProcessed.includes(leafShip.id)) {
+        console.log('already processed', leafShip.id)
+        continue
+      }
       const parentShipId = leafShip?.fields?.reshipped_from?.[0]
       const { chainID, shipsToUpdate } = await traceChain(parentShipId)
       if (chainID) {
@@ -81,6 +91,8 @@ async function addToShipChains(): Promise<void> {
         const oldLinkedShips = (shipChainRecord?.fields?.ships ||
           []) as string[]
         const mergedShips = uniq(shipsInChain.concat(oldLinkedShips))
+
+        alreadyProcessed = alreadyProcessed.concat(shipsInChain)
 
         await base('ship_chains').update([
           {
@@ -123,6 +135,60 @@ async function traceChain(
   return { chainID: null, shipsToUpdate: [recordID] }
 }
 
+async function updateHours(): Promise<void> {
+  await withLock('update-hours', async () => {
+    const yswsSubmissions = await base('ysws_submission')
+      .select({
+        filterByFormula: and(
+          "ship__project_source = 'high_seas'",
+          'ysws_db_record_id != BLANK()',
+          "OR(last_sync_time = BLANK(), DATETIME_DIFF(TODAY(), last_sync_time, 'days') > 1)",
+        ),
+        maxRecords: 3,
+      })
+      .all()
+
+    for (let i = 0; i < yswsSubmissions.length; i++) {
+      const submission = yswsSubmissions[i]
+      const yswsRecordID = submission?.fields?.ysws_db_record_id
+      const submissionHours =
+        submission?.fields?.['ship__chain__credited_hours']?.[0]
+      const submissionTime = submission?.fields?.['ship__created_time']?.[0]
+      if (!yswsRecordID || !submissionHours || !submissionTime) {
+        continue
+      }
+      new Promise((resolve) => setTimeout(resolve, 1000))
+      const yswsRecord = await yswsBase('Grants Awarded').find(yswsRecordID)
+      if (!yswsRecord) {
+        continue
+      }
+      const hours = yswsRecord.fields['Override Hours Spent']
+      const fieldsToUpdate = {
+        'Approved At': new Date(submissionTime).toDateString(),
+      }
+      if (hours == submissionHours) {
+        console.log('hours match', yswsRecordID, hours.toFixed(1))
+      } else {
+        const diff = hours - submissionHours
+        const sign = diff > 0 ? '+' : '-'
+        const formattedDiff = Math.abs(diff).toFixed(1)
+        console.log(
+          'updating hours',
+          yswsRecordID,
+          submissionHours.toFixed(1),
+          `${sign}${formattedDiff}`,
+        )
+        fieldsToUpdate['Override Hours Spent'] = submissionHours
+      }
+      await yswsRecord.updateFields(fieldsToUpdate)
+      new Promise((resolve) => setTimeout(resolve, 1000))
+
+      await submission.updateFields({ last_sync_time: new Date() })
+      new Promise((resolve) => setTimeout(resolve, 1000))
+    }
+  })
+}
+
 export default async function yswsUpdates() {
   // find any root projects without chains
   await createNewShipChains()
@@ -130,4 +196,8 @@ export default async function yswsUpdates() {
   new Promise((resolve) => setTimeout(resolve, 1000))
   // find any leaf projects missing a chain
   await addToShipChains()
+
+  new Promise((resolve) => setTimeout(resolve, 1000))
+  // hours might change after we update the shipping chain
+  await updateHours()
 }
