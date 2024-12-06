@@ -49,6 +49,9 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
 
     const isShipUpdate = formData.get('isShipUpdate')
 
+    let for_ysws: FormDataEntryValue | null = formData.get('yswsType')
+    if (for_ysws == 'none') for_ysws = null
+
     const newShip = await base()(shipsTableName).create(
       [
         {
@@ -66,6 +69,7 @@ export async function createShip(formData: FormData, isTutorial: boolean) {
               : null,
             wakatime_project_name: formData.get('wakatime_project_name'),
             project_source: isTutorial ? 'tutorial' : 'high_seas',
+            for_ysws,
           },
         },
       ],
@@ -137,6 +141,7 @@ export async function createShipUpdate(
                     ]
                   : [reshippedFromShip.id],
                 credited_hours,
+                for_ysws: reshippedFromShip.yswsType,
               },
             },
           ],
@@ -182,6 +187,9 @@ export async function createShipUpdate(
       },
     )
 
+    let for_ysws: FormDataEntryValue | null = formData.get('yswsType')
+    if (for_ysws == 'none') for_ysws = null
+
     return {
       ...reshippedFromShip,
       id: res.id,
@@ -199,6 +207,7 @@ export async function createShipUpdate(
       credited_hours,
       total_hours: (reshippedFromShip.total_hours ?? 0) + credited_hours,
       wakatimeProjectNames: reshippedFromShip.wakatimeProjectNames,
+      for_ysws,
     }
   })
 }
@@ -212,6 +221,7 @@ export async function updateShip(ship: Ship) {
   }
 
   console.log('updating!', ship)
+  console.log(ship.yswsType)
 
   base()(shipsTableName).update(
     [
@@ -226,6 +236,7 @@ export async function updateShip(ship: Ship) {
           ...(ship.updateDescription && {
             update_description: ship.updateDescription,
           }),
+          for_ysws: ship.yswsType,
         },
       },
     ],
