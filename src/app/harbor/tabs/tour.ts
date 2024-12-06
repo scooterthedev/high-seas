@@ -2,7 +2,7 @@ import Shepherd, { type Tour } from 'shepherd.js'
 import './shepherd.css'
 import { offset } from '@floating-ui/dom'
 import Cookies from 'js-cookie'
-import { safePerson } from '../../utils/airtable'
+import { reportTourStep, safePerson } from '../../utils/airtable'
 
 const waitForElement = (
   selector: string,
@@ -97,7 +97,7 @@ function setupSteps(tourManager: Tour) {
   controller = new AbortController()
   signal = controller.signal
 
-  tourManager.on('show', (e) => {
+  tourManager.on('show', async (e) => {
     if (e.step.id === 'ts-draft-field-submit') {
       setCookie('tour-step', 'ts-staged-ship-0')
     }
@@ -105,6 +105,8 @@ function setupSteps(tourManager: Tour) {
     if (e.step.id) {
       setCookie('tour-step', e.step.id)
     }
+
+    await reportTourStep(e.step.id)
   })
 
   tourManager.on('complete', async () => {
