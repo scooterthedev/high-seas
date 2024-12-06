@@ -38,14 +38,10 @@ export type YswsType =
   | 'riceathon'
   | 'counterspell'
   | 'anchor'
-export interface Ship {
+
+export interface Ship extends EditableShipFields {
   id: string // The Airtable row's ID.
   autonumber: number
-  title: string
-  repoUrl: string
-  deploymentUrl?: string
-  readmeUrl: string
-  screenshotUrl: string
   // doubloonsPaid?: number;
   matchups_count: number
   hours: number | null
@@ -65,6 +61,13 @@ export interface Ship {
   reshippedFromAll: string[] | null
   paidOut: boolean
   yswsType: YswsType
+}
+export interface EditableShipFields {
+  title: string
+  repoUrl: string
+  deploymentUrl?: string
+  readmeUrl: string
+  screenshotUrl: string
 }
 
 export async function fetchShips(
