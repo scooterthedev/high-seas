@@ -312,6 +312,7 @@ export default function NewShipForm({
                 rows={4}
                 cols={50}
                 minLength={10}
+                maxLength={500}
                 required
                 className="w-full p-2 border rounded"
               ></textarea>
@@ -325,6 +326,7 @@ export default function NewShipForm({
             type="text"
             id="title"
             name="title"
+            maxLength={100}
             required
             className="w-full p-2 border rounded"
           />
@@ -365,6 +367,7 @@ export default function NewShipForm({
             id="repo_url"
             name="repo_url"
             required
+            maxLength={160}
             className="w-full p-2 border rounded"
             onChange={({ target }) => {
               getReadmeFromRepo(target.value).then((readme) => {
@@ -385,6 +388,7 @@ export default function NewShipForm({
             type="url"
             id="readme_url"
             name="readme_url"
+            maxLength={600}
             required
             className="w-full p-2 border rounded"
           />
@@ -398,6 +402,7 @@ export default function NewShipForm({
             type="url"
             id="deployment_url"
             name="deployment_url"
+            maxLength={200}
             required
             className="w-full p-2 border rounded"
           />
@@ -425,6 +430,7 @@ export default function NewShipForm({
             id="screenshot_url"
             name="screenshot_url"
             required
+            maxLength={300}
             className="w-full p-2 border rounded"
           />
         </div>

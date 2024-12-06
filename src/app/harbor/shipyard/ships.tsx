@@ -229,7 +229,7 @@ export default function Ships({
                 </Button>
 
                 <Modal isOpen={shipModal} close={() => setShipModal(false)}>
-                  <div className="p-4">
+                  <div className="p-4 max-h-96 overflow-y-auto">
                     <h2 className="text-3xl font-bold text-center">
                       Confirm Shipping
                     </h2>
