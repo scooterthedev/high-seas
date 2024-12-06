@@ -22,6 +22,7 @@ import NewUpdateForm from './new-update-form'
 import Modal from '../../../components/ui/modal'
 import RepoLink from '@/components/ui/repo_link'
 import { EditableShipFields } from '../../utils/data'
+import ThinkingDino from '/public/thinking.png'
 
 export default function Ships({
   ships = [],
@@ -43,6 +44,8 @@ export default function Ships({
   const [session, setSession] = useState<HsSession | null>(null)
   const [isEditingShip, setIsEditingShip] = useState(false)
   const [errorModal, setErrorModal] = useState<string>()
+  const [shipToShip, setShipToShip] = useState<Ship | null>(null)
+  const [shipModal, setShipModal] = useState<boolean>(false)
   const canvasRef = useRef(null)
 
   const [isShipping, setIsShipping] = useState(false)
@@ -129,6 +132,26 @@ export default function Ships({
     }
   }
 
+  async function tryToShip(s: Ship) {
+    console.log('Shipping', s)
+
+    try {
+      setIsShipping(true)
+      const { error } = await stagedToShipped(s, ships)
+      if (error) {
+        setErrorModal(String(error))
+      } else {
+        location.reload()
+      }
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setErrorModal(err.message)
+      }
+    } finally {
+      setIsShipping(false)
+    }
+  }
+
   const selectedShipChain = selectedShip
     ? shipChains?.get(selectedShip.id)
     : undefined
@@ -185,36 +208,65 @@ export default function Ships({
         {bareShips ? null : (
           <div className="mt-4 sm:mt-0 sm:ml-auto">
             {s.shipStatus === 'staged' ? (
-              <Button
-                id="ship-ship"
-                onClick={async (e) => {
-                  e.stopPropagation()
-                  console.log('Shipping', s)
-
-                  try {
-                    setIsShipping(true)
-                    const { error } = await stagedToShipped(s, ships)
-                    if (error) {
-                      setErrorModal(String(error))
+              <>
+                <Button
+                  id="ship-ship"
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    if (sessionStorage.getItem('tutorial') === 'true') {
+                      await tryToShip(s)
                     } else {
-                      location.reload()
+                      setShipToShip(s)
+                      setShipModal(true)
                     }
-                  } catch (err: unknown) {
-                    if (err instanceof Error) {
-                      setErrorModal(err.message)
-                    }
-                  } finally {
-                    setIsShipping(false)
-                  }
-                }}
-                disabled={isShipping}
-              >
-                {isShipping
-                  ? 'Shipping...'
-                  : s.shipType === 'project'
-                    ? 'SHIP SHIP!'
-                    : 'SHIP UPDATE!'}
-              </Button>
+                  }}
+                  disabled={isShipping}
+                >
+                  {isShipping
+                    ? 'Shipping...'
+                    : s.shipType === 'project'
+                      ? 'SHIP SHIP!'
+                      : 'SHIP UPDATE!'}
+                </Button>
+
+                <Modal isOpen={shipModal} close={() => setShipModal(false)}>
+                  <div className="p-4">
+                    <h2 className="text-3xl font-bold text-center">
+                      Confirm Shipping
+                    </h2>
+                    <p className="text-xl mt-5 text-center">
+                      Are you sure you want to ship {s.title}?
+                    </p>
+                    <p className="mt-3 text-center">
+                      Keep in mind that this can't be reverted! <br /> Your ship
+                      will start getting into matchups.
+                    </p>
+                    <div className="flex justify-center">
+                      <Image src={ThinkingDino} alt="Thinking Dino" />
+                    </div>
+                    <div className="flex justify-end mt-5">
+                      <Button
+                        onClick={() => setShipModal(false)}
+                        className="mr-4"
+                      >
+                        Go back
+                      </Button>
+
+                      <Button
+                        onClick={async () => {
+                          if (shipToShip) {
+                            await tryToShip(shipToShip)
+                          }
+                          setShipModal(false)
+                        }}
+                        disabled={isShipping}
+                      >
+                        {isShipping ? 'Shipping...' : 'Yes, ship it'}
+                      </Button>
+                    </div>
+                  </div>
+                </Modal>
+              </>
             ) : s.paidOut ? (
               !stagedShips.find(
                 (stagedShip) =>

@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useToast } from '@/hooks/use-toast'
 import Icon from '@hackclub/icons'
 import { MultiSelect } from '../../../components/ui/multi-select'
+import { SingleSelect } from '@/components/ui/single-select'
 
 async function testReadmeLink(url: string) {
   const response = await fetch(url)
@@ -66,6 +67,27 @@ export default function NewShipForm({
   >(null)
   const [isShipUpdate, setIsShipUpdate] = useState(false)
   const { toast } = useToast()
+  const [yswsType, setYswsType] = useState<string>('none')
+  const yswsTypeOptions = [
+    { label: 'none', value: 'none' },
+    { label: 'Onboard', value: 'onboard' },
+    { label: 'Blot', value: 'blot' },
+    { label: 'Sprig', value: 'sprig' },
+    { label: 'Bin', value: 'bin' },
+    { label: 'Hackpad', value: 'hackpad' },
+    { label: 'LLM', value: 'llm' },
+    { label: 'Boba Drops', value: 'boba' },
+    { label: 'Cascade', value: 'cascade' },
+    { label: 'Retrospect', value: 'retrospect' },
+    { label: 'Hackcraft', value: 'hackcraft' },
+    { label: 'Cider', value: 'cider' },
+    { label: 'Browser buddy', value: 'browser buddy' },
+    { label: 'Cargo Cult', value: 'cargo-cult' },
+    { label: 'Fraps', value: 'fraps' },
+    { label: 'Riceathon', value: 'riceathon' },
+    { label: 'Counterspell', value: 'counterspell' },
+    { label: 'Anchor', value: 'anchor' },
+  ]
 
   // Initialize confetti on mount
   useEffect(() => {
@@ -213,6 +235,8 @@ export default function NewShipForm({
       setStaging(false)
       return
     }
+
+    formData.append('yswsType', yswsType)
 
     const isTutorial = sessionStorage?.getItem('tutorial') === 'true'
     confettiRef.current?.addConfetti()
@@ -404,6 +428,23 @@ export default function NewShipForm({
             className="w-full p-2 border rounded"
           />
         </div>
+
+        {sessionStorage?.getItem('tutorial') !== 'true' && (
+          <div id="yswsType-field">
+            <label htmlFor="yswsType">
+              Was this created for a YSWS program? (optional) <br />
+            </label>
+            <span className="text-xs opacity-50">
+              This doesn't affect your submission, it's just feedback for us!
+            </span>
+            <SingleSelect
+              options={yswsTypeOptions}
+              onValueChange={(t) => setYswsType(t)}
+              defaultValue={'none'}
+              variant="inverted"
+            />
+          </div>
+        )}
 
         <Button type="submit" disabled={staging} id="new-ship-submit">
           {staging ? (
