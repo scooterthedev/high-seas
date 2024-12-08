@@ -119,6 +119,8 @@ async function processPendingPersonInitJobs() {
       AND status='pending'`
     }),
   )
+
+  await fetch('https://kuma-hackclub.fly.dev/api/push/HAPogoJ2s1?status=up&msg=OK&ping=')
 }
 
 async function processLotteryJobs() {
