@@ -64,7 +64,9 @@ async function processPendingPersonInitJobs() {
   `
 
   if (rows.length === 0) {
-    await fetch('https://kuma-hackclub.fly.dev/api/push/HAPogoJ2s1?status=up&msg=OK&ping=')
+    await fetch(
+      'https://kuma-hackclub.fly.dev/api/push/HAPogoJ2s1?status=up&msg=OK&ping=',
+    )
     return
   }
 
@@ -121,7 +123,9 @@ async function processPendingPersonInitJobs() {
     }),
   )
 
-  await fetch('https://kuma-hackclub.fly.dev/api/push/HAPogoJ2s1?status=up&msg=OK&ping=')
+  await fetch(
+    'https://kuma-hackclub.fly.dev/api/push/HAPogoJ2s1?status=up&msg=OK&ping=',
+  )
 }
 
 async function processLotteryJobs() {
