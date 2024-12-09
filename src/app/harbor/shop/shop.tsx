@@ -10,7 +10,6 @@ import { ShopItemComponent } from './shop-item-component.js'
 import { ShopkeeperComponent } from './shopkeeper.js'
 import { safePerson } from '@/app/utils/airtable'
 import Progress from './progress.tsx'
-import { sort } from 'next/dist/build/webpack/loaders/css-loader/src/utils'
 export default function Shop({ session }: { session: HsSession }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState(
     'shop.country.filter',
