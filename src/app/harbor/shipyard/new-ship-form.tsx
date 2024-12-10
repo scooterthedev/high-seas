@@ -148,6 +148,16 @@ export default function NewShipForm({
       return
     }
 
+    if (deploymentUrl.includes('drive.google')) {
+      toast({
+        title: "Drive links aren't allowed",
+        description:
+          "Drive links aren't allowed. Link to a deployed project directly, or if you can't upload your video somewhere else",
+      })
+      setStaging(false)
+      return
+    }
+
     const repoUrl = formData.get('repo_url') as string
     if (usedRepos.includes(repoUrl)) {
       toast({
