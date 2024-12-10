@@ -79,11 +79,11 @@ export default function Matchups({ session }: { session: HsSession }) {
     matchupGeneratedAt: new Date(),
   })
 
-  // useEffect(() => {
-  //   window.onbeforeunload = () => {
-  //     return !!selectedProject
-  //   }
-  // }, [])
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      return !!selectedProject || !!fraudProject
+    }
+  }, [])
 
   useEffect(() => {
     safePerson().then((sp) => {
