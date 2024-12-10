@@ -26,6 +26,7 @@ import { markdownComponents } from './mdc'
 import { Ship } from '@/app/utils/data'
 import Modal from '@/components/ui/modal'
 import { sendFraudReport } from './fraud-utils'
+import { Button } from '@/components/ui/button'
 
 interface Matchup {
   project1: Ships
@@ -48,8 +49,8 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [blessed, setBlessed] = useState(false)
 
   const [fraudProject, setFraudProject] = useState<Ship>()
-  const [fraudType, setFraudType] = useState()
-  const [fraudReason, setFraudReason] = useState()
+  const [fraudType, setFraudType] = useState<string>()
+  const [fraudReason, setFraudReason] = useState<string>()
 
   const { toast } = useToast()
 
@@ -80,11 +81,11 @@ export default function Matchups({ session }: { session: HsSession }) {
     matchupGeneratedAt: new Date(),
   })
 
-  useEffect(() => {
-    window.onbeforeunload = () => {
-      return !!selectedProject
-    }
-  }, [])
+  // useEffect(() => {
+  //   window.onbeforeunload = () => {
+  //     return !!selectedProject
+  //   }
+  // }, [])
 
   useEffect(() => {
     safePerson().then((sp) => {
@@ -420,16 +421,19 @@ export default function Matchups({ session }: { session: HsSession }) {
                   rows={6}
                 />
 
-                <button
+                <button>{!fraudType}</button>
+                <Button
+                  variant={'destructive'}
+                  disabled={!fraudType || !fraudReason}
                   onClick={async () => {
-                    if (!fraudProject) return
+                    if (!fraudProject || !fraudReason || !fraudType) return
                     await sendFraudReport(fraudProject, fraudType, fraudReason)
                     setFraudProject(undefined)
                   }}
                   className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
                 >
                   Report Fraud
-                </button>
+                </Button>
               </Modal>
             </div>
             {/* <div ref={turnstileRef} className="mb-4"></div> */}
