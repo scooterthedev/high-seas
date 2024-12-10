@@ -421,9 +421,10 @@ export default function Matchups({ session }: { session: HsSession }) {
                 />
 
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     if (!fraudProject) return
-                    sendFraudReport(fraudProject, fraudType, fraudReason)
+                    await sendFraudReport(fraudProject, fraudType, fraudReason)
+                    setFraudProject(undefined)
                   }}
                   className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
                 >
