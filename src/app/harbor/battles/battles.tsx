@@ -405,7 +405,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                 <select
                   value={fraudType}
                   onChange={(e) => setFraudType(e.target.value)}
-                  className="w-full text-center border border-gray-300 dark:border-gray-600 rounded my-4 p-1"
+                  className="w-full my-4 p-1 text-black"
                 >
                   <option value="">Select the type of fraud</option>
                   <option value="Incomplete README">Incomplete README</option>
