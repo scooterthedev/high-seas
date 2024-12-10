@@ -83,14 +83,12 @@ export default function Matchups({ session }: { session: HsSession }) {
     window.onbeforeunload = () => {
       return !!selectedProject || !!fraudProject
     }
-  }, [])
 
-  useEffect(() => {
     safePerson().then((sp) => {
       setCursed(sp.cursed)
       setBlessed(sp.blessed)
     })
-  })
+  }, [])
 
   useEffect(() => {
     setFewerThanTenWords(reason.trim().split(' ').length < 10)
