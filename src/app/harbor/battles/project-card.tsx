@@ -41,7 +41,7 @@ export default function ProjectCard({
   const truncatedText = project.update_description?.slice(0, 50)
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
+    <div className="relative bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl">
       {project.screenshot_url && (
         <div className="relative h-48 w-full" style={imageStyle}>
           <Image
@@ -212,10 +212,10 @@ export default function ProjectCard({
 
         <button
           onClick={() => onFraudClick(project)}
-          className="flex gap-1 items-center mt-3 mx-auto text-sm p-1 px-2 rounded bg-orange-300"
+          className="flex gap-1 items-center mt-3 mx-auto text-xs p-1 px-2 rounded bg-red-100"
         >
-          <Icon glyph="flag" size={26} />
-          Report
+          <Icon glyph="flag" size={20} />
+          Flag project
         </button>
       </div>
     </div>

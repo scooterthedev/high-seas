@@ -3,9 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { Ships } from '../../../../types/battles/airtable'
 import Icon from '@hackclub/icons'
-import Pill from '@/components/ui/pill'
-import Link from 'next/link'
-import Image from 'next/image'
+import { AnimatePresence, motion } from 'framer-motion'
 import ReactMarkdown from 'react-markdown'
 
 import { LoadingSpinner } from '../../../components/ui/loading_spinner.js'
@@ -400,8 +398,8 @@ export default function Matchups({ session }: { session: HsSession }) {
                 isOpen={!!fraudProject}
                 close={() => setFraudProject(undefined)}
               >
-                <h3 className="text-2xl text-center font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
-                  🏴‍☠️ Why are you reporting {fraudProject?.title}? 🏴‍☠️
+                <h3 className="text-2xl font-bold">
+                  Why are you flagging {fraudProject?.title}?
                 </h3>
                 <select
                   value={fraudType}
@@ -413,6 +411,36 @@ export default function Matchups({ session }: { session: HsSession }) {
                   <option value="No demo link">No demo link</option>
                   <option value="Suspected fraud">Suspected fraud</option>
                 </select>
+
+                <AnimatePresence>
+                  {fraudType === 'Incomplete README' ||
+                  fraudType === 'No demo link' ? (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'fit-content', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                    >
+                      <p className="mb-3">
+                        The creator of this project will be notified. Thanks for
+                        making High Seas better! :)
+                      </p>
+                    </motion.div>
+                  ) : null}
+
+                  {fraudType === 'Suspected fraud' ? (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'fit-content', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                    >
+                      <p className="mb-3">
+                        The creator of this project will not know you reported
+                        them. <b>Only the High Seas team will see this.</b>
+                      </p>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+
                 <textarea
                   value={fraudReason}
                   onChange={(e) => setFraudReason(e.target.value)}
@@ -421,7 +449,6 @@ export default function Matchups({ session }: { session: HsSession }) {
                   rows={6}
                 />
 
-                <button>{!fraudType}</button>
                 <Button
                   variant={'destructive'}
                   disabled={!fraudType || !fraudReason}
