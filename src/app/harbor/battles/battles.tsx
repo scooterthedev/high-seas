@@ -6,7 +6,7 @@ import Icon from '@hackclub/icons'
 import Pill from '@/components/ui/pill'
 import Link from 'next/link'
 import Image from 'next/image'
-import ReactMarkdown, { Components } from 'react-markdown'
+import ReactMarkdown from 'react-markdown'
 
 import { LoadingSpinner } from '../../../components/ui/loading_spinner.js'
 import {
@@ -23,6 +23,9 @@ import Cursed from './cursed'
 import pluralize from '../../../../lib/pluralize'
 import ProjectCard from './project-card'
 import { markdownComponents } from '@/components/markdown'
+import { Ship } from '@/app/utils/data'
+import Modal from '@/components/ui/modal'
+import { sendFraudReport } from './fraud-utils'
 
 interface Matchup {
   project1: Ships
@@ -30,90 +33,6 @@ interface Matchup {
   signature: string
   ts: number
 }
-
-// const markdownComponents: Components = {
-//   h1: ({ ...props }) => (
-//     <h1
-//       className="text-3xl font-bold mb-4 text-indigo-600 dark:text-indigo-300"
-//       {...props}
-//     />
-//   ),
-//   h2: ({ ...props }) => (
-//     <h2
-//       className="text-2xl font-semibold mb-3 text-indigo-500 dark:text-indigo-400"
-//       {...props}
-//     />
-//   ),
-//   h3: ({ ...props }) => (
-//     <h3
-//       className="text-xl font-semibold mb-2 text-indigo-400 dark:text-indigo-500"
-//       {...props}
-//     />
-//   ),
-//   p: ({ ...props }) => <p className="mb-4" {...props} />,
-//   a: ({ ...props }) => (
-//     <Link
-//       className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-//       {...props}
-//     />
-//   ),
-//   ul: ({ ...props }) => <ul className="list-disc pl-5 mb-4" {...props} />,
-//   ol: ({ ...props }) => <ol className="list-decimal pl-5 mb-4" {...props} />,
-//   li: ({ ...props }) => <li className="mb-1" {...props} />,
-//   img: ({ src, alt, ...props }) => (
-//     <div className="mb-4">
-//       <img
-//         src={src}
-//         alt={alt || ''}
-//         className="rounded-lg shadow-md"
-//         {...props}
-//       />
-//     </div>
-//   ),
-//   code: ({ className, children, ...props }) => {
-//     const match = /language-(\w+)/.exec(className || '')
-//     return match ? (
-//       <pre className="bg-gray-100 dark:bg-gray-700 rounded p-4 overflow-x-auto">
-//         <code className={className} {...props}>
-//           {children}
-//         </code>
-//       </pre>
-//     ) : (
-//       <code
-//         className="bg-gray-100 dark:bg-gray-700 rounded px-1 py-0.5"
-//         {...props}
-//       >
-//         {children}
-//       </code>
-//     )
-//   },
-//   blockquote: ({ ...props }) => (
-//     <blockquote
-//       className="border-l-4 border-indigo-500 pl-4 italic my-4"
-//       {...props}
-//     />
-//   ),
-//   table: ({ ...props }) => (
-//     <div className="overflow-x-auto mb-4">
-//       <table
-//         className="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
-//         {...props}
-//       />
-//     </div>
-//   ),
-//   th: ({ ...props }) => (
-//     <th
-//       className="px-6 py-3 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
-//       {...props}
-//     />
-//   ),
-//   td: ({ ...props }) => (
-//     <td
-//       className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
-//       {...props}
-//     />
-//   ),
-// }
 
 export default function Matchups({ session }: { session: HsSession }) {
   const [matchup, setMatchup] = useState<Matchup | null>(null)
@@ -128,13 +47,11 @@ export default function Matchups({ session }: { session: HsSession }) {
   const [cursed, setCursed] = useState(false)
   const [blessed, setBlessed] = useState(false)
 
-  const { toast } = useToast()
+  const [fraudProject, setFraudProject] = useState<Ship>()
+  const [fraudType, setFraudType] = useState()
+  const [fraudReason, setFraudReason] = useState()
 
-  useEffect(() => {
-    window.onbeforeunload = () => {
-      return !!selectedProject
-    }
-  }, [])
+  const { toast } = useToast()
 
   const [voteBalance, setVoteBalance] = useLocalStorageState(
     'cache.voteBalance',
@@ -164,6 +81,12 @@ export default function Matchups({ session }: { session: HsSession }) {
   })
 
   useEffect(() => {
+    window.onbeforeunload = () => {
+      return !!selectedProject
+    }
+  }, [])
+
+  useEffect(() => {
     safePerson().then((sp) => {
       setCursed(sp.cursed)
       setBlessed(sp.blessed)
@@ -173,6 +96,11 @@ export default function Matchups({ session }: { session: HsSession }) {
   useEffect(() => {
     setFewerThanTenWords(reason.trim().split(' ').length < 10)
   }, [reason])
+
+  function onFraudClick(project: Ship) {
+    setFraudProject(project)
+    console.log(project)
+  }
 
   // useEffect(() => {
   //   if (turnstileRef.current) {
@@ -451,6 +379,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                   onVote={() => handleVoteClick(matchup.project1)}
                   onReadmeClick={() => handleReadmeClick(matchup.project1)}
                   setAnalyticsState={setAnalyticsState}
+                  onFraudClick={onFraudClick}
                 />
               </div>
               <div className="flex items-center justify-center text-6xl font-bold text-indigo-600 dark:text-indigo-300">
@@ -462,8 +391,45 @@ export default function Matchups({ session }: { session: HsSession }) {
                   onVote={() => handleVoteClick(matchup.project2)}
                   onReadmeClick={() => handleReadmeClick(matchup.project2)}
                   setAnalyticsState={setAnalyticsState}
+                  onFraudClick={onFraudClick}
                 />
               </div>
+
+              <Modal
+                isOpen={!!fraudProject}
+                close={() => setFraudProject(undefined)}
+              >
+                <h3 className="text-2xl text-center font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
+                  🏴‍☠️ Why are you reporting {fraudProject?.title}? 🏴‍☠️
+                </h3>
+                <select
+                  value={fraudType}
+                  onChange={(e) => setFraudType(e.target.value)}
+                  className="w-full text-center border border-gray-300 dark:border-gray-600 rounded my-4 p-1"
+                >
+                  <option value="">Select the type of fraud</option>
+                  <option value="Incomplete README">Incomplete README</option>
+                  <option value="No demo link">No demo link</option>
+                  <option value="Suspected fraud">Suspected fraud</option>
+                </select>
+                <textarea
+                  value={fraudReason}
+                  onChange={(e) => setFraudReason(e.target.value)}
+                  placeholder="Provide your reason here"
+                  className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700 min-h-[150px]"
+                  rows={6}
+                />
+
+                <button
+                  onClick={() => {
+                    if (!fraudProject) return
+                    sendFraudReport(fraudProject, fraudType, fraudReason)
+                  }}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+                >
+                  Report Fraud
+                </button>
+              </Modal>
             </div>
             {/* <div ref={turnstileRef} className="mb-4"></div> */}
             {selectedProject && (

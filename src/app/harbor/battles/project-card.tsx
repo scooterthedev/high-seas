@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import useLocalStorageState from '../../../../lib/useLocalStorageState'
 import { Ships } from '../../../../types/battles/airtable'
 import Image from 'next/image'
 import Pill from '@/components/ui/pill'
@@ -18,11 +17,13 @@ export default function ProjectCard({
   onVote,
   onReadmeClick,
   setAnalyticsState,
+  onFraudClick,
 }: {
   project: Ships
   onVote: () => void
   onReadmeClick: () => void
   setAnalyticsState: any
+  onFraudClick: any
 }) {
   const notFoundImage = useMemo(() => {
     return notFoundImages[Math.floor(Math.random() * notFoundImages.length)]
@@ -207,6 +208,14 @@ export default function ProjectCard({
           className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
         >
           <Icon glyph="thumbsup-fill" size={32} /> Vote for {project.title}
+        </button>
+
+        <button
+          onClick={() => onFraudClick(project)}
+          className="flex gap-1 items-center mt-3 mx-auto text-sm p-1 px-2 rounded bg-orange-300"
+        >
+          <Icon glyph="flag" size={26} />
+          Report
         </button>
       </div>
     </div>
