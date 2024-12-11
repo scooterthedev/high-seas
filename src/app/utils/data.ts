@@ -347,22 +347,28 @@ export async function fetchShopItems(): Promise<ShopItem[]> {
 
 //#region Best ships
 const bestShipsCacheTtl = 60_000
-type BestShipsResult = { timestamp: number; bestShips: Ship[] }
-let bestShipsCache: BestShipsResult | undefined
+let bestShipsTs = 0
+type BestShip = {
+  title: string
+  repoUrl: string
+  deployUrl: string
+  screenshotUrl: string
+}
+let bestShipsCache: BestShip[] | undefined
 
-export async function getBestShips(): Promise<BestShipsResult> {
+export async function getBestShips(): Promise<BestShip[]> {
   const session = await getSession()
   if (!session) throw new Error('No session present')
 
   if (bestShipsCache) {
-    const expired = Date.now() > bestShipsCache.timestamp + bestShipsCacheTtl
+    const expired = Date.now() > bestShipsTs + bestShipsCacheTtl
     if (!expired) {
       console.log('Best ships HIT')
       return bestShipsCache
     }
   }
 
-  console.log('Person cache MISS')
+  console.log('Best ships MISS')
 
   const recordPromise = await fetch(
     'https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/tblHeGZNG00d4GBBV?limit=3&view=viwHvRRLCwPMOmRhj',
@@ -384,12 +390,8 @@ export async function getBestShips(): Promise<BestShipsResult> {
     }),
   )
 
-  // personCache.set(session.personId, {
-  //   recordPromise,
-  //   timestamp: Date.now(),
-  // })
-
-  // recordPromise.catch(() => personCache.delete(session.personId))
+  bestShipsCache = sanitised
+  bestShipsTs = Date.now()
 
   return sanitised
 }
