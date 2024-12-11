@@ -7,10 +7,7 @@ export default function BestShips() {
   const [bestShips, setBestShips] = useState<Ship[]>()
 
   useEffect(() => {
-    getBestShips().then(({ records }) => {
-      console.log({ bestShips: records })
-      setBestShips(records)
-    })
+    getBestShips().then(setBestShips)
   }, [])
 
   return (
@@ -21,16 +18,16 @@ export default function BestShips() {
 
       {bestShips ? (
         <div className="flex gap-4 overflow-scroll">
-          {bestShips.map((ship: any, idx: number) => {
+          {bestShips.map((partialShip: any, idx: number) => {
             return (
               <JaggedCard
                 shadow={false}
                 className="w-96 h-full flex flex-col gap-2 justify-between items-center"
                 key={idx}
               >
-                <p className="text-lg">{ship.fields.title}</p>
+                <p className="text-lg">{partialShip.title}</p>
                 <div className="flex gap-3">
-                  <a target="_blank" href={ship.fields.repo_url}>
+                  <a target="_blank" href={partialShip.repoUrl}>
                     <Pill
                       classes="bg-white/15 text-white"
                       glyph="github"
@@ -38,7 +35,7 @@ export default function BestShips() {
                       color="gray"
                     />
                   </a>
-                  <a target="_blank" href={ship.fields.deploy_url}>
+                  <a target="_blank" href={partialShip.deployUrl}>
                     <Pill
                       classes="bg-white/15 text-white"
                       glyph="view-forward"
@@ -48,9 +45,9 @@ export default function BestShips() {
                   </a>
                 </div>
                 <div className="h-40 mx-auto rounded">
-                  <a href={ship.fields.screenshot_url}>
+                  <a href={partialShip.screenshotUrl}>
                     <img
-                      src={ship.fields.screenshot_url}
+                      src={partialShip.screenshotUrl}
                       alt=""
                       className="h-full object-contain rounded"
                     />

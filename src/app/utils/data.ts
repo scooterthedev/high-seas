@@ -375,7 +375,14 @@ export async function getBestShips(): Promise<BestShipsResult> {
     },
   ).then((r) => r.json())
 
-  console.log({ recordPromise })
+  const sanitised = recordPromise.records.map(
+    ({ fields }: { fields: any }) => ({
+      title: fields.title,
+      repoUrl: fields.repo_url,
+      deployUrl: fields.deploy_url,
+      screenshotUrl: fields.screenshot_url,
+    }),
+  )
 
   // personCache.set(session.personId, {
   //   recordPromise,
@@ -384,6 +391,6 @@ export async function getBestShips(): Promise<BestShipsResult> {
 
   // recordPromise.catch(() => personCache.delete(session.personId))
 
-  return recordPromise
+  return sanitised
 }
 //#endregion
