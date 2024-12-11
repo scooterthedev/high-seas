@@ -353,6 +353,7 @@ type BestShip = {
   repoUrl: string
   deployUrl: string
   screenshotUrl: string
+  payout: number
 }
 let bestShipsCache: BestShip[] | undefined
 
@@ -387,6 +388,7 @@ export async function getBestShips(): Promise<BestShip[]> {
       repoUrl: fields.repo_url,
       deployUrl: fields.deploy_url,
       screenshotUrl: fields.screenshot_url,
+      payout: fields.doubloon_payout,
     }),
   )
 
