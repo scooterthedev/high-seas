@@ -344,3 +344,46 @@ export async function fetchShopItems(): Promise<ShopItem[]> {
     }))
 }
 //#endregion
+
+//#region Best ships
+const bestShipsCacheTtl = 60_000
+type BestShipsResult = { timestamp: number; bestShips: Ship[] }
+let bestShipsCache: BestShipsResult | undefined
+
+export async function getBestShips(): Promise<BestShipsResult> {
+  const session = await getSession()
+  if (!session) throw new Error('No session present')
+
+  if (bestShipsCache) {
+    const expired = Date.now() > bestShipsCache.timestamp + bestShipsCacheTtl
+    if (!expired) {
+      console.log('Best ships HIT')
+      return bestShipsCache
+    }
+  }
+
+  console.log('Person cache MISS')
+
+  const recordPromise = await fetch(
+    'https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/tblHeGZNG00d4GBBV?limit=3&view=viwHvRRLCwPMOmRhj',
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+        'User-Agent': 'highseas.hackclub.com (best ships)',
+      },
+    },
+  ).then((r) => r.json())
+
+  console.log({ recordPromise })
+
+  // personCache.set(session.personId, {
+  //   recordPromise,
+  //   timestamp: Date.now(),
+  // })
+
+  // recordPromise.catch(() => personCache.delete(session.personId))
+
+  return recordPromise
+}
+//#endregion
