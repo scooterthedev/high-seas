@@ -578,9 +578,13 @@ function setupSteps(tourManager: Tour) {
       text: `<div style="display:flex; flex-direction:column; align-items:center;">
               <img src="/trashbeard_pfp_1.png"></img>
               <p>
-                and so concludes Pirate Academy. yer stickers will ship as soon as ye get verified (unless ye be previously verified with Hack Club). ye won't be able to ship projects until then, but the time to start building is now!!
-                <br/><br/>
-                <strong style="color:#ec3750;">ye just need to install Hackatime for yer hours to count…</strong> if ye haven't done that already, the instructions lie here on this page.
+                and so concludes our tutorial. which brings us to Step 3:
+                <ol class="my-4">
+                  <li style="text-decoration: line-through;">1. Join Slack</li>
+                  <li style="text-decoration: line-through;">2. Do the Tutorial</li>
+                  <li style="font-weight: bold;">3. Install Hackatime <span style="font-weight: normal; font-stlye: italic;">← you are here</span></li>
+                </ol>
+                Hackatime is the system we use to count yer hours. <strong style="color:#ec3750;">follow the installation instructions on this page!</strong> once it's installed, any code ye write will count for High Seas.
                 <br/><br/>
                 good luck to ye 🫡
               </p>
@@ -588,7 +592,7 @@ function setupSteps(tourManager: Tour) {
             `,
       buttons: [
         {
-          text: 'Great!',
+          text: 'I shall install Hackatime immediately!',
           action: tourManager.complete,
         },
       ],
