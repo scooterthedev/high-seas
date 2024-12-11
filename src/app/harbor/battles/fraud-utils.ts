@@ -11,7 +11,7 @@ export async function sendFraudReport(
   const session = await getSession()
 
   const res = await fetch(
-    'https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/Fraud%20-%20Wonderdome%20Reports',
+    'https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/flagged_projects',
     {
       method: 'POST',
       headers: {
