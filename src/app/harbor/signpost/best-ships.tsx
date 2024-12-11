@@ -19,7 +19,7 @@ export default function BestShips() {
       </h2>
 
       {bestShips ? (
-        <div className="flex gap-4 overflow-scroll">
+        <div className="flex gap-4 overflow-x-scroll">
           {bestShips.map((partialShip: any, idx: number) => {
             return (
               <JaggedCard
@@ -29,8 +29,8 @@ export default function BestShips() {
               >
                 <p className="text-lg">{partialShip.title}</p>
                 <Pill
-                  msg="Doubloons"
-                  color="green"
+                  msg={`${partialShip.payout} doubloons`}
+                  classes="bg-white/15 text-white"
                   glyphImage={
                     <Image src={DoubloonsImage} alt="Doubloons" height={20} />
                   }
