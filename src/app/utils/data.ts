@@ -344,3 +344,55 @@ export async function fetchShopItems(): Promise<ShopItem[]> {
     }))
 }
 //#endregion
+
+//#region Best ships
+const bestShipsCacheTtl = 60_000
+let bestShipsTs = 0
+type BestShip = {
+  title: string
+  repoUrl: string
+  deployUrl: string
+  screenshotUrl: string
+}
+let bestShipsCache: BestShip[] | undefined
+
+export async function getBestShips(): Promise<BestShip[]> {
+  const session = await getSession()
+  if (!session) throw new Error('No session present')
+
+  if (bestShipsCache) {
+    const expired = Date.now() > bestShipsTs + bestShipsCacheTtl
+    if (!expired) {
+      console.log('Best ships HIT')
+      return bestShipsCache
+    }
+  }
+
+  console.log('Best ships MISS')
+
+  const recordPromise = await fetch(
+    'https://middleman.hackclub.com/airtable/v0/appTeNFYcUiYfGcR6/tblHeGZNG00d4GBBV?limit=3&view=viwHvRRLCwPMOmRhj',
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+        'Content-Type': 'application/json',
+        'User-Agent': 'highseas.hackclub.com (best ships)',
+      },
+    },
+  ).then((r) => r.json())
+
+  const sanitised = recordPromise.records.map(
+    ({ fields }: { fields: any }) => ({
+      title: fields.title,
+      repoUrl: fields.repo_url,
+      deployUrl: fields.deploy_url,
+      screenshotUrl: fields.screenshot_url,
+    }),
+  )
+
+  bestShipsCache = sanitised
+  bestShipsTs = Date.now()
+
+  return sanitised
+}
+//#endregion
