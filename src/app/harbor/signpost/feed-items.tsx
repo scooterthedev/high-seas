@@ -31,8 +31,8 @@ export default function FeedItems() {
       {feedItems.map((item, idx) => {
         return (
           <a key={idx} className="block" href={item.link}>
-            <JaggedCardSmall key={idx} bgColor={`#${item.backgroundColor}`}>
-              <p className="text-sm opacity-50">
+            <JaggedCardSmall bgColor="white">
+              <p className="text-sm opacity-50 and">
                 {timeAgo.format(new Date(item.createdTime))}
               </p>
               <p>
