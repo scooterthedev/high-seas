@@ -30,7 +30,7 @@ export default function FeedItems() {
     <div className="flex flex-col gap-3">
       {feedItems.map((item, idx) => {
         return (
-          <a key={idx} className="block" href={item.link}>
+          <a key={idx} className="block" href={item.link ?? '#'}>
             <JaggedCardSmall bgColor="white">
               <p className="text-sm opacity-50 and">
                 {timeAgo.format(new Date(item.createdTime))}
