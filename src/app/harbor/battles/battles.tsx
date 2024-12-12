@@ -404,7 +404,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                   onChange={(e) => setFraudType(e.target.value)}
                   className="w-full my-4 p-1 text-black"
                 >
-                  <option value="">Select the type of fraud</option>
+                  <option value="">Select the reason for flagging</option>
                   <option value="Incomplete README">Incomplete README</option>
                   <option value="No screenshot">No screenshot</option>
                   <option value="No demo link">No demo link</option>
@@ -459,7 +459,7 @@ export default function Matchups({ session }: { session: HsSession }) {
                   }}
                   className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
                 >
-                  Report Fraud
+                  Flag project
                 </Button>
               </Modal>
             </div>
