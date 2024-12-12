@@ -23,7 +23,7 @@ export default function FeedItems() {
   }
 
   if (!feedItems || feedItems.length === 0) {
-    return <p>No feed updates yet! Check back soon.</p>
+    return <p>No changelog posts yet! Check back soon.</p>
   }
 
   return (
