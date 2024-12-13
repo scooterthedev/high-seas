@@ -71,7 +71,6 @@ const Flag = ({ bot, rot, ani, dur, flip = false }) => {
         animationFillMode: 'forwards',
         top: `0%`,
         ...pos,
-
       }}
     >
       <div style={{ transform: `rotate(${rot}deg)` }}>
