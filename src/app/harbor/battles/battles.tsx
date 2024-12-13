@@ -411,12 +411,16 @@ export default function Matchups({ session }: { session: HsSession }) {
                   <option value="No screenshot">No screenshot</option>
                   <option value="No demo link">No demo link</option>
                   <option value="Suspected fraud">Suspected fraud</option>
+                  <option value="Wrong repo">
+                    Repo not found / not open source
+                  </option>
                 </select>
 
                 <AnimatePresence>
                   {fraudType === 'Incomplete README' ||
                   fraudType === 'No demo link' ||
-                  fraudType === 'No screenshot' ? (
+                  fraudType === 'No screenshot' ||
+                  fraudType === 'Wrong repo' ? (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'fit-content', opacity: 1 }}
