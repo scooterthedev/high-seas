@@ -25,7 +25,6 @@ import { Ship } from '@/app/utils/data'
 import Modal from '@/components/ui/modal'
 import { sendFraudReport } from './fraud-utils'
 import { Button } from '@/components/ui/button'
-import { Frame } from 'lucide-react'
 
 interface Matchup {
   project1: Ships
