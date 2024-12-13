@@ -80,15 +80,17 @@ export default function Matchups({ session }: { session: HsSession }) {
   })
 
   useEffect(() => {
-    window.onbeforeunload = () => {
-      return !!selectedProject || !!fraudProject
-    }
-
     safePerson().then((sp) => {
       setCursed(sp.cursed)
       setBlessed(sp.blessed)
     })
   }, [])
+
+  const unloader = () => !!selectedProject || !!fraudProject
+  useEffect(() => {
+    window.addEventListener('beforeunload', unloader)
+    return () => window.removeEventListener('beforeunload', unloader)
+  })
 
   useEffect(() => {
     setFewerThanTenWords(reason.trim().split(' ').length < 10)
