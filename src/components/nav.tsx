@@ -22,6 +22,13 @@ export default async function Nav() {
         </a>
       </div>
 
+      <a
+        className="ml-28 text-white bg-[#9147FF] rounded p-2"
+        href="https://www.twitch.tv/githubeducation"
+      >
+        Go and watch twitch rn!
+      </a>
+
       <span />
 
       <div className="flex gap-4 items-center text-nowrap">

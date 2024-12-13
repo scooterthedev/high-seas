@@ -25,6 +25,7 @@ import { Ship } from '@/app/utils/data'
 import Modal from '@/components/ui/modal'
 import { sendFraudReport } from './fraud-utils'
 import { Button } from '@/components/ui/button'
+import { Frame } from 'lucide-react'
 
 interface Matchup {
   project1: Ships
@@ -80,15 +81,17 @@ export default function Matchups({ session }: { session: HsSession }) {
   })
 
   useEffect(() => {
-    window.onbeforeunload = () => {
-      return !!selectedProject || !!fraudProject
-    }
-
     safePerson().then((sp) => {
       setCursed(sp.cursed)
       setBlessed(sp.blessed)
     })
   }, [])
+
+  const unloader = () => !!selectedProject || !!fraudProject
+  useEffect(() => {
+    window.addEventListener('beforeunload', unloader)
+    return () => window.removeEventListener('beforeunload', unloader)
+  })
 
   useEffect(() => {
     setFewerThanTenWords(reason.trim().split(' ').length < 10)
