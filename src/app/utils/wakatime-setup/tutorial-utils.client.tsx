@@ -75,22 +75,39 @@ export const SinglePlatform = ({
         <span>How to install Hackatime on {platform.label}:</span>
       </p>
       <ol className="mt-2 list-inside list-decimal">
-        <li>Open {platform.application} on the computer you use to code</li>
-        {os !== 'chrome' ? (
-          <li>Paste in the command below and hit enter</li>
-        ) : (
-          <li>
-            Go to the{' '}
-            <a
-              href="https://chromewebstore.google.com/detail/hackatime/bclnlafbfomdilnddjjggicoponlphlo"
-              className="underline"
-            >
-              store page
-            </a>{' '}
-            click install and then paste the API Key shown below into the
-            textbox when it asks you to
-          </li>
-        )}
+        {(() => {
+          switch (os) {
+            case 'chrome':
+              return (
+                <>
+                  <li>
+                    Open {platform.application} on the computer you use to code
+                  </li>
+
+                  <li>
+                    Go to the{' '}
+                    <a
+                      href="https://chromewebstore.google.com/detail/hackatime/bclnlafbfomdilnddjjggicoponlphlo"
+                      className="underline"
+                    >
+                      store page
+                    </a>{' '}
+                    click install and then paste the API Key shown below into
+                    the textbox when it asks you to
+                  </li>
+                </>
+              )
+            default:
+              return (
+                <>
+                  <li>
+                    Open {platform.application} on the computer you code on
+                  </li>
+                  <li>Paste in the command below and hit enter</li>
+                </>
+              )
+          }
+        })()}
         <li>Come back here to the Harbor!</li>
       </ol>
       <div className="flex flex-col sm:flex-row items-stretch gap-2 mt-4">
