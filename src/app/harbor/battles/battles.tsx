@@ -104,6 +104,7 @@ export default function Matchups({ session }: { session: HsSession }) {
   function shuffle() {
     fetchMatchup()
 
+    document.body.style.willChange = 'transform'
     let rotation = 0
     const duration = 1000 // total duration in milliseconds
     const interval = 20 // interval in milliseconds
@@ -130,7 +131,7 @@ export default function Matchups({ session }: { session: HsSession }) {
       const easedProgress = easeInOutBack(progress) // apply easing function
 
       rotation = easedProgress * 360 // map eased progress to rotation
-      document.body.style.willChange = 'transform'
+
       document.body.style.transform = `rotate(${rotation}deg) scale(${f(progress)})`
 
       if (currentStep >= totalSteps) {
