@@ -273,7 +273,7 @@ export async function fetchSignpostFeed(): Promise<SignpostFeedItem[]> {
         }
       }) => ({
         id: r.id,
-        createdTime: new Date(r.createdTime),
+        createdTime: new Date(r.scheduledTime),
         title: r.fields.title,
         autonumber: Number(r.fields.autonumber),
         link: r.fields.link,
