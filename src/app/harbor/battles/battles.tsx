@@ -101,6 +101,46 @@ export default function Matchups({ session }: { session: HsSession }) {
     console.log(project)
   }
 
+  function shuffle() {
+    fetchMatchup()
+
+    document.body.style.willChange = 'transform'
+    let rotation = 0
+    const duration = 1000 // total duration in milliseconds
+    const interval = 20 // interval in milliseconds
+    const totalSteps = duration / interval
+    let currentStep = 0
+
+    function f(x: number): number {
+      const b = 2
+      return b * x ** 2 - b * x + 1
+    }
+
+    function easeInOutBack(x: number): number {
+      const c1 = 1.70158
+      const c2 = c1 * 1.525
+
+      return x < 0.5
+        ? (Math.pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
+        : (Math.pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2
+    }
+
+    const spinInterval = setInterval(() => {
+      currentStep++
+      const progress = currentStep / totalSteps // progress from 0 to 1
+      const easedProgress = easeInOutBack(progress) // apply easing function
+
+      rotation = easedProgress * 360 // map eased progress to rotation
+
+      document.body.style.transform = `rotate(${rotation}deg) scale(${f(progress)})`
+
+      if (currentStep >= totalSteps) {
+        clearInterval(spinInterval)
+        document.body.style.transform = 'rotate(0deg)' // reset to initial state
+      }
+    }, interval)
+  }
+
   // useEffect(() => {
   //   if (turnstileRef.current) {
   //     let widgetId;
@@ -352,6 +392,11 @@ export default function Matchups({ session }: { session: HsSession }) {
             </div>
           )}
         </header>
+
+        <Button className="flex mx-auto" onClick={shuffle}>
+          <Icon glyph="help" />
+          Shuffle
+        </Button>
 
         {loading ? (
           <div className="flex justify-center items-center h-64">
