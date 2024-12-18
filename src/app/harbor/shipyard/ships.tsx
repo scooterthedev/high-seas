@@ -270,7 +270,7 @@ export default function Ships({
                     </div>
                   </Modal>
                 </>
-              ) : s.paidOut ? (
+              ) : latestShip.paidOut ? (
                 !stagedShips.find(
                   (stagedShip) =>
                     stagedShip.wakatimeProjectNames.join(',') ===
