@@ -72,9 +72,10 @@ export default function Signpost() {
         The Signpost
         <img
           src="/signpost.png"
+          alt="a signpost with 4 boards"
           width={32}
           className="inline-block ml-4 hidden sm:inline"
-        ></img>
+        />
       </h1>
 
       <p className="text-center text-white text-xs sm:text-sm mb-8">
@@ -102,7 +103,7 @@ export default function Signpost() {
                     You've logged {pluralize(hms.hours, 'hour')},{' '}
                     {pluralize(hms.minutes, 'minute')},{' '}
                   </span>
-                  <br className="sm:hidden"></br>
+                  <br className="sm:hidden" />
                   <span>
                     and {pluralize(hms.seconds, 'second')} of coding time so
                     far!
@@ -119,7 +120,7 @@ export default function Signpost() {
             </>
           )}
         </p>
-        <p></p>
+        <p />
       </div>
 
       <JaggedCard shadow={false} small={!showInstructions}>
