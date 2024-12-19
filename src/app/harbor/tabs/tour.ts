@@ -2,7 +2,7 @@ import Shepherd, { type Tour } from 'shepherd.js'
 import './shepherd.css'
 import { offset } from '@floating-ui/dom'
 import Cookies from 'js-cookie'
-import { safePerson } from '../../utils/airtable'
+import { reportTourStep, safePerson } from '../../utils/airtable'
 
 const waitForElement = (
   selector: string,
@@ -105,6 +105,8 @@ function setupSteps(tourManager: Tour) {
     if (e.step.id) {
       setCookie('tour-step', e.step.id)
     }
+
+    reportTourStep(e.step.id)
   })
 
   tourManager.on('complete', async () => {
@@ -575,12 +577,16 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: 'ts-signpost',
-      text: `<div style="display:flex; flex-direction:column; align-items:center;">
-              <img src="/trashbeard_pfp_1.png"></img>
+      text: `<div>
+              <img src="/trashbeard_pfp_1.png" style="margin-left: auto; margin-right: auto;" />
               <p>
-                and so concludes Pirate Academy. yer stickers will ship as soon as ye get verified (unless ye be previously verified with Hack Club). ye won't be able to ship projects until then, but the time to start building is now!!
-                <br/><br/>
-                <strong style="color:#ec3750;">ye just need to install Hackatime for yer hours to count…</strong> if ye haven't done that already, the instructions lie here on this page.
+                And so concludes our tutorial. which brings us to Step 3:
+                <ol class="my-4">
+                  <li style="text-decoration: line-through;">1. Join Slack</li>
+                  <li style="text-decoration: line-through;">2. Do the Tutorial</li>
+                  <li style="font-weight: bold;">3. Install Hackatime <span style="font-weight: normal; font-stlye: italic;">← you are here</span></li>
+                </ol>
+                Hackatime is the system we use to count yer hours. <strong style="color:#ec3750;">Follow the installation instructions on this page!</strong> Once it's installed, any code ye write will count for High Seas.
                 <br/><br/>
                 good luck to ye 🫡
               </p>
@@ -588,7 +594,7 @@ function setupSteps(tourManager: Tour) {
             `,
       buttons: [
         {
-          text: 'Great!',
+          text: 'I shall install Hackatime immediately!',
           action: tourManager.complete,
         },
       ],

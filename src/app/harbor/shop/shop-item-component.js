@@ -59,7 +59,7 @@ export const ShopItemComponent = ({
         className="h-full flex flex-col overflow-hidden shadow-lg transition-shadow duration-300 hover:shadow-xl"
       >
         <CardHeader className="pb-2">
-          <div className="flex justify-between items-start">
+          <div className="justify-between inline-block items-start">
             <CardTitle className="text-xl font-bold text-center">
               {item.name}
             </CardTitle>
