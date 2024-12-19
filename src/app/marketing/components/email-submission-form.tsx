@@ -101,25 +101,38 @@ export default function EmailSubmissionForm() {
           className="flex flex-col gap-12"
           style={{ maxHeight: '75vh', overflowY: 'auto' }}
         >
-          <div className="space-y-4">
-            <p className="text-3xl">Ahoy 🏴‍☠️</p>
-            <p className="text-xl mb-4">
+          <div>
+            <p className="text-3xl mb-4">Your journey begins 🏴‍☠️</p>
+            <p className="mb-4">
               We've sent you an invite to Slack! It should arrive in your inbox
               in under a minute
             </p>
-            <p className="text-sm mb-4 italic">
-              If you already have a Hack Club Slack account,{' '}
-              <a className="underline" href={slackAuthUrl}>
-                click here instead
-              </a>
-            </p>
+
+            <p className="text-xl mb-4">Starting High Seas has 3 steps:</p>
+            <ol className="ml-4">
+              <li className="flex items-center text-bold">
+                1. Join Slack{' '}
+                <span className="italic text-sm ml-2">← you are here</span>
+              </li>
+              <li>2. Do the Tutorial</li>
+              <li>3. Install Hackatime</li>
+            </ol>
           </div>
           <img
             src="/party-orpheus.svg"
-            className="w-1/2 mx-auto"
+            className="w-1/3 mx-auto"
             alt="Party Orpheus"
           />
-          <Button onClick={() => setEmail(undefined)}>Aye aye!</Button>
+
+          <p className="text-sm italic">
+            If you already have a Hack Club Slack account,{' '}
+            <a className="underline" href={slackAuthUrl}>
+              click here instead
+            </a>
+          </p>
+          <Button onClick={() => setEmail(undefined)}>
+            Aye aye - I'll check my email!
+          </Button>
         </div>
       </Modal>
     </>
