@@ -58,37 +58,41 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false
 export function tour() {
-  safePerson().then(({ hasCompletedTutorial }) => {
-    console.log('Setting tutorial sessionstorage to', hasCompletedTutorial)
-    sessionStorage.setItem('tutorial', (!hasCompletedTutorial).toString())
-  })
+  // safePerson().then(({ hasCompletedTutorial }) => {
+  //   console.log('Setting tutorial sessionstorage to', hasCompletedTutorial)
+  //   sessionStorage.setItem('tutorial', (!hasCompletedTutorial).toString())
+  // })
 
-  const currentStepId = getCookie('tour-step')
-  if (currentStepId) {
-    const requiredUrl = stepToUrlMapping[currentStepId]
-    if (requiredUrl && window.location.pathname !== requiredUrl) {
-      window.location.href = requiredUrl
-      return
-    }
+  // const currentStepId = getCookie('tour-step')
+  // if (currentStepId) {
+  //   const requiredUrl = stepToUrlMapping[currentStepId]
+  //   if (requiredUrl && window.location.pathname !== requiredUrl) {
+  //     window.location.href = requiredUrl
+  //     return
+  //   }
 
-    if (
-      currentStepId.startsWith('ts-draft-field-') ||
-      currentStepId === 'ts-new-ship-explanation'
-    ) {
-      setCookie('tour-step', 'ts-draft-button')
-    }
-  } else {
-    if (window.location.pathname !== '/shipyard') {
-      window.location.href = '/shipyard'
-      return
-    }
-  }
+  //   if (
+  //     currentStepId.startsWith('ts-draft-field-') ||
+  //     currentStepId === 'ts-new-ship-explanation'
+  //   ) {
+  //     setCookie('tour-step', 'ts-draft-button')
+  //   }
+  // } else {
+  //   if (window.location.pathname !== '/shipyard') {
+  //     window.location.href = '/shipyard'
+  //     return
+  //   }
+  // }
 
-  if (!hasSetUp) {
-    setupSteps(t)
-    t.start()
-    hasSetUp = true
-  }
+  // if (!hasSetUp) {
+  //   setupSteps(t)
+  //   t.start()
+  //   hasSetUp = true
+  // }
+  setCookie('tour-step', 'ts-signpost')
+  setupSteps(t)
+  t.start()
+  console.log('woop')
 }
 
 let signal, controller
@@ -577,16 +581,16 @@ function setupSteps(tourManager: Tour) {
     },
     {
       id: 'ts-signpost',
-      text: `<div style="display:flex; flex-direction:column; align-items:center;">
-              <img src="/trashbeard_pfp_1.png"></img>
+      text: `<div>
+              <img src="/trashbeard_pfp_1.png" style="margin-left: auto; margin-right: auto;" />
               <p>
-                and so concludes our tutorial. which brings us to Step 3:
+                And so concludes our tutorial. which brings us to Step 3:
                 <ol class="my-4">
                   <li style="text-decoration: line-through;">1. Join Slack</li>
                   <li style="text-decoration: line-through;">2. Do the Tutorial</li>
                   <li style="font-weight: bold;">3. Install Hackatime <span style="font-weight: normal; font-stlye: italic;">← you are here</span></li>
                 </ol>
-                Hackatime is the system we use to count yer hours. <strong style="color:#ec3750;">follow the installation instructions on this page!</strong> once it's installed, any code ye write will count for High Seas.
+                Hackatime is the system we use to count yer hours. <strong style="color:#ec3750;">Follow the installation instructions on this page!</strong> Once it's installed, any code ye write will count for High Seas.
                 <br/><br/>
                 good luck to ye 🫡
               </p>
