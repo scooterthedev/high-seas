@@ -1162,7 +1162,7 @@ const PrizeData = [
     image: 'https://cloud-d8js788lz-hack-club-bot.vercel.app/0image.png',
     sub: 'soft to hold of the shark :3',
     estMin: 5,
-    estMax: 26,
+    estMax: 25,
   },
   // {
   //   name: "Skeletool KBX",
@@ -1180,15 +1180,15 @@ const PrizeData = [
     image: 'https://noras-secret-cdn.hackclub.dev/shop/raspberry_pi_5.png',
     sub: 'home server, mayhaps?',
     estMin: 11,
-    estMax: 55,
+    estMax: 54,
   },
   {
     name: 'System76 Keeb',
-    doubloons: 520,
+    doubloons: 750,
     image: 'https://noras-secret-cdn.hackclub.dev/shop/s76_launch.png',
     sub: 'open-source!!!',
-    estMin: 19,
-    estMax: 94,
+    estMin: 31,
+    estMax: 157,
   },
   {
     name: 'Flipper Zero',
@@ -1225,7 +1225,7 @@ const PrizeData = [
     doubloons: '4980',
     image: 'https://noras-secret-cdn.hackclub.dev/shop/fw_13.png',
     sub: '16", 16GB RAM....16 16 16',
-    estMin: 208,
+    estMin: 207,
     estMax: 1037,
   },
 ]
