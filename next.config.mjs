@@ -5,6 +5,7 @@ import { execSync } from 'child_process'
 const commitHash = execSync('git log --pretty=format:"%h" -n1')
   .toString()
   .trim()
+import { withSentryConfig } from '@sentry/nextjs'
 
 const nextConfig = {
   typescript: {
@@ -25,4 +26,20 @@ const nextConfig = {
   },
 }
 
-export default withPlausibleProxy()(nextConfig)
+const sentryContext = {
+  org: 'malted',
+  project: 'javascript-nextjs',
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  reactComponentAnnotation: {
+    enabled: true,
+  },
+  tunnelRoute: '/monitoring',
+  hideSourceMaps: true,
+  disableLogger: true,
+  automaticVercelMonitors: true,
+}
+
+const plausibleConfig = withPlausibleProxy()(nextConfig)
+
+export default withSentryConfig(plausibleConfig, sentryContext)
