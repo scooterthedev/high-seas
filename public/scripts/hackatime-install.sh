@@ -60,7 +60,7 @@ check_vscode() {
                 error "(In VS Code, press Command + Shift + P and type \"Shell Command: Install 'code' command in PATH\".)"
                 ;;
             msys* | win32*)
-                error "(In VS Code, press Ctrl+Shift+P and type \"Shell Command: Install 'code' command in PATH\".)"
+                error "(In VS Code, press Ctrl + Shift + P and type \"Shell Command: Install 'code' command in PATH\".)"
                 ;;
             *)
                 error "(In VS Code, press Ctrl+Shift+P and type \"Shell Command: Install 'code' command in PATH\".)"
