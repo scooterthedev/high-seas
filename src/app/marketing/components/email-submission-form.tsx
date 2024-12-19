@@ -105,6 +105,9 @@ export default function EmailSubmissionForm() {
             <p className="text-3xl mb-4">Your journey begins 🏴‍☠️</p>
             <p className="text-xl mb-4">Starting High Seas has 3 steps:</p>
             <p className="text-xl mb-4">
+              We've sent you an invite to Slack! It should arrive in your inbox
+              in under a minute
+              
               <ol className="ml-4">
                 <li className="flex items-center text-bold">
                   1. Join Slack{' '}
