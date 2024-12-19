@@ -1216,8 +1216,8 @@ const PrizeData = [
     doubloons: 2090,
     image: 'https://noras-secret-cdn.hackclub.dev/shop/ipad.png',
     sub: 'with Apple Pencil!',
-    estMin: 87,
-    estMax: 435,
+    estMin: 77,
+    estMax: 387,
   },
 
   {
