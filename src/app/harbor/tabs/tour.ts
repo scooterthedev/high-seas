@@ -58,41 +58,37 @@ const t = new Shepherd.Tour({
 
 let hasSetUp = false
 export function tour() {
-  // safePerson().then(({ hasCompletedTutorial }) => {
-  //   console.log('Setting tutorial sessionstorage to', hasCompletedTutorial)
-  //   sessionStorage.setItem('tutorial', (!hasCompletedTutorial).toString())
-  // })
+  safePerson().then(({ hasCompletedTutorial }) => {
+    console.log('Setting tutorial sessionstorage to', hasCompletedTutorial)
+    sessionStorage.setItem('tutorial', (!hasCompletedTutorial).toString())
+  })
 
-  // const currentStepId = getCookie('tour-step')
-  // if (currentStepId) {
-  //   const requiredUrl = stepToUrlMapping[currentStepId]
-  //   if (requiredUrl && window.location.pathname !== requiredUrl) {
-  //     window.location.href = requiredUrl
-  //     return
-  //   }
+  const currentStepId = getCookie('tour-step')
+  if (currentStepId) {
+    const requiredUrl = stepToUrlMapping[currentStepId]
+    if (requiredUrl && window.location.pathname !== requiredUrl) {
+      window.location.href = requiredUrl
+      return
+    }
 
-  //   if (
-  //     currentStepId.startsWith('ts-draft-field-') ||
-  //     currentStepId === 'ts-new-ship-explanation'
-  //   ) {
-  //     setCookie('tour-step', 'ts-draft-button')
-  //   }
-  // } else {
-  //   if (window.location.pathname !== '/shipyard') {
-  //     window.location.href = '/shipyard'
-  //     return
-  //   }
-  // }
+    if (
+      currentStepId.startsWith('ts-draft-field-') ||
+      currentStepId === 'ts-new-ship-explanation'
+    ) {
+      setCookie('tour-step', 'ts-draft-button')
+    }
+  } else {
+    if (window.location.pathname !== '/shipyard') {
+      window.location.href = '/shipyard'
+      return
+    }
+  }
 
-  // if (!hasSetUp) {
-  //   setupSteps(t)
-  //   t.start()
-  //   hasSetUp = true
-  // }
-  setCookie('tour-step', 'ts-signpost')
-  setupSteps(t)
-  t.start()
-  console.log('woop')
+  if (!hasSetUp) {
+    setupSteps(t)
+    t.start()
+    hasSetUp = true
+  }
 }
 
 let signal, controller

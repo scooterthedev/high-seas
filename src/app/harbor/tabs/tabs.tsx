@@ -183,9 +183,9 @@ export default function Harbor({
       academyCompleted = false
     }
 
-    // if (!academyCompleted) {
-    tour()
-    // }
+    if (!academyCompleted) {
+      tour()
+    }
   }, [])
 
   const tabs = [
