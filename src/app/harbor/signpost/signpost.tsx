@@ -13,6 +13,7 @@ import Referral from './referral'
 
 import pluralize from '../../../../lib/pluralize.js'
 import BestShips from './best-ships'
+import LeaderboardOptIn from './leaderboard'
 
 export default function Signpost() {
   let wakaKey: string | null = null
@@ -137,6 +138,8 @@ export default function Signpost() {
       </JaggedCard>
 
       <BestShips />
+
+      <LeaderboardOptIn />
 
       <h2 className="mt-8 font-heading text-2xl font-bold mb-4 text-center">
         Changelog
