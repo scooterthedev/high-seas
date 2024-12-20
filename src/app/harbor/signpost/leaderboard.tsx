@@ -36,7 +36,7 @@ export default function LeaderboardOptIn() {
         displayed on the leaderboard. You can view the leaderboard at any time
         by going to{' '}
         <a
-          href="https://airtable.com/appTeNFYcUiYfGcR6/shro4hnLq63fT8psX"
+          href="https://doubloons.cyteon.hackclub.app/"
           className="text-cyan-300"
           target="_blank"
           rel="noopener noreferrer"
