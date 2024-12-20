@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import Verification from './verification'
 import Platforms from '@/app/utils/wakatime-setup/platforms'
 import JaggedCard from '../../../components/jagged-card'
+import JaggedCardSmall from '@/components/jagged-card-small'
 import Cookies from 'js-cookie'
 import FeedItems from './feed-items'
 import { getWakaSessions } from '@/app/utils/waka'
@@ -134,6 +135,31 @@ export default function Signpost() {
           <p>Loading Hackatime token...</p>
         )}
       </JaggedCard>
+
+      <a
+        className="block mt-6 mb-2"
+        href="https://hackclub.slack.com/archives/C0266FRGT/p1734471796551819"
+      >
+        <img
+          className="mx-auto rounded w-1/2"
+          src="https://cloud-l35vudm4s-hack-club-bot.vercel.app/0sticky-holidays.png"
+          alt="sticky holidays banner"
+        />
+      </a>
+
+      <div className="flex items-center justify-center gap-4 overflow-x-scroll">
+        <div className="w-fit h-fit">
+          <JaggedCard
+            shadow={false}
+            className="w-96 pb-16 h-full flex flex-col gap-2 justify-between items-center"
+          >
+            <p className="text-lg">Day 1</p>
+            <div className="h-40 mx-auto rounded">
+              <img src="/sticky-holidays/day1.png" alt="" className="w-64" />
+            </div>
+          </JaggedCard>
+        </div>
+      </div>
 
       <BestShips />
 
