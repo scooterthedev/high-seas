@@ -116,7 +116,10 @@ export default function Matchups({ session }: { session: HsSession }) {
     "https://cloud-qft2iibp4-hack-club-bot.vercel.app/0indigo.mp3",
     "https://cloud-4kk5a8dir-hack-club-bot.vercel.app/0quack.mp3",
     "https://cloud-d2457l6yk-hack-club-bot.vercel.app/0funk.mp3",
-    "https://cloud-k7djoy844-hack-club-bot.vercel.app/0basso.mp3"
+    "https://cloud-k7djoy844-hack-club-bot.vercel.app/0basso.mp3",
+    "https://cloud-kdii29uqp-hack-club-bot.vercel.app/0se_bell_audio.mp4",
+    "https://cloud-2531xbnu4-hack-club-bot.vercel.app/0yr_stoy_03_how_2d_audio.mp4",
+    "https://cloud-1v9k8a4x7-hack-club-bot.vercel.app/0yr_sweep_up_01_audio.mp4",
   ].map((path) => new Howl({src: path}))
 
   var shuffling = false
