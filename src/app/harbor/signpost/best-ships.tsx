@@ -53,17 +53,19 @@ export default function BestShips() {
                     />
                   </a>
                 </div>
-                <a
-                  target="_blank"
-                  href={`https://slack.com/app_redirect?channel=${partialShip.entrantSlackId}`}
-                >
-                  <Pill
-                    glyph="slack"
-                    classes="bg-white/15 text-white"
-                    color="purple"
-                    msg="Chat on Slack"
-                  />
-                </a>
+                {partialShip.entrantSlackId ? (
+                  <a
+                    target="_blank"
+                    href={`https://slack.com/app_redirect?channel=${partialShip.entrantSlackId}`}
+                  >
+                    <Pill
+                      glyph="slack"
+                      classes="bg-white/15 text-white"
+                      color="purple"
+                      msg="Chat on Slack"
+                    />
+                  </a>
+                ) : null}
                 <div className="h-40 mx-auto rounded">
                   <a href={partialShip.screenshotUrl}>
                     <img
