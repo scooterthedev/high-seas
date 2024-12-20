@@ -380,6 +380,7 @@ export async function getBestShips(): Promise<BestShip[]> {
       deployUrl: fields.deploy_url,
       screenshotUrl: fields.screenshot_url,
       payout: fields.doubloon_payout,
+      entrantSlackId: fields.entrant__slack_id[0],
     }),
   )
 
