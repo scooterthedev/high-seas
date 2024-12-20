@@ -124,7 +124,7 @@ export default function Matchups({ session }: { session: HsSession }) {
     'https://cloud-1v9k8a4x7-hack-club-bot.vercel.app/0yr_sweep_up_01_audio.mp4',
   ].map((path) => new Howl({ src: path }))
 
-  var shuffling = false
+  let shuffling = false
   function shuffle() {
     shuffling = true
     shuffleNoise.play()
