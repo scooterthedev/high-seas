@@ -25,7 +25,7 @@ import { Ship } from '@/app/utils/data'
 import Modal from '@/components/ui/modal'
 import { sendFraudReport } from './fraud-utils'
 import { Button } from '@/components/ui/button'
-
+import { Howl } from 'howler'
 interface Matchup {
   project1: Ships
   project2: Ships
@@ -102,7 +102,27 @@ export default function Matchups({ session }: { session: HsSession }) {
     console.log(project)
   }
 
+  const shuffleNoise = new Howl({src: "https://cloud-dq0583nuu-hack-club-bot.vercel.app/0roll_audio.mp4"})
+  const shuffledNoises = [
+    "https://cloud-6ibeo2nhb-hack-club-bot.vercel.app/0orchestra_hit_audio.mp4",
+    "https://cloud-nunjao1ax-hack-club-bot.vercel.app/0cash_register_audio.mp4",
+    "https://cloud-1qghl8m1m-hack-club-bot.vercel.app/0chimes_audio.mp4",
+    "https://cloud-qzzqwgtk5-hack-club-bot.vercel.app/0musica_default_audio.mp4",
+    "https://cloud-a42iebcfd-hack-club-bot.vercel.app/0musica_exclamation_audio.mp4",
+    "https://cloud-o6nhwcf3y-hack-club-bot.vercel.app/0musica_open_audio.mp4",
+    "https://cloud-1t05cbn0l-hack-club-bot.vercel.app/0robotz_error_audio.mp4",
+    "https://cloud-7pcpircvf-hack-club-bot.vercel.app/0tada_audio.mp4",
+    "https://cloud-b578wplwe-hack-club-bot.vercel.app/0boing.mp3",
+    "https://cloud-qft2iibp4-hack-club-bot.vercel.app/0indigo.mp3",
+    "https://cloud-4kk5a8dir-hack-club-bot.vercel.app/0quack.mp3",
+    "https://cloud-d2457l6yk-hack-club-bot.vercel.app/0funk.mp3",
+    "https://cloud-k7djoy844-hack-club-bot.vercel.app/0basso.mp3"
+  ].map((path) => new Howl({src: path}))
+
+  var shuffling = false
   function shuffle() {
+    shuffling = true
+    shuffleNoise.play()
     fetchMatchup()
 
     document.body.style.willChange = 'transform'
@@ -232,6 +252,10 @@ export default function Matchups({ session }: { session: HsSession }) {
     } catch (error) {
       console.error('Error fetching matchup:', error)
     } finally {
+      if(shuffling){
+        shuffleNoise.stop()
+        shuffledNoises[Math.floor(Math.random() * shuffledNoises.length)].play()
+      }
       setLoading(false)
     }
   }
