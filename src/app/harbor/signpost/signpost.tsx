@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import Verification from './verification'
 import Platforms from '@/app/utils/wakatime-setup/platforms'
 import JaggedCard from '../../../components/jagged-card'
+import JaggedCardSmall from '@/components/jagged-card-small'
 import Cookies from 'js-cookie'
 import FeedItems from './feed-items'
 import { getWakaSessions } from '@/app/utils/waka'
@@ -41,6 +42,7 @@ export default function Signpost() {
 
   const [wakaSessions, setWakaSessions] =
     useState<{ key: string; total: number }[]>()
+  const [unlockString, setUnlockString] = useState('00:00:00')
 
   useEffect(() => {
     getWakaSessions().then((s) => {
@@ -49,6 +51,23 @@ export default function Signpost() {
         hasHb = true
       }
     })
+
+    setInterval(() => {
+      const now = new Date()
+      const tomorrow = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+      )
+      const diff = tomorrow - now
+      const hours = Math.floor(diff / 3600000)
+      const minutes = Math.floor((diff % 3600000) / 60000)
+      const seconds = Math.floor((diff % 60000) / 1000)
+
+      setUnlockString(
+        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
+      )
+    }, 1_000)
   }, [])
 
   const wakaDuration = wakaSessions?.reduce((a, p) => (a += p.total), 0)
@@ -134,6 +153,35 @@ export default function Signpost() {
           <p>Loading Hackatime token...</p>
         )}
       </JaggedCard>
+
+      <a
+        className="block mt-6 mb-2"
+        href="https://hackclub.slack.com/archives/C0266FRGT/p1734471796551819"
+      >
+        <img
+          className="mx-auto rounded w-1/2"
+          src="https://cloud-l35vudm4s-hack-club-bot.vercel.app/0sticky-holidays.png"
+          alt="sticky holidays banner"
+        />
+        <p className="text-center mt-1 text-sm">
+          Confused? Click to see the #announcements post ^^
+        </p>
+      </a>
+
+      <div className="flex items-center justify-center gap-4 overflow-x-scroll">
+        <div className="w-fit h-fit">
+          <JaggedCard
+            shadow={false}
+            className="w-96 pb-16 h-full flex flex-col gap-2 justify-between items-center"
+          >
+            <p className="text-lg">Day 1</p>
+            <p>Unlocks in {unlockString}</p>
+            <div className="h-40 mx-auto rounded">
+              <img src="/sticky-holidays/day1.png" alt="" className="w-64" />
+            </div>
+          </JaggedCard>
+        </div>
+      </div>
 
       <BestShips />
 
