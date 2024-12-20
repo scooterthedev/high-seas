@@ -163,6 +163,9 @@ export default function Signpost() {
           src="https://cloud-l35vudm4s-hack-club-bot.vercel.app/0sticky-holidays.png"
           alt="sticky holidays banner"
         />
+        <p className="text-center mt-1 text-sm">
+          Confused? Click to see the #announcements post ^^
+        </p>
       </a>
 
       <div className="flex items-center justify-center gap-4 overflow-x-scroll">
