@@ -227,7 +227,7 @@ export default function ProjectCard({
         )}
         <a
           target="_blank"
-          href={`https://hackclub.slack.com/team/${project.entrant__slack_id}`}
+          href={`https://slack.com/app_redirect?channel=${project.entrant__slack_id}`}
         >
           <Pill glyph="slack" color="purple" msg="Chat on Slack" />
         </a>
