@@ -42,6 +42,7 @@ export default function Signpost() {
 
   const [wakaSessions, setWakaSessions] =
     useState<{ key: string; total: number }[]>()
+  const [unlockString, setUnlockString] = useState('00:00:00')
 
   useEffect(() => {
     getWakaSessions().then((s) => {
@@ -50,6 +51,23 @@ export default function Signpost() {
         hasHb = true
       }
     })
+
+    setInterval(() => {
+      const now = new Date()
+      const tomorrow = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+      )
+      const diff = tomorrow - now
+      const hours = Math.floor(diff / 3600000)
+      const minutes = Math.floor((diff % 3600000) / 60000)
+      const seconds = Math.floor((diff % 60000) / 1000)
+
+      setUnlockString(
+        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
+      )
+    }, 1_000)
   }, [])
 
   const wakaDuration = wakaSessions?.reduce((a, p) => (a += p.total), 0)
@@ -154,6 +172,7 @@ export default function Signpost() {
             className="w-96 pb-16 h-full flex flex-col gap-2 justify-between items-center"
           >
             <p className="text-lg">Day 1</p>
+            <p>Unlocks in {unlockString}</p>
             <div className="h-40 mx-auto rounded">
               <img src="/sticky-holidays/day1.png" alt="" className="w-64" />
             </div>
