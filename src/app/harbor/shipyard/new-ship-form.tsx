@@ -87,6 +87,7 @@ export default function NewShipForm({
     { label: 'Riceathon', value: 'riceathon' },
     { label: 'Counterspell', value: 'counterspell' },
     { label: 'Anchor', value: 'anchor' },
+    { label: 'Dessert', value: 'dessert' },
   ]
 
   // Initialize confetti on mount
