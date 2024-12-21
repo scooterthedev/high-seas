@@ -170,7 +170,7 @@ export default function Signpost() {
         </p>
       </a>
 
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-4 overflow-x-auto">
         <div className="w-fit h-fit">
           <JaggedCard
             shadow={false}
