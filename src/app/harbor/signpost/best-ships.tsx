@@ -64,7 +64,7 @@ export default function BestShips() {
                 {partialShip.entrantSlackId ? (
                   <a
                     target="_blank"
-                    href={`https://hackclub.slack.com/team/${partialShip.entrantSlackId}`}
+                    href={`https://hackclub.slack.com/app_redirect?channel=${partialShip.entrantSlackId}`}
                     rel="noreferrer"
                   >
                     <Pill
