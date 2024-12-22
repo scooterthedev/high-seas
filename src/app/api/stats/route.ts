@@ -1,50 +1,54 @@
 import puppeteer from 'puppeteer'
+import Airtable from 'airtable'
 
-const html = () => `
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
+  process.env.BASE_ID!,
+)
+
+const html = (shipCount: number) => `
 <!DOCTYPE html>
 <html>
 <head>
   <style>
     html, body { margin: 0 }
+    main { display: flex; flex-direction: column; align-items: center; }
     h1 { font-family: sans-serif; text-align: center; }
   </style>
 </head>
 <body>
-  <h1>hello, world!</h1>
+  <main>
+    <h1>${shipCount} projects shipped</h1>
+  </main>
 </body>
 </html>`
 
 export async function GET() {
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  })
+  const [browser, ships] = await Promise.all([
+    puppeteer.launch({
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    }),
+    base('ships').select({}).all(),
+  ])
 
   try {
     const page = await browser.newPage()
 
-    // Set viewport size to match canvas size
     await page.setViewport({
-      width: 1024,
-      height: 1024 * (9 / 16),
+      width: 800,
+      height: 100,
       deviceScaleFactor: 3,
     })
 
-    // Load the HTML content
-    await page.setContent(html())
+    await page.setContent(html(ships.length))
 
-    // Wait for the shader to render a few frames
-    // await page.goto(url, { waitUntil: 'networkidle0' });
-    // await page.waitForFunction("window.renderedComplete === true", { timeout: 5_000 });
-
-    // Take a screenshot
     const screenshot = await page.screenshot({
       type: 'png',
       clip: {
         x: 0,
         y: 0,
-        width: 1024,
-        height: 1024 * (9 / 16),
+        width: 800,
+        height: 100,
       },
     })
 
