@@ -51,8 +51,8 @@ export async function GET() {
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
-    });
-
+    })
+  }
 
   try {
     const page = await browser.newPage()
