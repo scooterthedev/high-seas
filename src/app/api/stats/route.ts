@@ -30,12 +30,12 @@ const html = (shipCount: number) => `
 </html>`
 
 export async function GET() {
-  // if (stats.refreshAt < Date.now()) {
-  //   console.log("Refetching ships", stats.refreshAt, Date.now())
-  //   const allShips = await base('ships').select({}).all()
-  //   stats.shipCount = allShips.length
-  //   stats.refreshAt = Date.now() + 60_000
-  // }
+  if (stats.refreshAt < Date.now()) {
+    console.log('Refetching ships', stats.refreshAt, Date.now())
+    const allShips = await base('ships').select({}).all()
+    stats.shipCount = allShips.length
+    stats.refreshAt = Date.now() + 60_000
+  }
 
   const CHROME_EXECUTABLE_PATH =
     '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
