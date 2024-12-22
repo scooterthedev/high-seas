@@ -50,7 +50,7 @@ export async function GET() {
       executablePath:
         process.env.NODE_ENV === 'development'
           ? CHROME_EXECUTABLE_PATH
-          : await chromium.executablePath,
+          : await chromium.executablePath(),
       headless: true,
       ignoreHTTPSErrors: true,
       args: [
