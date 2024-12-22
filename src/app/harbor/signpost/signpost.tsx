@@ -177,9 +177,21 @@ export default function Signpost() {
             className="w-96 pb-16 h-full flex flex-col gap-2 justify-between items-center"
           >
             <p className="text-lg">Day 1</p>
+            <p>Unlocked!</p>
+            <div className="h-40 mx-auto rounded">
+              <img src="/sticky-holidays/d1.png" alt="" className="w-64" />
+            </div>
+          </JaggedCard>
+        </div>
+        <div className="w-fit h-fit">
+          <JaggedCard
+            shadow={false}
+            className="w-96 pb-16 h-full flex flex-col gap-2 justify-between items-center"
+          >
+            <p className="text-lg">Day 2</p>
             <p>Unlocks in {unlockString}</p>
             <div className="h-40 mx-auto rounded">
-              <img src="/sticky-holidays/day1.png" alt="" className="w-64" />
+              <img src="/sticky-holidays/d2b.png" alt="" className="w-40" />
             </div>
           </JaggedCard>
         </div>
