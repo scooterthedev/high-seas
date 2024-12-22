@@ -1,5 +1,5 @@
 import chromium from '@sparticuz/chromium'
-import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-core'
 import Airtable from 'airtable'
 
 let browser: puppeteer.Browser
@@ -40,16 +40,14 @@ export async function GET() {
 
   const isLocal = false // Set this variable as required - @sparticuz/chromium does not work on ARM, so we use a standard Chrome executable locally - see issue https://github.com/Sparticuz/chromium/issues/186
   if (!browser?.isConnected()) {
-    // If you don't need webGL, this skips the extraction of the bin/swiftshader.tar.br file, improving performance
-    chromium.setGraphicMode = false
-    browser = await puppeteer.launch({
-      // ...(isLocal
-      //   ? { channel: 'chrome' }
-      //   : {
-      //       // args: chromeArgs,
-      //       executablePath: await chromium.executablePath(),
-      //       ignoreHTTPSErrors: true,
-      //     }),
+    chromium.setHeadlessMode = true
+    chromium.setGraphicsMode = false
+
+    const browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
     })
   }
 
