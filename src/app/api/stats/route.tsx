@@ -6,9 +6,8 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.BASE_ID!,
 )
 
-export async function GET() {
+export async function GET({ url }) {
   let shipCount = await kv.get('ship-count')
-  console.log({ shipCount })
 
   if (!shipCount) {
     console.log('Refetching ships')
@@ -16,15 +15,16 @@ export async function GET() {
     shipCount = allShips.length.toString()
     await kv.set('ship-count', shipCount, { ex: 60_000, nx: true })
   }
-  console.log({ shipCount })
+
+  const darkTheme = new URL(url).searchParams.get('theme') === 'dark'
 
   return new ImageResponse(
     (
       <div
         style={{
           fontSize: 32,
-          color: 'black',
-          background: 'white',
+          color: darkTheme ? 'white' : 'black',
+          background: 'transparent',
           width: '100%',
           height: '100%',
           padding: '50px 200px',
