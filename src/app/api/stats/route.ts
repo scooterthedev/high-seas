@@ -3,7 +3,6 @@ import puppeteer from 'puppeteer-core'
 import Airtable from 'airtable'
 
 let browser: puppeteer.Browser
-
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.BASE_ID!,
 )
@@ -38,16 +37,30 @@ export async function GET() {
   //   stats.refreshAt = Date.now() + 60_000
   // }
 
+  const CHROME_EXECUTABLE_PATH =
+    '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
+
   const isLocal = false // Set this variable as required - @sparticuz/chromium does not work on ARM, so we use a standard Chrome executable locally - see issue https://github.com/Sparticuz/chromium/issues/186
   if (!browser?.isConnected()) {
     chromium.setHeadlessMode = true
     chromium.setGraphicsMode = false
 
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath(),
-      headless: chromium.headless,
+      executablePath:
+        process.env.NODE_ENV === 'development'
+          ? CHROME_EXECUTABLE_PATH
+          : await chromium.executablePath,
+      headless: true,
+      ignoreHTTPSErrors: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--single-process',
+      ],
+      ignoreDefaultArgs: ['--disable-extensions'],
+      ignoreHTTPSErrors: true,
     })
   }
 
