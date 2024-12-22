@@ -108,16 +108,21 @@ export const submitVote = async (
     throw new Error('User not found')
   }
 
+  const [winner, loser] = await Promise.all([
+    base('ships').find(voteData.winner),
+    base('ships').find(voteData.loser),
+  ])
+
   const K = 30
   const expectedScoreWinner =
-    1 / (1 + Math.pow(10, (voteData.loserRating - voteData.winnerRating) / 400))
+    1 / (1 + Math.pow(10, (loser.fields.rating - winner.fields.rating) / 400))
   const expectedScoreLoser = 1 - expectedScoreWinner
 
   const newWinnerRating = Math.round(
-    voteData.winnerRating + K * (1 - expectedScoreWinner),
+    winner.fields.rating + K * (1 - expectedScoreWinner),
   )
   const newLoserRating = Math.round(
-    voteData.loserRating + K * (0 - expectedScoreLoser),
+    loser.fields.rating + K * (0 - expectedScoreLoser),
   )
 
   const record = await base('battles').create({
@@ -126,10 +131,10 @@ export const submitVote = async (
     ships: [voteData.winner, voteData.loser],
     winner: [voteData.winner],
     loser: [voteData.loser],
-    winner_rating: voteData.winnerRating,
-    winner_adjustment: newWinnerRating - voteData.winnerRating,
-    loser_rating: voteData.loserRating,
-    loser_adjustment: newLoserRating - voteData.loserRating,
+    winner_rating: winner.fields.rating,
+    winner_adjustment: newWinnerRating - winner.fields.rating,
+    loser_rating: loser.fields.rating,
+    loser_adjustment: newLoserRating - loser.fields.rating,
     is_tutorial_vote: !person.user_has_graduated,
     generated_at: voteData.ts,
     winner_readme_opened: voteData.winner_readme_opened,

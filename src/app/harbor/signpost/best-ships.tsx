@@ -36,7 +36,11 @@ export default function BestShips() {
                   }
                 />
                 <div className="flex gap-3">
-                  <a target="_blank" href={partialShip.repoUrl}>
+                  <a
+                    target="_blank"
+                    href={partialShip.repoUrl}
+                    rel="noreferrer"
+                  >
                     <Pill
                       classes="bg-white/15 text-white"
                       glyph="github"
@@ -44,7 +48,11 @@ export default function BestShips() {
                       color="gray"
                     />
                   </a>
-                  <a target="_blank" href={partialShip.deployUrl}>
+                  <a
+                    target="_blank"
+                    href={partialShip.deployUrl}
+                    rel="noreferrer"
+                  >
                     <Pill
                       classes="bg-white/15 text-white"
                       glyph="view-forward"
@@ -56,7 +64,8 @@ export default function BestShips() {
                 {partialShip.entrantSlackId ? (
                   <a
                     target="_blank"
-                    href={`https://slack.com/app_redirect?channel=${partialShip.entrantSlackId}`}
+                    href={`https://hackclub.slack.com/app_redirect?channel=${partialShip.entrantSlackId}`}
+                    rel="noreferrer"
                   >
                     <Pill
                       glyph="slack"
