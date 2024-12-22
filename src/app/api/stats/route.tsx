@@ -1,16 +1,58 @@
-import chromium from '@sparticuz/chromium'
-import puppeteer from 'puppeteer-core'
 import Airtable from 'airtable'
+import { ImageResponse } from 'next/og'
+import { kv } from '@vercel/kv'
 
-let browser: puppeteer.Browser
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.BASE_ID!,
 )
 
-const stats = {
-  shipCount: 0,
-  refreshAt: 0,
+export async function GET() {
+  let shipCount = await kv.get('ship-count')
+  console.log({ shipCount })
+
+  if (!shipCount) {
+    console.log('Refetching ships')
+    const allShips = await base('ships').select({}).all()
+    shipCount = allShips.length.toString()
+    await kv.set('ship-count', shipCount, { ex: 60_000, nx: true })
+  }
+  console.log({ shipCount })
+
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          fontSize: 32,
+          color: 'black',
+          background: 'white',
+          width: '100%',
+          height: '100%',
+          padding: '50px 200px',
+          textAlign: 'center',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        🚢 {shipCount} projects shipped (and counting!)
+      </div>
+    ),
+    {
+      width: 1_200,
+      height: 100,
+    },
+  )
 }
+
+/*
+
+import chromium from '@sparticuz/chromium'
+import puppeteer from 'puppeteer-core'
+
+let browser: puppeteer.Browser
+
+
+
 
 const html = (shipCount: number) => `
 <!DOCTYPE html>
@@ -29,13 +71,7 @@ const html = (shipCount: number) => `
 </body>
 </html>`
 
-export async function GET() {
-  if (stats.refreshAt < Date.now()) {
-    console.log('Refetching ships', stats.refreshAt, Date.now())
-    const allShips = await base('ships').select({}).all()
-    stats.shipCount = allShips.length
-    stats.refreshAt = Date.now() + 60_000
-  }
+
 
   const CHROME_EXECUTABLE_PATH =
     '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
@@ -95,3 +131,4 @@ export async function GET() {
     })
   }
 }
+*/
