@@ -1,9 +1,16 @@
-import puppeteer from 'puppeteer'
+import chromium from '@sparticuz/chromium'
+import puppeteer from 'puppeteer-core'
 import Airtable from 'airtable'
 
+let browser: puppeteer.Browser
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
   process.env.BASE_ID!,
 )
+
+const stats = {
+  shipCount: 0,
+  refreshAt: 0,
+}
 
 const html = (shipCount: number) => `
 <!DOCTYPE html>
@@ -23,13 +30,39 @@ const html = (shipCount: number) => `
 </html>`
 
 export async function GET() {
-  const [browser, ships] = await Promise.all([
-    puppeteer.launch({
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    }),
-    base('ships').select({}).all(),
-  ])
+  if (stats.refreshAt < Date.now()) {
+    console.log('Refetching ships', stats.refreshAt, Date.now())
+    const allShips = await base('ships').select({}).all()
+    stats.shipCount = allShips.length
+    stats.refreshAt = Date.now() + 60_000
+  }
+
+  const CHROME_EXECUTABLE_PATH =
+    '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
+
+  const isLocal = false // Set this variable as required - @sparticuz/chromium does not work on ARM, so we use a standard Chrome executable locally - see issue https://github.com/Sparticuz/chromium/issues/186
+  if (!browser?.isConnected()) {
+    chromium.setHeadlessMode = true
+    chromium.setGraphicsMode = false
+
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      executablePath:
+        process.env.NODE_ENV === 'development'
+          ? CHROME_EXECUTABLE_PATH
+          : await chromium.executablePath(),
+      headless: true,
+      ignoreHTTPSErrors: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--single-process',
+      ],
+      ignoreDefaultArgs: ['--disable-extensions'],
+      ignoreHTTPSErrors: true,
+    })
+  }
 
   try {
     const page = await browser.newPage()
@@ -40,7 +73,7 @@ export async function GET() {
       deviceScaleFactor: 3,
     })
 
-    await page.setContent(html(ships.length))
+    await page.setContent(html(123))
 
     const screenshot = await page.screenshot({
       type: 'png',
@@ -52,6 +85,7 @@ export async function GET() {
       },
     })
 
+    await page.close()
     await browser.close()
 
     // Return the screenshot as a PNG
