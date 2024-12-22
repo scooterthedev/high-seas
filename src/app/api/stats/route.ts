@@ -47,22 +47,12 @@ export async function GET() {
 
     browser = await puppeteer.launch({
       args: chromium.args,
-      executablePath:
-        process.env.NODE_ENV === 'development'
-          ? CHROME_EXECUTABLE_PATH
-          : await chromium.executablePath(),
-      headless: true,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless,
       ignoreHTTPSErrors: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--single-process',
-      ],
-      ignoreDefaultArgs: ['--disable-extensions'],
-      ignoreHTTPSErrors: true,
-    })
-  }
+    });
+
 
   try {
     const page = await browser.newPage()
