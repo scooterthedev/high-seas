@@ -146,8 +146,6 @@ export async function fetchShips(
       feedback: r.fields.ai_feedback_summary,
     }
 
-    console.log('Feedback: ', r.fields.ai_feedback_summary)
-
     return ship
   })
 }
