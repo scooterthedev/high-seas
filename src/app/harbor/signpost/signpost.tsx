@@ -11,7 +11,7 @@ import Cookies from 'js-cookie'
 import FeedItems from './feed-items'
 import { getWakaSessions } from '@/app/utils/waka'
 import Referral from './referral'
-
+import { getStickyUrls } from './help'
 import pluralize from '../../../../lib/pluralize.js'
 import BestShips from './best-ships'
 import LeaderboardOptIn from './leaderboard'
@@ -43,7 +43,7 @@ export default function Signpost() {
 
   const [wakaSessions, setWakaSessions] =
     useState<{ key: string; total: number }[]>()
-  const [unlockString, setUnlockString] = useState('00:00:00')
+  const [stickyUrls, setStickyUrls] = useState([])
 
   useEffect(() => {
     getWakaSessions().then((s) => {
@@ -53,22 +53,7 @@ export default function Signpost() {
       }
     })
 
-    setInterval(() => {
-      const now = new Date()
-      const tomorrow = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() + 1,
-      )
-      const diff = tomorrow - now
-      const hours = Math.floor(diff / 3600000)
-      const minutes = Math.floor((diff % 3600000) / 60000)
-      const seconds = Math.floor((diff % 60000) / 1000)
-
-      setUnlockString(
-        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
-      )
-    }, 1_000)
+    getStickyUrls().then(setStickyUrls)
   }, [])
 
   const wakaDuration = wakaSessions?.reduce((a, p) => (a += p.total), 0)
@@ -171,30 +156,24 @@ export default function Signpost() {
       </a>
 
       <div className="flex items-center justify-center gap-4 overflow-x-auto">
-        <div className="w-fit h-fit">
-          <JaggedCard
-            shadow={false}
-            className="w-96 pb-16 h-full flex flex-col gap-2 justify-between items-center"
-          >
-            <p className="text-lg">Day 1</p>
-            <p>Unlocked!</p>
-            <div className="h-40 mx-auto rounded">
-              <img src="/sticky-holidays/d1.png" alt="" className="w-64" />
-            </div>
-          </JaggedCard>
-        </div>
-        <div className="w-fit h-fit">
-          <JaggedCard
-            shadow={false}
-            className="w-96 pb-16 h-full flex flex-col gap-2 justify-between items-center"
-          >
-            <p className="text-lg">Day 2</p>
-            <p>Unlocks in {unlockString}</p>
-            <div className="h-40 mx-auto rounded">
-              <img src="/sticky-holidays/d2b.png" alt="" className="w-40" />
-            </div>
-          </JaggedCard>
-        </div>
+        {stickyUrls.map((url, idx) => (
+          <div className="w-fit h-fit" key={idx}>
+            <JaggedCard
+              shadow={false}
+              className="w-96 pb-16 h-full flex flex-col gap-2 justify-between items-center"
+            >
+              <p className="text-lg">Day {idx + 1}</p>
+              <p>
+                {stickyUrls.length - 1 === idx
+                  ? 'Unlocks tomorrow'
+                  : 'Unlocked!'}
+              </p>
+              <div className="h-40 mx-auto rounded">
+                <img src={url} alt="" className="w-64" />
+              </div>
+            </JaggedCard>
+          </div>
+        ))}
       </div>
 
       <BestShips />
