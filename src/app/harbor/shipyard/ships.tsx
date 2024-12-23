@@ -39,6 +39,7 @@ export default function Ships({
   )
   const [updateChainExpanded, setUpdateChainExpanded] = useState(false)
   const [readmeText, setReadmeText] = useState<string | null>(null)
+  const [feedbackText, setFeedbackText] = useState<string | null>(null)
   const [newShipVisible, setNewShipVisible] = useState(false)
   const [newUpdateShip, setNewUpdateShip] = useState<Ship | null>(null)
   const [session, setSession] = useState<HsSession | null>(null)
@@ -648,6 +649,25 @@ export default function Ships({
                   width={461}
                   height={11}
                 />
+
+                {selectedShip?.feedback && (
+                  <>
+                    <Card className="p-4 m-5">
+                      <h5 className="text-xl font-bold mb-2">Feedback</h5>
+                      <p className="text-base whitespace-pre-line">
+                        {selectedShip.feedback}
+                      </p>
+                    </Card>
+
+                    <Image
+                      src="/hr.svg"
+                      className="w-2/3 mx-auto my-3"
+                      alt=""
+                      width={461}
+                      height={11}
+                    />
+                  </>
+                )}
 
                 {readmeText ? (
                   <div className="prose max-w-none">
