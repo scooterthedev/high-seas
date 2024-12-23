@@ -657,6 +657,10 @@ export default function Ships({
                       <p className="text-base whitespace-pre-line">
                         {selectedShip.feedback}
                       </p>
+                      <p className="text-xs text-gray-500 mt-3 italic">
+                        This summary is auto-generated from the votes on this
+                        project and may contain occasional errors.
+                      </p>
                     </Card>
 
                     <Image
