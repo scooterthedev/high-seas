@@ -62,6 +62,7 @@ export interface Ship extends EditableShipFields {
   reshippedFromAll: string[] | null
   paidOut: boolean
   yswsType: YswsType
+  feedback: string | null
 }
 export interface EditableShipFields {
   title: string
@@ -142,6 +143,7 @@ export async function fetchShips(
       reshippedFromAll,
       paidOut: Boolean(r.fields.paid_out),
       yswsType: r.fields.yswsType,
+      feedback: r.fields.ai_feedback_summary,
     }
 
     return ship
