@@ -156,11 +156,11 @@ export default function Signpost() {
       </a>
 
       <div className="flex items-center justify-center gap-4 overflow-x-auto">
-        {stickyUrls.map((url, idx) => (
+        {stickyUrls.map((slug, idx) => (
           <div className="w-fit h-fit" key={idx}>
             <JaggedCard
               shadow={false}
-              className="w-96 pb-16 h-full flex flex-col gap-2 justify-between items-center"
+              className="w-96 pb-8 h-full flex flex-col gap-2 justify-between items-center"
             >
               <p className="text-lg">Day {idx + 1}</p>
               <p>
@@ -169,7 +169,11 @@ export default function Signpost() {
                   : 'Unlocked!'}
               </p>
               <div className="h-40 mx-auto rounded">
-                <img src={url} alt="" className="w-64" />
+                <img
+                  src={`https://pub-37a91ce7bf5e4bd4a21b81796a4b66c4.r2.dev/${slug}`}
+                  alt=""
+                  className="h-full"
+                />
               </div>
             </JaggedCard>
           </div>
