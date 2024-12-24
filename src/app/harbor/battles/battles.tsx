@@ -166,7 +166,10 @@ export default function Matchups({ session }: { session: HsSession }) {
       if (currentStep >= totalSteps) {
         clearInterval(spinInterval)
         document.body.style.transform = 'rotate(0deg)' // reset to initial state
-        document.body.style.paddingTop = '1px'
+        document.body.style.paddingTop = '0'
+        document.body.style.paddingBottom = '0'
+        document.body.style.transform = 'none'
+        document.body.style.willChange = 'auto'
       }
     }, interval)
   }
