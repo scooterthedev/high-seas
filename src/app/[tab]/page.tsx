@@ -5,7 +5,6 @@ import Harbor from '../harbor/tabs/tabs'
 import { createMagicSession, getSession } from '../utils/auth'
 import { Card } from '@/components/ui/card'
 import { SoundButton } from '../../components/sound-button.js'
-import { Shopkeeper } from '../../components/shopkeeper.js'
 import { useEffect, useState } from 'react'
 import useLocalStorageState from '../../../lib/useLocalStorageState'
 
@@ -17,7 +16,6 @@ export default function Page({
   searchParams: any
 }) {
   const [session, setSession] = useLocalStorageState('cache.session', {})
-  const [shopkeeperInteraction, setShopkeeperInteraction] = useState('')
 
   useEffect(() => {
     getSession().then((s) => {
@@ -57,7 +55,6 @@ export default function Page({
         }}
       />
       <SoundButton />
-      <Shopkeeper interaction={shopkeeperInteraction} />
       <Card
         className="w-full max-w-full max-w-4xl flex flex-col mx-auto mt-20 mb-14"
         type={'cardboard'}
