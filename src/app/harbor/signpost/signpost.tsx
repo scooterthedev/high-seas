@@ -155,19 +155,15 @@ export default function Signpost() {
         </p>
       </a>
 
-      <div className="flex items-center justify-center gap-4 overflow-x-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {stickyUrls.map((slug, idx) => (
-          <div className="w-fit h-fit" key={idx}>
+          <div className="w-full h-fit" key={idx}>
             <JaggedCard
               shadow={false}
-              className="w-96 pb-8 h-full flex flex-col gap-2 justify-between items-center"
+              className="w-full pb-8 h-full flex flex-col gap-2 justify-between items-center"
             >
               <p className="text-lg">Day {idx + 1}</p>
-              <p>
-                {stickyUrls.length - 1 === idx
-                  ? 'Unlocks tomorrow'
-                  : 'Unlocked!'}
-              </p>
+              <p>{stickyUrls.length - 1 === idx ? 'Unlocks tomorrow' : null}</p>
               <div className="h-40 mx-auto rounded">
                 <img
                   src={`https://pub-37a91ce7bf5e4bd4a21b81796a4b66c4.r2.dev/${slug}`}
