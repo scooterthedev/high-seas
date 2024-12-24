@@ -7,9 +7,11 @@ import {
   shopNoMoney,
   shopGetOut,
   shopCursed,
+  shopHelp,
   sample,
   shopIcons,
   tooManyBells,
+  shopSelfClick,
 } from '../../../../lib/flavor'
 
 const bellSoundUrls = [
@@ -28,9 +30,12 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
   const [continuousBellClicks, setContinuousBellClicks] = useState(0)
   const [shopkeeperMsg, setShopkeeperMsg] = useState('')
   const [shopkeeperImg, setShopkeeperImg] = useState('thinking.png')
-  // const [interaction, setInteraction] = useState('')
+  const [interactionBusy, setInteractionBusy] = useState(false)
 
   const handleInteraction = async (interaction) => {
+    console.log({interactionBusy})
+    if (interactionBusy) { return }
+    setInteractionBusy(true)
     setShopkeeperMsg('')
     for (const action of interaction.split('|')) {
       const [verb, ...arg] = action.split(':')
@@ -41,12 +46,19 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
           break
         default:
           // in the future this will be replaced with speaking & sound logic
-          await yap(verb, {
-            letterCallback: ({ letter }) => setShopkeeperMsg((s) => s + letter),
+          await new Promise(resolve => {
+            yap(verb, {
+              letterCallback: ({ letter }) => setShopkeeperMsg((s) => s + letter),
+              endCallback: resolve,
+            })
           })
+          // await yap(verb, {
+          //   letterCallback: ({ letter }) => setShopkeeperMsg((s) => s + letter),
+          // })
           break
       }
     }
+    setInteractionBusy(false)
   }
 
   const handleServiceBellClick = async () => {
@@ -55,6 +67,7 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     setContinuousBellClicks(continuousBellClicks + 1)
     bellSounds[bellIndex].play()
     setAtCounter(true)
+    // await new Promise(r => setTimeout(r, 1000))
     if (continuousBellClicks > 5) {
       await handleInteraction(sample(tooManyBells))
     } else if (cursed) {
@@ -79,6 +92,10 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     } else {
       await handleInteraction(sample(shopGreetings))
     }
+  }
+
+  const handleSelfClick = async () => {
+    await handleInteraction(sample(shopSelfClick))
   }
 
   const containerStyles = {
@@ -114,7 +131,7 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
         <div style={containerStyles}>
           <div style={innerPaddingStyles}>
             <div id="shopkeeper-img">
-              <img src={shopkeeperImg} style={imgStyles} />
+              <img src={shopkeeperImg} style={imgStyles} onClick={handleSelfClick} />
             </div>
             <div id="shopkeeper-msg">{shopkeeperMsg}</div>
           </div>
