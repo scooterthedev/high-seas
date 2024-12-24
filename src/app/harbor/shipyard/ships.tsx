@@ -656,12 +656,12 @@ export default function Ships({
                   height={11}
                 />
 
-                {selectedShip?.feedback && (
+                {latestShip?.feedback && (
                   <>
                     <Card className="p-4 m-5">
                       <h5 className="text-xl font-bold mb-2">Feedback</h5>
                       <p className="text-base whitespace-pre-line">
-                        {selectedShip.feedback}
+                        {latestShip.feedback}
                       </p>
                       <p className="text-xs text-gray-500 mt-3 italic">
                         This summary is auto-generated from the votes on this
