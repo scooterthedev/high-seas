@@ -25,11 +25,15 @@ export default function Shop({ session }: { session: HsSession }) {
     useLocalStorageState<string>('cache.personTicketBalance', '-')
 
   const [bannerText, setBannerText] = useState('')
+  const [cursed, setCursed] = useState(false)
   const isTutorial = sessionStorage.getItem('tutorial')
   useEffect(() => {
     setBannerText(sample(shopBanner))
     getShop().then((shop) => setShopItems(shop))
-    safePerson().then((sp) => setPersonTicketBalance(sp.settledTickets))
+    safePerson().then((sp) => {
+      setPersonTicketBalance(sp.settledTickets)
+      setCursed(sp.cursed)
+    })
   }, [])
   const [favouriteItems, setFavouriteItems] = useState(
     JSON.parse(localStorage.getItem('favouriteItems') ?? '[]'),
@@ -87,11 +91,11 @@ export default function Shop({ session }: { session: HsSession }) {
             You can still order, but prize fulfillment is delayed.
           </JaggedCardSmall>
         )}
-        <ShopkeeperComponent />
         <br />
         <Progress val={favouriteItems} items={shopItems} />
         <br />
       </div>
+      <ShopkeeperComponent balance={personTicketBalance} cursed={cursed} />
       <div className="text-center mb-6 mt-12" id="region-select">
         <label>pick a region to buy something!</label>
         <select

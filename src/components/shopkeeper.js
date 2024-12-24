@@ -1,4 +1,23 @@
-const Shopkeeper = () => {
+import { useEffect, useRef, useState } from 'react'
+
+const Shopkeeper = ({ interaction }) => {
+  const [shopkeeperImg, setShopkeeperImg] = useState('thinking.png')
+  const [shopkeeperMsg, setShopkeeperMsg] = useState('start')
+
+  const setMsgRef = useRef(setShopkeeperMsg)
+
+  const shopkeeperHandler = function (e) {
+    console.log('shopkeeper handling:', e)
+    console.log(setMsgRef.current)
+    // setMsgRef.current.
+  }
+
+  useEffect(() => {
+    if (window && !window.shopkeeper) {
+      window.shopkeeper = shopkeeperHandler
+    }
+  }, [])
+
   const containerStyles = {
     zIndex: 999, // over the page, under the sound-button
     position: 'fixed',
@@ -10,25 +29,24 @@ const Shopkeeper = () => {
   }
 
   const innerPaddingStyles = {
-    margin: "0 auto",
+    margin: '0 auto',
     maxWidth: '32em',
     display: 'flex',
     flexDirection: 'row',
-    background: 'rgba(0,0,0,0.3)'
+    background: 'rgba(0,0,0,0.3)',
   }
 
   const imgStyles = {
-    maxWidth: '10em'
+    maxWidth: '10em',
   }
+  return null
   return (
     <div style={containerStyles}>
       <div style={innerPaddingStyles}>
         <div id="shopkeeper-img">
-          <img src="thinking.png" style={imgStyles} />
+          <img src={shopkeeperImg} style={imgStyles} />
         </div>
-        <div id="shopkeeper-msg">
-          Hello!
-        </div>
+        <div id="shopkeeper-msg">{shopkeeperMsg}</div>
       </div>
     </div>
   )

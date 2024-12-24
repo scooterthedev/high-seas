@@ -1,6 +1,16 @@
 import { useState } from 'react'
 
 import { Howl } from 'howler'
+import { yap } from '../../../../lib/yap'
+import {
+  shopGreetings,
+  shopNoMoney,
+  shopGetOut,
+  shopCursed,
+  sample,
+  shopIcons,
+  tooManyBells,
+} from '../../../../lib/flavor'
 
 const bellSoundUrls = [
   'https://cloud-dx9y4rk8f-hack-club-bot.vercel.app/0ding-2-90199_audio.mp4',
@@ -11,18 +21,86 @@ const bellSoundUrls = [
 ]
 const bellSounds = bellSoundUrls.map((url) => new Howl({ src: [url] }))
 
-export const ShopkeeperComponent = () => {
+export const ShopkeeperComponent = ({ balance, cursed }) => {
   const [atCounter, setAtCounter] = useState(false)
   const [bellIndex, setBellIndex] = useState(0)
   const [bellClickCount, setBellClickCount] = useState(0)
   const [continuousBellClicks, setContinuousBellClicks] = useState(0)
+  const [shopkeeperMsg, setShopkeeperMsg] = useState('')
+  const [shopkeeperImg, setShopkeeperImg] = useState('thinking.png')
+  // const [interaction, setInteraction] = useState('')
 
-  const handleServiceBellClick = () => {
-    setAtCounter(true)
+  const handleInteraction = async (interaction) => {
+    setShopkeeperMsg('')
+    for (const action of interaction.split('|')) {
+      const [verb, ...arg] = action.split(':')
+      console.log('processing', verb, arg)
+      switch (verb) {
+        case 'icon':
+          await setShopkeeperImg(shopIcons[arg] || arg)
+          break
+        default:
+          // in the future this will be replaced with speaking & sound logic
+          await yap(verb, {
+            letterCallback: ({ letter }) => setShopkeeperMsg((s) => s + letter),
+          })
+          break
+      }
+    }
+  }
+
+  const handleServiceBellClick = async () => {
     setBellIndex(Math.floor(Math.random() * bellSounds.length))
-    bellSounds[bellIndex].play()
     setBellClickCount(bellClickCount + 1)
     setContinuousBellClicks(continuousBellClicks + 1)
+    bellSounds[bellIndex].play()
+    setAtCounter(true)
+    if (continuousBellClicks > 5) {
+      await handleInteraction(sample(tooManyBells))
+    } else if (cursed) {
+      await handleInteraction(
+        sample(shopGreetings) +
+          ' ' +
+          sample(shopCursed) +
+          ' ' +
+          sample(shopGetOut),
+      )
+    } else if (balance == 0) {
+      await handleInteraction(
+        sample(shopGreetings) +
+          ' ' +
+          sample(shopNoMoney) +
+          ' ' +
+          sample(shopGetOut),
+      )
+      // setAtCounter(false)
+    } else if (continuousBellClicks > 1) {
+      await handleInteraction(sample(shopHelp))
+    } else {
+      await handleInteraction(sample(shopGreetings))
+    }
+  }
+
+  const containerStyles = {
+    zIndex: 999, // over the page, under the sound-button
+    position: 'sticky',
+    top: 0,
+    left: 0,
+    right: 0,
+    color: 'white',
+    border: '1px solid red',
+  }
+
+  const innerPaddingStyles = {
+    margin: '0 auto',
+    maxWidth: '32em',
+    display: 'flex',
+    flexDirection: 'row',
+    background: 'rgba(0,0,0,0.3)',
+  }
+
+  const imgStyles = {
+    maxWidth: '10em',
   }
 
   return (
@@ -32,7 +110,16 @@ export const ShopkeeperComponent = () => {
       </div>
       <div>(ring for service)</div>
 
-      {atCounter && <div className="shopkeeper"></div>}
+      {atCounter && (
+        <div style={containerStyles}>
+          <div style={innerPaddingStyles}>
+            <div id="shopkeeper-img">
+              <img src={shopkeeperImg} style={imgStyles} />
+            </div>
+            <div id="shopkeeper-msg">{shopkeeperMsg}</div>
+          </div>
+        </div>
+      )}
     </>
   )
 }
