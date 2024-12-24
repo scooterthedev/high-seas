@@ -11,6 +11,7 @@ import { ShopItemComponent } from './shop-item-component.js'
 import { ShopkeeperComponent } from './shopkeeper.js'
 import { safePerson } from '@/app/utils/airtable'
 import Progress from './progress.tsx'
+
 export default function Shop({ session }: { session: HsSession }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState(
     'shop.country.filter',
@@ -70,7 +71,7 @@ export default function Shop({ session }: { session: HsSession }) {
   }
 
   return (
-    <motion.div className="container mx-auto px-4 py-8 text-white">
+    <motion.div className="container mx-auto px-4 py-8 text-white relative">
       <div className="text-center text-white">
         <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
           Pirate Shop
