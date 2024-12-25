@@ -184,7 +184,7 @@ export default function Harbor({
     }
 
     if (!academyCompleted) {
-      // tour() // Testing removal to see if conversion rates change
+      tour()
     }
   }, [])
 
