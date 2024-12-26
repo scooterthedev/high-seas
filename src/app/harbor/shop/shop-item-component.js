@@ -114,7 +114,7 @@ export const ShopItemComponent = ({
             </p>
           )}
 
-          {(item.customs_likely && linkIndex !== 0) && (
+          {item.customs_likely && linkIndex !== 0 && (
             <p className="font-bold italic text-xl">
               Customs may apply outside of US!
             </p>
