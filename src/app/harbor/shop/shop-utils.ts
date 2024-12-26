@@ -96,9 +96,15 @@ export async function getShop(): Promise<ShopItem[]> {
               ),
               description: record.get('description') as string | null,
               customs_likely: Boolean(record.get('customs_likely')) as boolean,
-              fulfillment_description: record.get('fulfillment_description') as string | null,
-              links: [record.get('third_party_link_us') as string, record.get('third_party_link_eu') as string,
-                record.get('third_party_link_in') as string, record.get('third_party_link_ca') as string],
+              fulfillment_description: record.get('fulfillment_description') as
+                | string
+                | null,
+              links: [
+                record.get('third_party_link_us') as string,
+                record.get('third_party_link_eu') as string,
+                record.get('third_party_link_in') as string,
+                record.get('third_party_link_ca') as string,
+              ],
               limited_qty: Boolean(record.get('limited_qty')) as boolean,
             })
           })
