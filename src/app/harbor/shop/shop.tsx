@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { LoadingSpinner } from '@/components/ui/loading_spinner'
-import { sample, shopBanner } from '../../../../lib/flavor.js'
 import { useState, useEffect } from 'react'
 import { getShop, ShopItem } from './shop-utils'
 import useLocalStorageState from '../../../../lib/useLocalStorageState.js'
@@ -11,6 +10,7 @@ import { ShopItemComponent } from './shop-item-component.js'
 import { ShopkeeperComponent } from './shopkeeper.js'
 import { safePerson } from '@/app/utils/airtable'
 import Progress from './progress.tsx'
+import { transcript } from '../../../../lib/transcript.js'
 
 export default function Shop({ session }: { session: HsSession }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState(
@@ -28,7 +28,7 @@ export default function Shop({ session }: { session: HsSession }) {
   const [cursed, setCursed] = useState(false)
   const isTutorial = sessionStorage.getItem('tutorial')
   useEffect(() => {
-    setBannerText(sample(shopBanner))
+    setBannerText(transcript('banner'))
     getShop().then((shop) => setShopItems(shop))
     safePerson().then((sp) => {
       setPersonTicketBalance(sp.settledTickets)

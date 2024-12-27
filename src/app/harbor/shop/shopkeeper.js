@@ -2,17 +2,9 @@ import { useState } from 'react'
 
 import { Howl } from 'howler'
 import { yap } from '../../../../lib/yap'
-import {
-  shopGreetings,
-  shopNoMoney,
-  shopGetOut,
-  shopCursed,
-  shopHelp,
-  sample,
-  shopIcons,
-  tooManyBells,
-  shopSelfClick,
-} from '../../../../lib/flavor'
+import { shopIcons, bound } from '../../../../lib/flavor'
+
+import { transcript } from '../../../../lib/transcript'
 
 const bellSoundUrls = [
   'https://cloud-dx9y4rk8f-hack-club-bot.vercel.app/0ding-2-90199_audio.mp4',
@@ -33,31 +25,33 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
   const [interactionBusy, setInteractionBusy] = useState(false)
 
   const handleInteraction = async (interaction) => {
-    console.log({ interactionBusy })
     if (interactionBusy) {
+      if (process.env.NODE_ENV === 'development') {
+        console.log({ interactionBusy })
+      }
       return
     }
     setInteractionBusy(true)
     setShopkeeperMsg('')
+    console.log('handling interaction', interaction)
     for (const action of interaction.split('|')) {
       const [verb, ...arg] = action.split(':')
-      console.log('processing', verb, arg)
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log('processing', verb, arg)
+      }
       switch (verb) {
         case 'icon':
           await setShopkeeperImg(shopIcons[arg] || arg)
           break
         default:
-          // in the future this will be replaced with speaking & sound logic
           await new Promise((resolve) => {
-            yap(verb, {
+            yap(action, {
               letterCallback: ({ letter }) =>
                 setShopkeeperMsg((s) => s + letter),
               endCallback: resolve,
             })
           })
-          // await yap(verb, {
-          //   letterCallback: ({ letter }) => setShopkeeperMsg((s) => s + letter),
-          // })
           break
       }
     }
@@ -72,33 +66,37 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     setAtCounter(true)
     // await new Promise(r => setTimeout(r, 1000))
     if (continuousBellClicks > 5) {
-      await handleInteraction(sample(tooManyBells))
+      await handleInteraction(transcript('tooManyBells'))
     } else if (cursed) {
+      const greetingSliced = transcript('greetings')
+        .split(' ')
+        .slice(0, bound(Math.random() * 10, 3, 15))
+        .join(' ')
       await handleInteraction(
-        sample(shopGreetings) +
+        greetingSliced +
+          '-- wait... ' +
+          transcript('cursed') +
           ' ' +
-          sample(shopCursed) +
-          ' ' +
-          sample(shopGetOut),
+          transcript('getout'),
       )
     } else if (balance == 0) {
       await handleInteraction(
-        sample(shopGreetings) +
+        transcript('greetings') +
           ' ' +
-          sample(shopNoMoney) +
+          transcript('noMoney') +
           ' ' +
-          sample(shopGetOut),
+          transcript('getout'),
       )
       // setAtCounter(false)
     } else if (continuousBellClicks > 1) {
-      await handleInteraction(sample(shopHelp))
+      await handleInteraction(transcript('help'))
     } else {
-      await handleInteraction(sample(shopGreetings))
+      await handleInteraction(transcript('greetings'))
     }
   }
 
   const handleSelfClick = async () => {
-    await handleInteraction(sample(shopSelfClick))
+    await handleInteraction(transcript('selfClick'))
   }
 
   const containerStyles = {

@@ -1,0 +1,112 @@
+banner:
+  - buy something or get out!
+  - spend your doubloons here!
+  - get that booty!
+  - NO REFUNDS
+  - feeling overburdened by money?
+  - plundered from the best dead adventurers in the land
+  - we accept doubloons and PiratePay™
+  - YARR
+  - 🏴‍☠️
+  - you wouldn't download a ship...
+  - These prices are walkin' the plank!
+  - you break it, you buy it!
+  - pirate-owned and operated!
+  - caveat emptor
+  - all sales are final
+selfClick:
+  - icon:question|w-what? but I'm not for sale
+  - icon:info|The only thing for sale here is the merchandise
+  - icon:holdingEars|hey buddy, hands to yourself
+  - icon:holdingEars|hands off ${this.t('pirateyThings')}!
+  - icon:threat|I'll have you know I'm not for sale!
+  - icon:threat|You ain't gonna plunder this booty!
+  - icon:freaking|N-no! You can't buy me! |icon:sticker|I'm not gonna be some collectible sticker sheet!
+  - icon:freaking|N-no! You can't buy me! |icon:sticker2|I'm not gonna be some collectible sticker sheet!
+  - icon:threat|hey!! i'm allergic to cursors!
+  - icon:thumbs|guess who's got 2 thumbs and is not for sale!
+  - click me one more time, i dare you... ya ${this.t('pirateyThings')}!
+  - icon:freaking|w-wait. |icon:blushing|you want to buy me? really?
+  - icon:fluster|stop clicking! t-that tickles!
+  - d-did you just click me?!
+superstitionItems:
+  - black cat
+  - rabbit's foot
+  - horseshoe
+  - horse's paw
+  - rabbit's shoe
+  - monkey's paw
+  - whole rabbit
+  - broken mirror
+  - ladder
+  - whole salt shaker
+  - four-leaf clover
+  - three-leaf clover with an extra leaf taped on
+  - whole leprechaun (not just the bones)
+  - whole leprechaun (not just the charms)
+  - whole leprechaun (not just the gold)
+  - lucky coin
+  - pinch of salt
+superstitions:
+  - spits over shoulder
+  - spins around three times
+  - knocks on wood
+  - throws salt over shoulder
+  - crosses fingers
+  - signs the cross with her tail
+  - spits in her hat
+  - grabs a rabbit's foot
+  - throws a ${this.t('superstitionItems')} over her shoulder # be careful. this one... is pretty out there
+cursed:
+  - Blimey! You've been cursed? *${this.t('superstitions')}* and then *${this.t('superstitions')}*
+  - Ye've been cursed? *${this.t('superstitions')}* and then *${this.t('superstitions')}*
+  - By the seven seas! You've been cursed? *spits over shoulder*
+  - You've been cursed?! Get off me island you ${this.t('pirateyThings')}!
+  - Hang on, you're cursed? Go take a long walk off a short plank!
+  - Hold on... are you cursed? Read the sign– no blessing, no business!
+  - wait... are you C-C-CURSED?! I don't want any trouble!
+getout:
+  - Getouttahere!
+  - out out out!
+  - Get out!
+  - Come back once you got gold!
+  - whaddya take me for? wonathose nonprofit thingymajigs?
+  - you tryin ta steal from a thief! what's the world coming to!
+  - you can't take this stuff, i stole it fare and square!
+  - you trying to pull my tail?!
+help:
+  - how can i help ye?
+  - wadya wanna buy?
+  - the mutinied capt' trash-beard at your service!
+greetings:
+  - icon:bapanada|*sigh* bapanada-|icon:freaking|errrr... i mean... |icon:scallywag|come in!
+  - well, if it isnt my favorite customer!
+  - Ahh, my favorite customer!
+  - raccoon has wares if you have coin!
+  - have a pretty penny you want to spend?
+  - your pockets look shiny today!
+  - that coinpurse looks heavy, let me help you with that.
+  - I have a feeling you're going to like what you see today.
+  - Hey there! You look like you could use some help.
+tooManyBells:
+  - icon:freaking|Alright! |icon:threat|Enough with the bloody bells!~
+  - icon:holdingears|S-stop it! I got sensitive hear-holes over here!
+  - icon:freaking|stop ringing that annoysing bell!
+  - icon:notamused|argh, I'm regretting plundering that bell in the first place
+  - icon:threat|I swear on me mum & all my 27 siblings, stop with the bell!
+  - icon:threat|I didn't get marooned on this island to listen to that!
+  - S-stop taunting me with those infernal bells!
+  - Go annoy some tanuki on another island with those bells!
+pirateyThings:
+  - bilge rat
+  - salty dog
+  - scurvy dog
+  - scallywag
+  - landlubber
+  - scurvy swashbuckler
+  - scurvy pirate
+  - scurvy sea dog
+  - scurvy sea rat
+  - scurvy sea scoundrel
+  - scurvy rat
+  - scurvy scallywag
