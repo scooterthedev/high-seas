@@ -35,6 +35,10 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
   const handleInteraction = async (interaction) => {
     console.log({interactionBusy})
     if (interactionBusy) { return }
+    console.log({ interactionBusy })
+    if (interactionBusy) {
+      return
+    }
     setInteractionBusy(true)
     setShopkeeperMsg('')
     for (const action of interaction.split('|')) {
@@ -46,9 +50,10 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
           break
         default:
           // in the future this will be replaced with speaking & sound logic
-          await new Promise(resolve => {
+          await new Promise((resolve) => {
             yap(verb, {
-              letterCallback: ({ letter }) => setShopkeeperMsg((s) => s + letter),
+              letterCallback: ({ letter }) =>
+                setShopkeeperMsg((s) => s + letter),
               endCallback: resolve,
             })
           })
@@ -127,11 +132,50 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
       </div>
       <div>(ring for service)</div>
 
+      <style jsx>
+        {`
+          @keyframes talking {
+            from {
+              transform: scale(1.01, 0.99) translateY(2%);
+            }
+            to {
+              transform: scale(0.99, 1.01) translateY(0%);
+            }
+          }
+
+          @keyframes idle {
+            from {
+              transform: translateY(0%);
+            }
+            to {
+              transform: translateY(2%);
+            }
+          }
+
+          .shopkeeper-idling {
+            animation: idle 2s infinite alternate;
+            filter: contrast(60%);
+          }
+
+          .shopkeeper-talking {
+            animation: talking 0.2s infinite alternate;
+            filter: contrast(100%);
+          }
+        `}
+      </style>
+
       {atCounter && (
         <div style={containerStyles}>
           <div style={innerPaddingStyles}>
             <div id="shopkeeper-img">
-              <img src={shopkeeperImg} style={imgStyles} onClick={handleSelfClick} />
+              <img
+                src={shopkeeperImg}
+                style={imgStyles}
+                onClick={handleSelfClick}
+                className={
+                  interactionBusy ? 'shopkeeper-talking' : 'shopkeeper-idling'
+                }
+              />
             </div>
             <div id="shopkeeper-msg">{shopkeeperMsg}</div>
           </div>
