@@ -106,7 +106,6 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     left: 0,
     right: 0,
     color: 'white',
-    border: '1px solid red',
   }
 
   const innerPaddingStyles = {
@@ -115,6 +114,8 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     display: 'flex',
     flexDirection: 'row',
     background: 'rgba(0,0,0,0.3)',
+    backdropFilter: 'blur(0.3em)',
+    paddingTop: '1em',
   }
 
   const imgStyles = {
