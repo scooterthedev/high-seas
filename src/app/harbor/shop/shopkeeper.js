@@ -33,8 +33,6 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
   const [interactionBusy, setInteractionBusy] = useState(false)
 
   const handleInteraction = async (interaction) => {
-    console.log({interactionBusy})
-    if (interactionBusy) { return }
     console.log({ interactionBusy })
     if (interactionBusy) {
       return
