@@ -162,7 +162,7 @@ const StreamingText = ({ msg }) => {
   return (
     <div className="flex flex-col items-center gap-4">
       <Button onClick={fetchStreamingData} disabled={isLoading}>
-        {isLoading ? 'Generating...' : 'How can I build this? (Uses a LLM)'}
+        {isLoading ? 'Generating...' : 'How can I build this? (Uses an LLM)'}
       </Button>
 
       {error && <div className="text-red-500 p-4">{error}</div>}
