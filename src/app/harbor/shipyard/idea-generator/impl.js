@@ -1,29 +1,3 @@
-// import { useState, useEffect } from 'react'
-// import { AnimatePresence, motion } from 'framer-motion'
-// import { init, generate } from './generator'
-// import { Button, buttonVariants } from '@/components/ui/button'
-// import Modal from '@/components/ui/modal'
-
-// export function NewIdeaGenerator() {
-//   const [modalOpen, setModalOpen] = useState(false)
-//   const [result, setResult] = useState<string | null>(null)
-
-//   useEffect(() => {
-//     init()
-//   }, [])
-
-//   return (
-//     <div className="mx-auto w-fit">
-//       <Button onClick={() => setResult(generate())}>Generate an idea</Button>
-//       <Modal isOpen={!!result} close={() => setResult(null)}>
-//         <div
-//         <Button onClick={() => setResult(generate())}>Regenerate</Button>
-//         <p>{result}</p>
-//       </Modal>
-//     </div>
-//   )
-// }
-
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -31,7 +5,7 @@ import { Howl } from 'howler'
 import { init, generate } from './generator'
 import Modal from '@/components/ui/modal'
 import { Button } from '@/components/ui/button'
-// import { sample } from '../../lib/flavor'
+import { useChat } from 'ai/react'
 
 const thinkingSounds = [
   new Howl({ src: 'audio/yapping/thonk1.wav' }),
@@ -40,7 +14,6 @@ const thinkingSounds = [
 ]
 
 const yap_sounds = {
-  // these sounds and most of the yapping code are adapted from https://github.com/equalo-official/animalese-generator
   a: new Howl({ src: 'audio/yapping/a.wav' }),
   b: new Howl({ src: 'audio/yapping/b.wav' }),
   c: new Howl({ src: 'audio/yapping/c.wav' }),
@@ -72,6 +45,8 @@ const yap_sounds = {
   _: new Howl({ src: 'audio/yapping/_.wav' }),
 }
 
+const soundKeys = Object.keys(yap_sounds)
+
 async function yap(
   text,
   {
@@ -91,32 +66,28 @@ async function yap(
     const nextLowerChar = nextChar?.toLowerCase()
 
     if (lowerChar === 's' && nextLowerChar === 'h') {
-      // test for 'sh' sound
       yap_queue.push({ letter: char, sound: yap_sounds['sh'] })
       continue
     } else if (lowerChar === 't' && nextLowerChar === 'h') {
-      // test for 'th' sound
       yap_queue.push({ letter: char, sound: yap_sounds['th'] })
       continue
     } else if (
       lowerChar === 'h' &&
       (prevLowerChar === 's' || prevLowerChar === 't')
     ) {
-      // test if previous letter was 's' or 't' and current letter is 'h'
       yap_queue.push({ letter: char, sound: yap_sounds['_'] })
       continue
     } else if (',?. '.includes(char)) {
       yap_queue.push({ letter: char, sound: yap_sounds['_'] })
       continue
     } else if (lowerChar === prevLowerChar) {
-      // skip repeat letters
       yap_queue.push({ letter: char, sound: yap_sounds['_'] })
       continue
     }
 
     if (lowerChar.match(/[a-z.]/)) {
       yap_queue.push({ letter: char, sound: yap_sounds[lowerChar] })
-      continue // skip characters that are not letters or periods
+      continue
     }
 
     yap_queue.push({ letter: char, sound: yap_sounds['_'] })
@@ -141,11 +112,77 @@ async function yap(
   next_yap()
 }
 
+const StreamingText = ({ msg }) => {
+  const [text, setText] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  const playRandomSound = () => {
+    const randomKey = soundKeys[Math.floor(Math.random() * soundKeys.length)]
+    const sound = yap_sounds[randomKey]
+    sound.rate(Math.random() * 1 + 10) // Random rate between 10-11
+    sound.volume(0.5)
+    sound.play()
+  }
+
+  const fetchStreamingData = async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      setText('')
+
+      const response = await fetch('/api/ideagen', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ msg }),
+      })
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        let chunk = decoder.decode(value, { stream: true })
+
+        playRandomSound()
+        chunk = chunk.replace('\n', '<br /><br />')
+        setText((prev) => prev + chunk)
+      }
+    } catch (err) {
+      setError('Error fetching streaming data: ' + err.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <Button onClick={fetchStreamingData} disabled={isLoading}>
+        {isLoading ? 'Generating...' : 'How can I build this? (Uses a LLM)'}
+      </Button>
+
+      {error && <div className="text-red-500 p-4">{error}</div>}
+
+      <p
+        className="p-4 max-w-prose"
+        dangerouslySetInnerHTML={{ __html: text }}
+      />
+    </div>
+  )
+}
+
 const IdeaGenerator = () => {
-  // const [idea, setIdea] = useState('');
   const [loading, setLoading] = useState(false)
   const [typing, setTyping] = useState(false)
   const [message, setMessage] = useState('')
+
+  const ai = useChat({
+    api: '/api/chat',
+  })
 
   useEffect(() => {
     init()
@@ -170,18 +207,10 @@ const IdeaGenerator = () => {
     if (typing || loading) return
 
     setLoading(true)
-    // setMessage(sample(thinkingWords))
-    // sample(thinkingSounds).play()
 
     let newIdea = ''
 
     try {
-      // await Promise.all([
-      //   fetchIdea().then((i) => {
-      //     newIdea = i.idea
-      //   }),
-      //   new Promise((resolve) => setTimeout(resolve, 2000)),
-      // ])
       const newIdea = generate()
 
       setTyping(true)
@@ -211,10 +240,13 @@ const IdeaGenerator = () => {
 
   return (
     <>
-      <Button onClick={generateIdea}>Generate an idea</Button>
+      <Button className="mx-auto block" onClick={generateIdea}>
+        Generate an idea
+      </Button>
       <Modal isOpen={!!message} close={() => setMessage(null)}>
         <div className="flex flex-col items-center">
-          <p className="max-w-prose text-lg">{message}</p>
+          <p className="max-w-prose text-lg text-center mb-4">{message}</p>
+          <Button onClick={loading ? null : generateIdea}>Regenerate</Button>
           <img
             src={imgSrc}
             className={`mb-12 max-w-1/2 ${activeClass} ${
@@ -224,7 +256,8 @@ const IdeaGenerator = () => {
             onClick={loading ? null : generateIdea}
             style={{ pointerEvents: loading ? 'none' : 'auto' }}
           />
-          <Button onClick={loading ? null : generateIdea}>Regenerate</Button>
+
+          <StreamingText msg={message} />
         </div>
       </Modal>
     </>
