@@ -14,11 +14,6 @@ export const category_names = [
   'theme',
   'mood',
   'wildcard',
-  'project_type',
-  'tech_stack',
-  'data_source',
-  'features',
-  'audience',
 ]
 
 export const data = `
@@ -31,7 +26,7 @@ export const data = `
 
 ----------------- TEMPLATE -----------------
 
-#template_old:
+#template:
 <a> @mood@ @genre@ game about @theme@ and @theme@, @wildcard@
 <a> @mood@ @genre@ game @wildcard@ where you play as @character@ @goal@
 <a> @mood@ @genre@ game about @theme@, where you play as @character:nopost@ @setting@
@@ -41,29 +36,6 @@ export const data = `
 <a> @mood@ [mix between, mashup of, blend of] the @genre:nomods@ and @genre:nomods@ game genres, which tells a story of @theme@ and @theme@
 <a> @mood@ @genre@ game @wildcard:always@
 <a> @mood@ [mix between, mashup of, blend of] the @genre:nomods@ and @genre:nomods@ game genres @wildcard:always@
-#end
-
-#template:
-<a> @mood@ @genre@ game about @theme@ and @theme@, @wildcard@
-<a> @mood@ @genre@ game @wildcard@ where you play as @character@ @goal@
-<a> @mood@ [mix between, mashup of, blend of] the @genre:nomods@ and @genre:nomods@ game genres, which tells a story of @theme@ and @theme@
-<a> @mood@ @genre@ game @wildcard:always@
-<a> @project_type@ project
-<a> @project_type@ project built with @tech_stack@
-<a> @project_type@ project using @data_source@
-<a> @project_type@ project built with @tech_stack@ using @data_source@
-<a> @project_type@ project for @audience@
-<a> @project_type@ project built with @tech_stack@ for @audience@
-<a> @project_type@ project using @data_source@ for @audience@
-<a> @project_type@ project built with @tech_stack@ using @data_source@ for @audience@
-<a> @project_type@ project featuring @features@
-<a> @project_type@ project built with @tech_stack@ featuring @features@
-<a> @project_type@ project using @data_source@ featuring @features@
-<a> @project_type@ project built with @tech_stack@ using @data_source@ featuring @features@
-<a> @project_type@ project for @audience@ featuring @features@
-<a> @project_type@ project built with @tech_stack@ for @audience@ featuring @features@
-<a> @project_type@ project using @data_source@ for @audience@ featuring @features@
-<a> @project_type@ project built with @tech_stack@ using @data_source@ for @audience@ featuring @features@
 #end
 
 ----------------- GENRE (a ... game) -----------------
@@ -484,167 +456,5 @@ designed with speedrunning in mind
 with destructible terrain
 with a built-in level editor
 with a [funny, moving] story
-#end
-
------------------ PROJECT TYPES -----------------
-#project_type:
-physics engine
-genetic algorithm simulation
-procedural world generator
-music visualizer
-programming language
-text editor
-3D engine
-game engine
-visual programming environment
-retro computer emulator
-custom CPU architecture
-neural network visualization
-particle system
-city simulation
-robot controller
-audio synthesizer
-file system
-operating system
-ray tracer
-cellular automata simulator
-fractal generator
-voxel engine
-compiler
-path-finding visualizer
-maze generator
-shader playground
-digital circuit simulator
-image processing pipeline
-weather simulation
-virtual machine
-neural network from scratch
-gesture recognition system
-computer vision pipeline
-sound synthesizer
-quantum computer simulator
-voice synthesizer
-#end
-
------------------ TECH STACK -----------------
-#tech_stack:
-React
-Vue.js
-Angular
-Node.js
-Python
-Django
-Flask
-FastAPI
-Ruby on Rails
-PHP
-Laravel
-Go
-Rust
-Java
-Spring Boot
-.NET Core
-Kotlin
-Swift
-Flutter
-React Native
-TensorFlow
-PyTorch
-PostgreSQL
-MongoDB
-Redis
-Kubernetes
-Docker
-GraphQL
-REST
-WebSocket
-WebAssembly
-Elasticsearch
-Apache Kafka
-RabbitMQ
-Unity
-Unreal Engine
-#end
-
------------------ DATA SOURCES -----------------
-#data_source:
-real-time sensors
-social media feeds
-public APIs
-satellite imagery
-user-generated content
-IoT devices
-blockchain
-machine learning models
-historical databases
-web scraping
-streaming data
-time series data
-geospatial data
-biometric data
-financial markets
-weather data
-scientific instruments
-customer feedback
-security logs
-transaction records
-#end
-
------------------ FEATURES -----------------
-#features:
-real-time fluid dynamics
-interactive 3D fractals
-multi-agent swarm behavior
-recursive terrain generation
-emergent life simulation
-self-modifying code
-physics-based animations
-custom shader effects
-evolutionary algorithms
-brain-computer interface
-real-time audio synthesis
-quantum computation simulation
-procedural music generation
-DNA sequence visualization
-neural network visualization
-particle collision detection
-wave function collapse
-perlin noise landscapes
-dynamic mesh generation
-realtime ray marching
-bitmap font renderer
-custom memory allocator
-artificial life ecosystem
-fourier transform visualizer
-conway's game of life variants
-inverse kinematics system
-neural style transfer
-markov chain text generator
-custom bytecode interpreter
-generative art system
-#end
-
------------------ TARGET AUDIENCE -----------------
-#audience:
-developers
-business analysts
-data scientists
-project managers
-small businesses
-enterprise companies
-healthcare providers
-educational institutions
-government agencies
-financial institutions
-content creators
-remote teams
-mobile users
-power users
-casual users
-administrators
-customers
-employees
-students
-researchers
 #end
 `

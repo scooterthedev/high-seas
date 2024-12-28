@@ -38,6 +38,7 @@ function fillInTemplate(template) {
     if (command.includes(':')) {
       parameters = command.split(':')[1].split(',')
     }
+
     switch (generator) {
       case 'character':
         replacement = generateCharacter(parameters)
@@ -66,6 +67,8 @@ function fillInTemplate(template) {
       case 'theme':
         replacement = generateTheme()
         break
+      default:
+        replacement = pickRandom(generator)
     }
 
     template = replaceTextBetweenTags(template, replacement, '@', '@')
