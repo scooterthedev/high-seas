@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Howl } from 'howler'
 import { yap } from '../../../../lib/yap'
 import { shopIcons, bound } from '../../../../lib/flavor'
 
 import { transcript } from '../../../../lib/transcript'
+import { useEventEmitter } from '../../../../lib/useEventEmitter'
 
 const bellSoundUrls = [
   'https://cloud-dx9y4rk8f-hack-club-bot.vercel.app/0ding-2-90199_audio.mp4',
@@ -23,8 +24,25 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
   const [shopkeeperMsg, setShopkeeperMsg] = useState('')
   const [shopkeeperImg, setShopkeeperImg] = useState('thinking.png')
   const [interactionBusy, setInteractionBusy] = useState(false)
+  const { on, off } = useEventEmitter()
 
-  const handleInteraction = async (interaction) => {
+  useEffect(() => {
+    const handleEvent = (event) => {
+      if (event.detail?.interaction) {
+        handleInteraction(event.detail.interaction)
+      }
+    }
+
+    if (atCounter) {
+      on('shopkeeper', handleEvent)
+    }
+
+    return () => {
+      off('shopkeeper', handleEvent)
+    }
+  }, [on, off, atCounter])
+
+  let handleInteraction = async (interaction) => {
     if (interactionBusy) {
       if (process.env.NODE_ENV === 'development') {
         console.log({ interactionBusy })

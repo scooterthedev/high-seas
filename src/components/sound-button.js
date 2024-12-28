@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { sample } from '../../lib/flavor'
+import { useEventEmitter } from '../../lib/useEventEmitter'
+import { transcript } from '../../lib/transcript'
 
 const musicSamples = [
   'https://cloud-dx9y4rk8f-hack-club-bot.vercel.app/5drunk_raccoon_audio.mp4',
@@ -132,7 +134,9 @@ const theFlags = () => {
 
 const SoundButton = () => {
   const [soundState, setSoundState] = useState(false)
+  const [firstPlay, setFirstPlay] = useState(true)
   const audioRef = useRef()
+  const { emit } = useEventEmitter()
 
   // toggle sound state
   const handleClick = () => {
@@ -143,6 +147,10 @@ const SoundButton = () => {
     // play sound if soundState is true
     if (soundState) {
       audioRef.current.play()
+      if (firstPlay) {
+        emit('shopkeeper', { interaction: transcript('music') })
+        setFirstPlay(false)
+      }
     } else {
       audioRef.current.pause()
     }
