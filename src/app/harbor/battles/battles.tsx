@@ -437,30 +437,17 @@ export default function Matchups({ session }: { session: HsSession }) {
           <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
             Battle!
           </h1>
-          {sessionStorage.getItem('tutorial') === 'true' ? (
-            <p className="text-xl text-gray-300 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
-              A good ship is technical, creative, and presented well so that
-              others can understand and experience it. By that definition, which
-              of these two projects is better? (If you are not sure, just
-              refresh to skip!)
-            </p>
-          ) : (
-            <div className="bg-indigo-900/50 p-8 rounded-lg border-2 border-indigo-500/30 backdrop-blur-sm">
-              <h2 className="text-2xl font-bold text-indigo-300 mb-4">
-                Battles Temporarily Paused
-              </h2>
-              <p className="text-xl text-gray-300 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
-                We're currently recalculating project ratings and fixing
-                payouts. Battles will resume shortly. Thank you for your
-                patience!
-              </p>
-            </div>
-          )}
+          <p className="text-xl text-gray-300 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
+            A good ship is technical, creative, and presented well so that
+            others can understand and experience it. By that definition, which
+            of these two projects is better? (If you are not sure, just refresh
+            to skip!)
+          </p>
 
-          {/* {blessed && <Blessed />}
-          {cursed && <Cursed />} */}
+          {blessed && <Blessed />}
+          {cursed && <Cursed />}
 
-          {voteBalance > 0 && sessionStorage.getItem('tutorial') === 'true' && (
+          {voteBalance > 0 && (
             <div className="flex justify-center items-center space-x-4">
               {voteBalance} more {pluralize(voteBalance, 'vote', false)} until
               your next ship's payout!
@@ -468,202 +455,194 @@ export default function Matchups({ session }: { session: HsSession }) {
           )}
         </header>
 
-        {/* This will show battles UI for tutorial*/}
-        {sessionStorage.getItem('tutorial') === 'true' ? (
+        <Button className="flex mx-auto" onClick={shuffle}>
+          <Icon glyph="help" />
+          Shuffle
+        </Button>
+
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <LoadingSpinner />
+          </div>
+        ) : !matchup ? (
+          <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+            <p className="text-2xl text-gray-600 dark:text-gray-300 mb-6">
+              No matchup available
+            </p>
+            <button
+              onClick={fetchMatchup}
+              className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg"
+            >
+              Try Again
+            </button>
+          </div>
+        ) : (
           <>
-            <Button className="flex mx-auto" onClick={shuffle}>
-              <Icon glyph="help" />
-              Shuffle
-            </Button>
-
-            {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <LoadingSpinner />
+            <div className="grid grid-cols-1 md:grid-cols-7 gap-8 items-stretch mb-12">
+              <div id="voting-project-left" className="md:col-span-3">
+                <ProjectCard
+                  project={matchup.project1}
+                  onVote={() => handleVoteClick(matchup.project1)}
+                  onReadmeClick={() => handleReadmeClick(matchup.project1)}
+                  setAnalyticsState={setAnalyticsState}
+                  onFraudClick={onFraudClick}
+                />
               </div>
-            ) : !matchup ? (
-              <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-                <p className="text-2xl text-gray-600 dark:text-gray-300 mb-6">
-                  No matchup available
-                </p>
-                <button
-                  onClick={fetchMatchup}
-                  className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg"
+              <div className="flex items-center justify-center text-6xl font-bold text-indigo-600 dark:text-indigo-300">
+                VS
+              </div>
+              <div id="voting-project-right" className="md:col-span-3">
+                <ProjectCard
+                  project={matchup.project2}
+                  onVote={() => handleVoteClick(matchup.project2)}
+                  onReadmeClick={() => handleReadmeClick(matchup.project2)}
+                  setAnalyticsState={setAnalyticsState}
+                  onFraudClick={onFraudClick}
+                />
+              </div>
+
+              <Modal
+                isOpen={!!fraudProject}
+                close={() => setFraudProject(undefined)}
+              >
+                <h3 className="text-2xl font-bold">
+                  Why are you flagging {fraudProject?.title}?
+                </h3>
+                <select
+                  value={fraudType}
+                  onChange={(e) => setFraudType(e.target.value)}
+                  className="w-full my-4 p-1 text-black"
                 >
-                  Try Again
-                </button>
-              </div>
-            ) : (
-              <>
-                <div className="grid grid-cols-1 md:grid-cols-7 gap-8 items-stretch mb-12">
-                  <div id="voting-project-left" className="md:col-span-3">
-                    <ProjectCard
-                      project={matchup.project1}
-                      onVote={() => handleVoteClick(matchup.project1)}
-                      onReadmeClick={() => handleReadmeClick(matchup.project1)}
-                      setAnalyticsState={setAnalyticsState}
-                      onFraudClick={onFraudClick}
-                    />
-                  </div>
-                  <div className="flex items-center justify-center text-6xl font-bold text-indigo-600 dark:text-indigo-300">
-                    VS
-                  </div>
-                  <div id="voting-project-right" className="md:col-span-3">
-                    <ProjectCard
-                      project={matchup.project2}
-                      onVote={() => handleVoteClick(matchup.project2)}
-                      onReadmeClick={() => handleReadmeClick(matchup.project2)}
-                      setAnalyticsState={setAnalyticsState}
-                      onFraudClick={onFraudClick}
-                    />
-                  </div>
+                  <option value="">Select the reason for flagging</option>
+                  <option value="Incomplete README">Incomplete README</option>
+                  <option value="No screenshot">No screenshot</option>
+                  <option value="No demo link">No demo link</option>
+                  <option value="Suspected fraud">Suspected fraud</option>
+                  <option value="Wrong repo">
+                    Repo not found / not open source
+                  </option>
+                </select>
 
-                  <Modal
-                    isOpen={!!fraudProject}
-                    close={() => setFraudProject(undefined)}
-                  >
-                    <h3 className="text-2xl font-bold">
-                      Why are you flagging {fraudProject?.title}?
-                    </h3>
-                    <select
-                      value={fraudType}
-                      onChange={(e) => setFraudType(e.target.value)}
-                      className="w-full my-4 p-1 text-black"
+                <AnimatePresence>
+                  {fraudType === 'Incomplete README' ||
+                  fraudType === 'No demo link' ||
+                  fraudType === 'No screenshot' ||
+                  fraudType === 'Wrong repo' ? (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'fit-content', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
                     >
-                      <option value="">Select the reason for flagging</option>
-                      <option value="Incomplete README">
-                        Incomplete README
-                      </option>
-                      <option value="No screenshot">No screenshot</option>
-                      <option value="No demo link">No demo link</option>
-                      <option value="Suspected fraud">Suspected fraud</option>
-                      <option value="Wrong repo">
-                        Repo not found / not open source
-                      </option>
-                    </select>
+                      <p className="mb-3">
+                        The creator of this project will be notified. Thanks for
+                        making High Seas better! :)
+                      </p>
+                    </motion.div>
+                  ) : null}
 
-                    <AnimatePresence>
-                      {fraudType === 'Incomplete README' ||
-                      fraudType === 'No demo link' ||
-                      fraudType === 'No screenshot' ||
-                      fraudType === 'Wrong repo' ? (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'fit-content', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                        >
-                          <p className="mb-3">
-                            The creator of this project will be notified. Thanks
-                            for making High Seas better! :)
-                          </p>
-                        </motion.div>
-                      ) : null}
-
-                      {fraudType === 'Suspected fraud' ? (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'fit-content', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                        >
-                          <p className="mb-3">
-                            The creator of this project will not know you
-                            reported them.{' '}
-                            <b>Only the High Seas team will see this.</b>
-                          </p>
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
-
-                    <textarea
-                      value={fraudReason}
-                      onChange={(e) => setFraudReason(e.target.value)}
-                      placeholder="Provide your reason here"
-                      className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700 min-h-[150px]"
-                      rows={6}
-                    />
-
-                    <Button
-                      variant={'destructive'}
-                      disabled={!fraudType || !fraudReason}
-                      onClick={handleFraudReport}
-                      className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+                  {fraudType === 'Suspected fraud' ? (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'fit-content', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
                     >
-                      Flag project
-                    </Button>
-                  </Modal>
+                      <p className="mb-3">
+                        The creator of this project will not know you reported
+                        them. <b>Only the High Seas team will see this.</b>
+                      </p>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+
+                <textarea
+                  value={fraudReason}
+                  onChange={(e) => setFraudReason(e.target.value)}
+                  placeholder="Provide your reason here"
+                  className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700 min-h-[150px]"
+                  rows={6}
+                />
+
+                <Button
+                  variant={'destructive'}
+                  disabled={!fraudType || !fraudReason}
+                  onClick={handleFraudReport}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+                >
+                  Flag project
+                </Button>
+              </Modal>
+            </div>
+            {/* <div ref={turnstileRef} className="mb-4"></div> */}
+            {selectedProject && (
+              <div
+                id="voting-reason-container-parent"
+                className="mt-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
+              >
+                <div id="voting-reason-container">
+                  <h3 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
+                    Why are you voting for {selectedProject.title} over the
+                    other?
+                  </h3>
+                  <textarea
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    placeholder="Provide your reason here (minimum 10 words)"
+                    className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700 min-h-[150px]"
+                    rows={6}
+                  />
+
+                  {error && (
+                    <p className="text-red-500 text-sm mb-4">{error}</p>
+                  )}
                 </div>
-                {/* <div ref={turnstileRef} className="mb-4"></div> */}
-                {selectedProject && (
-                  <div
-                    id="voting-reason-container-parent"
-                    className="mt-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
-                  >
-                    <div id="voting-reason-container">
-                      <h3 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-300 mb-4">
-                        Why are you voting for {selectedProject.title} over the
-                        other?
-                      </h3>
-                      <textarea
-                        value={reason}
-                        onChange={(e) => setReason(e.target.value)}
-                        placeholder="Provide your reason here (minimum 10 words)"
-                        className="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-md mb-4 text-gray-900 dark:text-white bg-white dark:bg-gray-700 min-h-[150px]"
-                        rows={6}
-                      />
 
-                      {error && (
-                        <p className="text-red-500 text-sm mb-4">{error}</p>
-                      )}
-                    </div>
-
-                    <button
-                      id="submit-vote"
-                      onClick={handleVoteSubmit}
-                      disabled={isSubmitting || fewerThanTenWords}
-                      className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 mr-3 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed ${
-                        isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-                      }`}
-                    >
-                      {fewerThanTenWords ? (
-                        reason.trim() ? (
-                          `${10 - reason.trim().split(' ').length} words left...`
-                        ) : (
-                          '10 words left...'
-                        )
-                      ) : isSubmitting ? (
-                        <>
-                          <svg
-                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <circle
-                              className="opacity-25"
-                              cx="12"
-                              cy="12"
-                              r="10"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                            ></circle>
-                            <path
-                              className="opacity-75"
-                              fill="currentColor"
-                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                            ></path>
-                          </svg>
-                          Submitting...
-                        </>
-                      ) : (
-                        'Submit Vote'
-                      )}
-                    </button>
-                    <SpeechToText handleResults={handleAudioTranscription} />
-                  </div>
-                )}
-              </>
+                <button
+                  id="submit-vote"
+                  onClick={handleVoteSubmit}
+                  disabled={isSubmitting || fewerThanTenWords}
+                  className={`bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 px-6 mr-3 rounded-lg transition-colors duration-200 text-lg w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                >
+                  {fewerThanTenWords ? (
+                    reason.trim() ? (
+                      `${10 - reason.trim().split(' ').length} words left...`
+                    ) : (
+                      '10 words left...'
+                    )
+                  ) : isSubmitting ? (
+                    <>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit Vote'
+                  )}
+                </button>
+                <SpeechToText handleResults={handleAudioTranscription} />
+              </div>
             )}
           </>
-        ) : null}
+        )}
       </div>
     </div>
   )
