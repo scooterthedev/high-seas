@@ -35,7 +35,9 @@ selfClick:
   - click me one more time, i dare you... ya ${this.t('pirateyThings')}!
   - icon:freaking|w-wait. |icon:blushing|you want to buy me? really?
   - icon:fluster|stop clicking! t-that tickles!
+  - icon:fluster|w-wait. you want to buy me? really?
   - d-did you just click me?!
+  - icon:threat|*angry raccoon chittering noises*
 superstitionItems:
   - black cat
   - rabbit's foot
