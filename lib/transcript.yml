@@ -1,3 +1,10 @@
+legalThings:
+  - ®
+  - ™
+  - ℠
+  - ℗
+  - ©
+  - ${this.t('legalThings')}${this.t('legalThings')}
 banner:
   - buy something or get out!
   - spend your doubloons here!
@@ -5,7 +12,7 @@ banner:
   - NO REFUNDS
   - feeling overburdened by money?
   - plundered from the best dead adventurers in the land
-  - we accept doubloons and PiratePay™
+  - we accept doubloons and PiratePay${this.t('legalThings')}
   - YARR
   - 🏴‍☠️
   - you wouldn't download a ship...
