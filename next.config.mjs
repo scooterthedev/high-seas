@@ -16,6 +16,7 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  reactStrictMode: false,
   env: {
     COMMIT_HASH: commitHash,
   },
