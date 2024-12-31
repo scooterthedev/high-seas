@@ -35,6 +35,8 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
 
     if (atCounter) {
       on('shopkeeper', handleEvent)
+    } else {
+      off('shopkeeper', handleEvent)
     }
 
     return () => {
