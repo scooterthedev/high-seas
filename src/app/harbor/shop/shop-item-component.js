@@ -134,10 +134,21 @@ export const ShopItemComponent = ({
                 src={item.imageUrl}
                 alt={item.name}
                 onClick={() => {
-                  emitYap(
-                    transcript('item.base', {name: item.name, price: localPrice}) + ' ' +
-                    transcript('item.generic', { name: item.name, price: localPrice }),
-                  )
+                  let interaction = transcript('item.base', {
+                    name: item.name,
+                    price: localPrice,
+                  })
+                  const itemSpecificInteraction = transcript('item.' + item.id)
+                  if (itemSpecificInteraction.startsWith('transcript.')) {
+                    console.log('transcript not found', itemSpecificInteraction)
+                    interaction += ' ' + transcript('item.generic', {
+                      name: item.name,
+                      price: localPrice,
+                    })
+                  } else {
+                    interaction += ' ' + itemSpecificInteraction
+                  }
+                  emitYap(interaction)
                 }}
                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
               />

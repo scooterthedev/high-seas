@@ -162,10 +162,11 @@ item:
     - \|icon:question|uuuuh, how many you want?
     - \|icon:cute|yes yes, you buy now!
     - '|icon:cute|youuuuu... pay this much? [${this.price} doubloons]'
-  soldering_iron:
+  item_pinecil_20:
     - ${this.t('item.generic')}
-    - 'icon:info|Warning: May contain lead'
-    - icon:info|I hafta be careful with these– me first mate has a lead allergy!
-    - icon:info|Be careful if you have a lead allergy!
-    - icon:hot! Hot! HOT!
-    - It’s like welding but tiny!
+    - '|icon:info|*Warning: May contain lead'
+    - \|icon:info|I hafta be careful with these– me first mate has a lead allergy!
+    - \|icon:info|Be careful if you have a lead allergy!
+    - \|icon:freaking|hot! Hot! HOT!
+    - \|icon:info|yes, let me fetch one from the back...|icon:freaking|ow! Ow! OWOWOWOWOWOW!
+    - \|icon:cute|It’s like welding but tiny!
