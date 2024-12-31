@@ -173,3 +173,33 @@ item:
     - \|icon:freaking|hot! Hot! HOT!
     - \|icon:info|yes, let me fetch one from the back...|icon:freaking|ow! Ow! OWOWOWOWOWOW!
     - \|icon:cute|It’s like welding but tiny!
+  item_github_notebook_37:
+    - "|icon:info| if only i could read... |icon:holdingEars| *sigh* |icon:info| i'd be able to tell you all about it"
+    - "|icon:info|I can't read, but I can tell you it's a notebook!"
+    - "|icon:cute|a place to draw your treasure maps!"
+    - "|icon:info|write down where you buried your treasure!"
+    - "|icon:info|write down where you buried your treasure!|icon:holdingEars| *sigh* . . . i wish i could read"
+  item_factorio:
+    - "|icon:fluster| you have NO IDEA how much time i've sunk into this game"
+    - "|icon:info| interesting fact: this is a GREAT way to kill the time when you're marooned on a deserted island"
+  item_bambu_lab_a1_mini_49:
+    - If a picture is worth 1000 words, a 3d print should be worth [ArithmeticOverflowException]
+    - Oh, do they print in chocolate?!
+    - It's like a hot glue gun, but with more steps
+  item_hot_glue_gun:
+    - cheaper than a 3d printer!
+  item_pile_of_stickers_10:
+    - it's like graffiti, but with less commitment
+    - the perfect way to vandalize your own property
+    - ooooh, are you going to put that on your laptop?
+    - Puts the "ad" in "adhesive"!
+  item_signed_photo_of_malted_19:
+    - Due to inflation the average photo is only worth 700 words
+    - icon:info|I'm not sure who this is, but they look important!
+    - i dont know why i have these, they just washed up one day
+  item_digital_calipers_50:
+    - measure twice, stab once!
+    - used to make sure your plank is just the right walkin' length
+    - as sharp as a cutlass!
+    - as sharp as me first mate's hook!
+  # multimeter
