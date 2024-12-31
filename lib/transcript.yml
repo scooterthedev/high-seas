@@ -124,3 +124,22 @@ music:
   - icon:question|who's playing that music?
   - icon:question|where are those instruments?
   - icon:holdingEars|that music is a little loud
+fav:
+  removed:
+    - icon:question|ah, not interested in the [${this.name.toUpperCase()}]?
+    - icon:info|awwww, not interested in the [${this.name.toUpperCase()}]?
+    - icon:thinking|hmmmm... is the [${this.name.toUpperCase()}] not to your liking?
+    - icon:freaking|you're not interested in the [${this.name.toUpperCase()}]?|icon:threat| you try finding stuff to sell while being marooned on an island!
+    - icon:question|you don't want the [${this.name.toUpperCase()}]? |icon:info|just try finding it anywhere else for ${this.price} doubloons!
+  added:
+    - icon:question|ah, interested in the [${this.name.toUpperCase()}]?
+    - icon:info|for ${this.price} doubloons, some would consider this a steal!|icon:holdingEars|. . .  please don't report me to the authorities...
+    - icon:info|for ${this.price} doubloons, some would consider this a steal!
+    - icon:info|ooooh, that's a good choice!
+    - icon:info|you've got good taste!
+    - icon:info|just try finding [${this.name.toUpperCase()}] anywhere else for ${this.price} doubloons!
+  addedCanAffort:
+    - "|icon:thinking| . . . |icon:question| hold on... can't you already affort that?"
+    - '|icon:thinking| . . . |icon:question| but... you can already affort that?'
+    - "|icon:thinking| . . . |icon:question| why'd you fave that if you can already buy it?"
+    - '|icon:thinking| . . . |icon:question| you know you already have enough to buy that, right?'

@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 
+import { useEventEmitter } from '../../../../lib/useEventEmitter'
+
 import {
   Card,
   CardContent,
@@ -10,9 +12,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { useMemo } from 'react'
 import { cantAffordWords, purchaseWords, sample } from '../../../../lib/flavor'
-import useLocalStorageState from '../../../../lib/useLocalStorageState.js'
-import { useState } from 'react'
 import Icon from '@hackclub/icons'
+import { transcript } from '../../../../lib/transcript'
 const ActionArea = ({ item, filterIndex, affordable }) => {
   const buyWord = useMemo(() => sample(purchaseWords), [item.id])
   const getYourRacksUp = useMemo(() => sample(cantAffordWords), [item.id])
@@ -51,6 +52,42 @@ export const ShopItemComponent = ({
       scale: 1.05,
     },
   }
+  const localPrice = filterIndex == 1 ? item.priceUs : item.priceGlobal
+  const affordable = localPrice <= parseInt(personTicketBalance)
+
+  const { emitYap } = useEventEmitter()
+
+  const handleFavouriteToggle = () => {
+    setFavouriteItems((prevFav) => {
+      if (prevFav.includes(item.id)) {
+        emitYap(
+          transcript('fav.removed', {
+            name: item.name,
+            price: item.priceGlobal,
+          }),
+        )
+        return prevFav.filter((favItem) => String(favItem) !== item.id)
+      } else {
+        if (Math.random() > 0.5) {
+          let interaction = transcript('fav.added', {
+            name: item.name,
+            price: localPrice,
+            affordable,
+          })
+          if ((affordable && Math.random() > 0.9)) {
+            interaction +=
+              ' ' +
+              transcript('fav.addedCanAffort', {
+                name: item.name,
+                price: localPrice,
+              })
+          }
+          emitYap(interaction)
+        }
+        return [...prevFav, item.id]
+      }
+    })
+  }
 
   return (
     <motion.div {...cardHoverProps}>
@@ -79,7 +116,7 @@ export const ShopItemComponent = ({
                 height={20}
                 className="mr-1"
               />
-              {filterIndex == 1 ? item.priceUs : item.priceGlobal}
+              {localPrice}
             </span>
 
             {item.minimumHoursEstimated && item.maximumHoursEstimated ? (
@@ -106,26 +143,9 @@ export const ShopItemComponent = ({
           <ActionArea
             item={item}
             filterIndex={filterIndex}
-            affordable={
-              (filterIndex == 1 ? item.priceUs : item.priceGlobal) <=
-              parseInt(personTicketBalance)
-            }
+            affordable={affordable}
           />
-          <Button
-            onClick={() => {
-              setFavouriteItems((prevFav) => {
-                if (prevFav.includes(item.id)) {
-                  console.log('remove', prevFav)
-                  return prevFav.filter(
-                    (favItem) => String(favItem) !== item.id,
-                  )
-                } else {
-                  console.log('add', prevFav)
-                  return [...prevFav, item.id]
-                }
-              })
-            }}
-          >
+          <Button onClick={handleFavouriteToggle}>
             <Icon
               glyph={favouriteItems.includes(item.id) ? 'like-fill' : 'like'}
             />
