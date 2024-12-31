@@ -53,6 +53,7 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     }
     setInteractionBusy(true)
     setShopkeeperMsg('')
+    let speed
     console.log('handling interaction', interaction)
     for (const action of interaction.split('|')) {
       const [verb, ...arg] = action.split(':')
@@ -64,13 +65,24 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
         case 'icon':
           await setShopkeeperImg(shopIcons[arg] || arg)
           break
+        case 'speed':
+          if (arg[0]) {
+            speed = parseFloat(arg[0])
+          } else {
+            speed = undefined
+          }
+          break
         default:
           await new Promise((resolve) => {
-            yap(action, {
+            const yapOptions = {
               letterCallback: ({ letter }) =>
                 setShopkeeperMsg((s) => s + letter),
               endCallback: resolve,
-            })
+            }
+            if (speed) {
+              yapOptions.baseRate = speed
+            }
+            yap(action, yapOptions)
           })
           break
       }
@@ -94,18 +106,18 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
         .join(' ')
       await handleInteraction(
         greetingSliced +
-          '-- wait... ' +
-          transcript('cursed') +
-          ' ' +
-          transcript('getout'),
+        '-- wait... ' +
+        transcript('cursed') +
+        ' ' +
+        transcript('getout'),
       )
     } else if (balance == 0) {
       await handleInteraction(
         transcript('greetings') +
-          ' ' +
-          transcript('noMoney') +
-          ' ' +
-          transcript('getout'),
+        ' ' +
+        transcript('noMoney') +
+        ' ' +
+        transcript('getout'),
       )
       // setAtCounter(false)
     } else if (continuousBellClicks > 1) {
