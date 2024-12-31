@@ -63,6 +63,8 @@ superstitions:
   - signs the cross with her tail
   - spits in her hat
   - grabs a rabbit's foot
+  - pins a ${this.t('superstitionItems')} to her hat
+  - ties up a ${this.t('superstitionItems')} above the door frame
   - throws a ${this.t('superstitionItems')} over her shoulder # be careful. this one... is pretty out there
 cursed:
   - Blimey! You've been cursed? *${this.t('superstitions')}* and then *${this.t('superstitions')}*
