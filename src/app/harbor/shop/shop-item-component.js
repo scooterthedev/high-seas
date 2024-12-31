@@ -133,6 +133,12 @@ export const ShopItemComponent = ({
               <img
                 src={item.imageUrl}
                 alt={item.name}
+                onClick={() => {
+                  emitYap(
+                    transcript('item.base', {name: item.name, price: localPrice}) + ' ' +
+                    transcript('item.generic', { name: item.name, price: localPrice }),
+                  )
+                }}
                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
               />
             </div>

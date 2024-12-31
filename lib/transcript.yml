@@ -143,3 +143,29 @@ fav:
     - '|icon:thinking| . . . |icon:question| but... you can already affort that?'
     - "|icon:thinking| . . . |icon:question| why'd you fave that if you can already buy it?"
     - '|icon:thinking| . . . |icon:question| you know you already have enough to buy that, right?'
+floatingThings:
+  - skull
+  - coconut
+  - empty bottle
+  - ship in a bottle
+  - drift wood
+  - turtle shell
+  - sea shell
+  - seaweed
+  - washed up beach ball # wilson!!!
+  - washed up boot
+item:
+  base: icon:question|you want to buy a [${this.name.toUpperCase()}]?
+  generic:
+    - \|icon:question|see something you like?
+    - \|icon:info|those have been pretty popular lately. . . |icon:crying| *internally crying as she thinks about the ${this.t('floatingThings')} and ${this.t('floatingThings')} that have been her only customers for the past 3 years*
+    - \|icon:question|uuuuh, how many you want?
+    - \|icon:cute|yes yes, you buy now!
+    - '|icon:cute|youuuuu... pay this much? [${this.price} doubloons]'
+  soldering_iron:
+    - ${this.t('item.generic')}
+    - 'icon:info|Warning: May contain lead'
+    - icon:info|I hafta be careful with these– me first mate has a lead allergy!
+    - icon:info|Be careful if you have a lead allergy!
+    - icon:hot! Hot! HOT!
+    - It’s like welding but tiny!
