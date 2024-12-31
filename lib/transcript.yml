@@ -164,6 +164,7 @@ item:
     - \|icon:question|uuuuh, how many you want?
     - \|icon:cute|yes yes, you buy now!
     - '|icon:cute|youuuuu... pay this much? [${this.price} doubloons]'
+    - '|icon:info|why does this label say DO NOT EAT?'
   item_pinecil_20:
     - ${this.t('item.generic')}
     - '|icon:info|*Warning: May contain lead'
