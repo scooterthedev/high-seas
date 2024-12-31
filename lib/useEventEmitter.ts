@@ -9,6 +9,11 @@ export function useEventEmitter() {
     emitterRef.current.dispatchEvent(new CustomEvent(eventName, { detail }))
   }
 
+  // handy helper for shopkeeper interactions
+  const emitYap = (interaction: string) => {
+    emitterRef.current.dispatchEvent(new CustomEvent('shopkeeper', { detail: {interaction} }))
+  }
+
   const on = (eventName: string, callback: (event: CustomEvent) => void) => {
     emitterRef.current.addEventListener(eventName, callback as EventListener)
   }
@@ -17,5 +22,5 @@ export function useEventEmitter() {
     emitterRef.current.removeEventListener(eventName, callback as EventListener)
   }
 
-  return { emit, on, off }
+  return { emit, on, off, emitYap }
 }
