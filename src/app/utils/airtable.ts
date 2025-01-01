@@ -4,6 +4,16 @@ import { getSession } from './auth'
 import { person, updateShowInLeaderboard } from './data'
 
 export const getSelfPerson = async (slackId: string) => {
+  const session = await getSession()
+  if (!session) {
+    throw new Error('No session when trying to get self person')
+  }
+  if (session.slackId !== slackId) {
+    const err = new Error('Session slackId does not match provided slackId')
+    console.error(err)
+    throw err
+  }
+
   const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/people`
   const filterByFormula = encodeURIComponent(`{slack_id} = '${slackId}'`)
   const response = await fetch(`${url}?filterByFormula=${filterByFormula}`, {
