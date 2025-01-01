@@ -1,5 +1,3 @@
-'use server'
-
 import { cookies, headers } from 'next/headers'
 import { getPersonByMagicToken, getSelfPerson } from './airtable'
 
@@ -189,6 +187,8 @@ export async function createSlackSession(slackOpenidToken: string) {
 }
 
 export async function createMagicSession(magicCode: string) {
+  'use server'
+
   try {
     const partialPersonData = await getPersonByMagicToken(magicCode)
     if (!partialPersonData)
@@ -213,6 +213,8 @@ export async function createMagicSession(magicCode: string) {
 }
 
 export async function getSession(): Promise<HsSession | null> {
+  'use server'
+
   try {
     const sessionCookie = cookies().get(sessionCookieName)
     if (!sessionCookie) return null
