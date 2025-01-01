@@ -1,19 +1,7 @@
-'use server'
-
 import { getSession } from './auth'
 import { person, updateShowInLeaderboard } from './data'
 
 export const getSelfPerson = async (slackId: string) => {
-  const session = await getSession()
-  if (!session) {
-    throw new Error('No session when trying to get self person')
-  }
-  if (session.slackId !== slackId) {
-    const err = new Error('Session slackId does not match provided slackId')
-    console.error(err)
-    throw err
-  }
-
   const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/people`
   const filterByFormula = encodeURIComponent(`{slack_id} = '${slackId}'`)
   const response = await fetch(`${url}?filterByFormula=${filterByFormula}`, {
@@ -40,6 +28,8 @@ export const getSelfPerson = async (slackId: string) => {
 }
 
 export const getSignpostUpdates = async () => {
+  'use server'
+
   const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/signpost`
   const response = await fetch(url, {
     method: 'GET',
@@ -106,6 +96,8 @@ export async function getPersonByMagicToken(token: string): Promise<{
   email: string
   slackId: string
 } | null> {
+  'use server'
+
   const baseId = process.env.BASE_ID
   const apiKey = process.env.AIRTABLE_API_KEY
   const table = 'people'
@@ -143,19 +135,10 @@ export async function getSelfPersonIdentifier(slackId: string) {
   return person.fields.identifier
 }
 
-export const getPersonTicketBalanceAndTutorialStatutWowThisMethodNameSureIsLongPhew =
-  async (
-    slackId: string,
-  ): Promise<{ tickets: number; hasCompletedTutorial: boolean }> => {
-    const person = await getSelfPerson(slackId)
-    const tickets = person.fields.settled_tickets as number
-    const hasCompletedTutorial = person.fields.academy_completed === true
-
-    return { tickets, hasCompletedTutorial }
-  }
-
 // deprecate
 export async function getVotesRemainingForNextPendingShip(slackId: string) {
+  'use server'
+
   const person = await getSelfPerson(slackId)
   return person['fields']['votes_remaining_for_next_pending_ship'] as number
 }
@@ -176,6 +159,8 @@ export interface SafePerson {
 
 // Good method
 export async function safePerson(): Promise<SafePerson> {
+  'use server'
+
   const record = await person()
 
   const id = record.id
@@ -206,6 +191,8 @@ export async function safePerson(): Promise<SafePerson> {
 }
 
 export async function reportTourStep(tourStepId: string) {
+  'use server'
+
   const session = await getSession()
 
   if (!session) {
@@ -234,6 +221,8 @@ export async function reportTourStep(tourStepId: string) {
 }
 
 export async function reportLeaderboardParticipating(participating: boolean) {
+  'use server'
+
   const session = await getSession()
 
   if (!session) {
@@ -283,6 +272,8 @@ export async function reportLeaderboardParticipating(participating: boolean) {
 }
 
 export async function getLeaderboardParticipating(): Promise<boolean> {
+  'use server'
+
   const record = await person()
   return !!record.fields.show_in_leaderboard
 }
