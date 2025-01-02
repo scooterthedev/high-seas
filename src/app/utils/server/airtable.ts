@@ -74,6 +74,16 @@ export async function getPersonByMagicToken(token: string): Promise<{
   email: string
   slackId: string
 } | null> {
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+  if (!uuidRegex.test(token)) {
+    const err = new Error(
+      `Invalid magic token passed to getPersonByMagicToken: ${token}`,
+    )
+    console.error(err)
+    throw err
+  }
+
   const baseId = process.env.BASE_ID
   const apiKey = process.env.AIRTABLE_API_KEY
   const table = 'people'
