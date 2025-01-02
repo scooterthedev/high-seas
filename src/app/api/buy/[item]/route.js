@@ -1,7 +1,7 @@
 import { getSession } from '@/app/utils/auth'
 import { redirect } from 'next/navigation'
 import { NextResponse } from 'next/server'
-import { getSelfPerson } from '@/app/utils/airtable'
+import { getSelfPerson } from '@/app/utils/server/airtable'
 import { base } from 'airtable'
 
 export async function GET(request, { params }) {
