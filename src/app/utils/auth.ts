@@ -1,5 +1,6 @@
 import { cookies, headers } from 'next/headers'
-import { getPersonByMagicToken, getSelfPerson } from './airtable'
+import { getPersonByMagicToken } from './airtable'
+import { getSelfPerson } from './server-only'
 
 export interface HsSession {
   /// The Person record ID in the high seas base
@@ -16,7 +17,7 @@ export interface HsSession {
   sig?: string
 }
 
-const sessionCookieName = 'hs-session'
+export const sessionCookieName = 'hs-session'
 
 function parseJwt(token: string) {
   const base64Url = token.split('.')[1]
@@ -94,7 +95,7 @@ export async function impersonate(slackId: string) {
   await signAndSet(session)
 }
 
-async function signAndSet(session: HsSession) {
+export async function signAndSet(session: HsSession) {
   session.sig = await hashSession(session)
 
   cookies().set(sessionCookieName, JSON.stringify(session), {
@@ -183,47 +184,6 @@ export async function createSlackSession(slackOpenidToken: string) {
   } catch (error) {
     console.error('Error creating Slack session:', error)
     throw error
-  }
-}
-
-export async function createMagicSession(magicCode: string) {
-  'use server'
-
-  try {
-    const partialPersonData = await getPersonByMagicToken(magicCode)
-    if (!partialPersonData)
-      throw new Error(`Failed to look up Person by magic code: ${magicCode}`)
-
-    const { id, email, slackId } = partialPersonData
-
-    console.log('SOTNRESTNSREINTS', { id, email, slackId })
-
-    const session: HsSession = {
-      personId: id,
-      authType: 'magic-link',
-      slackId,
-      email,
-    }
-
-    await signAndSet(session)
-  } catch (error) {
-    console.error('Error creating Magic session:', error)
-    throw error
-  }
-}
-
-export async function getSession(): Promise<HsSession | null> {
-  'use server'
-
-  try {
-    const sessionCookie = cookies().get(sessionCookieName)
-    if (!sessionCookie) return null
-
-    const unsafeSession = JSON.parse(sessionCookie.value)
-    return verifySession(unsafeSession)
-  } catch (error) {
-    console.error('Error verifying session:', error)
-    return null
   }
 }
 
