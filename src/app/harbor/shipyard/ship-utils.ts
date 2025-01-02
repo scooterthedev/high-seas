@@ -1,6 +1,6 @@
 'use server'
 
-import { getSelfPerson } from '@/app/utils/airtable'
+import { getSelfPerson } from '@/app/utils/server/airtable'
 import { getSession } from '@/app/utils/auth'
 import { fetchShips, person } from '@/app/utils/data'
 import { getWakaSessions } from '@/app/utils/waka'
@@ -220,6 +220,22 @@ export async function updateShip(ship: Ship) {
     const error = new Error('Tried to stage a ship with no Slack OAuth session')
     console.log(error)
     throw error
+  }
+
+  const existingShips = (
+    await base()(shipsTableName)
+      .select({ filterByFormula: `{entrant__slack_id} = '${session.slackId}'` })
+      .all()
+  ).filter((s) => s.id === ship.id)
+
+  if (!existingShips || existingShips.length === 0) {
+    const err = new Error(
+      `Tried to update a ghost ship: ${JSON.stringify(ship)}`,
+    )
+    console.error(err)
+    throw err
+  } else {
+    console.log('everything is a-ok')
   }
 
   console.log('updating!', ship)
