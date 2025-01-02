@@ -2,7 +2,7 @@
 
 import Airtable from 'airtable'
 import { getSession } from '@/app/utils/auth'
-import { getSelfPerson } from '@/app/utils/airtable'
+import { getSelfPerson } from '@/app/utils/server/airtable'
 import { NextResponse } from 'next/server'
 
 const base = () => {

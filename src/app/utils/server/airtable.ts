@@ -33,6 +33,14 @@ export async function getPersonByAuto(num: string): Promise<{
   const apiKey = process.env.AIRTABLE_API_KEY
   const table = 'people'
 
+  if (!Number(num)) {
+    const err = new Error(
+      `Non-numeric getPersonByAuto parameter passed: ${num}`,
+    )
+    console.error(err)
+    throw err
+  }
+
   const url = `https://middleman.hackclub.com/airtable/v0/${baseId}/${table}?filterByFormula={autonumber}='${encodeURIComponent(num)}'`
 
   const response = await fetch(url, {
