@@ -3,9 +3,9 @@
  * as HTTP endpoints. Dragons be here.
  */
 
-import { cookies, headers } from 'next/headers'
-import { getPersonByMagicToken } from './airtable'
-import { getSelfPerson } from './server-only'
+import { cookies } from 'next/headers'
+import { getPersonByMagicToken } from './server/airtable'
+import { getSelfPerson } from './server/airtable'
 import {
   HsSession,
   sessionCookieName,

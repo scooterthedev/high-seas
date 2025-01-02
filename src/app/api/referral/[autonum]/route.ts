@@ -1,6 +1,6 @@
 'use server'
 
-import { getPersonByAuto } from '@/app/utils/server-only'
+import { getPersonByAuto } from '@/app/utils/server/airtable'
 import { redirect } from 'next/navigation'
 import { NextRequest } from 'next/server'
 
