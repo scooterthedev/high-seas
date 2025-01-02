@@ -1,35 +1,8 @@
 'use server'
 
-import { getSession } from './auth'
+import { getSession } from './auth-exposed'
 import { person, updateShowInLeaderboard } from './data'
 import { getSelfPerson } from './server-only'
-
-export const getSignpostUpdates = async () => {
-  const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/signpost`
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
-      'Content-Type': 'application/json',
-      'User-Agent': 'highseas.hackclub.com (getSignpostUpdates)',
-    },
-  })
-
-  if (!response.ok) {
-    console.log(response)
-    throw new Error(`HTTP error! status: ${response.status}`)
-  }
-
-  let data
-  try {
-    data = await response.json()
-  } catch (e) {
-    console.error(e, await response.text())
-    throw e
-  }
-
-  return data.records
-}
 
 export async function getPersonByMagicToken(token: string): Promise<{
   id: string
@@ -68,6 +41,7 @@ export async function getPersonByMagicToken(token: string): Promise<{
   return { id, email, slackId }
 }
 
+//FRONTEND
 // deprecate
 export async function getVotesRemainingForNextPendingShip(slackId: string) {
   const person = await getSelfPerson(slackId)
@@ -88,6 +62,7 @@ export interface SafePerson {
   referralLink: string
 }
 
+// FRONTEND
 // Good method
 export async function safePerson(): Promise<SafePerson> {
   const record = await person()

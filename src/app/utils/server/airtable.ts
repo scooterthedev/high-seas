@@ -1,4 +1,3 @@
-// smh, man
 import 'server-only'
 
 export const getSelfPerson = async (slackId: string) => {
