@@ -1,6 +1,14 @@
 import 'server-only'
 
 export const getSelfPerson = async (slackId: string) => {
+  if (!/^[UW][A-Z0-9]{8,11}$/.test(slackId)) {
+    const err = new Error(
+      `Invalid Slack ID passed to getSelfPerson: ${slackId}`,
+    )
+    console.error(err)
+    throw err
+  }
+
   const url = `https://middleman.hackclub.com/airtable/v0/${process.env.BASE_ID}/people`
   const filterByFormula = encodeURIComponent(`{slack_id} = '${slackId}'`)
   const response = await fetch(`${url}?filterByFormula=${filterByFormula}`, {
