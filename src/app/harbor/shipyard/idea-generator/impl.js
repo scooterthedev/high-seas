@@ -244,7 +244,7 @@ const IdeaGenerator = () => {
         Generate an idea
       </Button>
       <Modal isOpen={!!message} close={() => setMessage(null)}>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center max-h-[70vh] overflow-y-auto">
           <p className="max-w-prose text-lg text-center mb-4">{message}</p>
           <Button onClick={loading ? null : generateIdea}>Regenerate</Button>
           <img
