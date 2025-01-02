@@ -227,15 +227,12 @@ export async function updateShip(ship: Ship) {
       .select({ filterByFormula: `{entrant__slack_id} = '${session.slackId}'` })
       .all()
   ).filter((s) => s.id === ship.id)
-
   if (!existingShips || existingShips.length === 0) {
     const err = new Error(
       `Tried to update a ghost ship: ${JSON.stringify(ship)}`,
     )
     console.error(err)
     throw err
-  } else {
-    console.log('everything is a-ok')
   }
 
   console.log('updating!', ship)
@@ -279,6 +276,19 @@ export async function stagedToShipped(
   if (!session) {
     const error = "You tried to ship a draft Ship, but you're not signed in!"
     return { error, ok: false }
+  }
+
+  const existingShips = (
+    await base()(shipsTableName)
+      .select({ filterByFormula: `{entrant__slack_id} = '${session.slackId}'` })
+      .all()
+  ).filter((s) => s.id === ship.id)
+  if (!existingShips || existingShips.length === 0) {
+    const err = new Error(
+      `Tried to promote a ghost ship: ${JSON.stringify(ship)}`,
+    )
+    console.error(err)
+    throw err
   }
 
   const p = await person()
@@ -348,6 +358,17 @@ export async function deleteShip(shipId: string) {
     )
     console.log(error)
     throw error
+  }
+
+  const existingShips = (
+    await base()(shipsTableName)
+      .select({ filterByFormula: `{entrant__slack_id} = '${session.slackId}'` })
+      .all()
+  ).filter((s) => s.id === shipId)
+  if (!existingShips || existingShips.length === 0) {
+    const err = new Error(`Tried to delete a ghost ship: ${shipId}`)
+    console.error(err)
+    throw err
   }
 
   await new Promise((resolve, reject) => {
