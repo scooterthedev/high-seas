@@ -32,19 +32,6 @@ export interface ShopItem {
   maximumHoursEstimated: number
 }
 
-export async function getPerson() {
-  const session = await getSession()
-  if (!('slackId' in session)) {
-    return
-  }
-  const person = await getSelfPerson(session.slackId)
-  if (!person) {
-    return NextResponse.json(
-      { error: "i don't even know who you are" },
-      { status: 418 },
-    )
-  }
-}
 export async function getShop(): Promise<ShopItem[]> {
   const items: ShopItem[] = []
 
