@@ -17,7 +17,7 @@ export default function EmailSubmissionForm() {
   const plausible = usePlausible()
 
   const handleForm = async (formData: FormData) => {
-    const emailStr = (formData.get('email') as string).trim()
+    const emailStr = (formData.get('email') as string).trim().toLowerCase()
 
     if (t) {
       clearTimeout(t)
