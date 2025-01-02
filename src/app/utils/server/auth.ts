@@ -1,6 +1,7 @@
 import 'server-only'
 
-import { cookies } from 'next/headers'
+import { cookies, headers } from 'next/headers'
+import { getSelfPerson } from './airtable'
 
 export interface HsSession {
   /// The Person record ID in the high seas base
@@ -85,6 +86,14 @@ export async function verifySession(
   }
 }
 
+export async function deleteSession() {
+  const cookieKeys =
+    'academy-completed ships signpost-feed tickets verification waka'
+      .split(' ')
+      .forEach((key) => cookies().delete(key))
+  cookies().delete(sessionCookieName)
+}
+
 export async function signAndSet(session: HsSession) {
   session.sig = await hashSession(session)
 
@@ -163,4 +172,13 @@ export async function createSlackSession(slackOpenidToken: string) {
     console.error('Error creating Slack session:', error)
     throw error
   }
+}
+
+export async function getRedirectUri(): Promise<string> {
+  const headersList = headers()
+  const host = headersList.get('host') || ''
+  const proto = headersList.get('x-forwarded-proto') || 'http'
+  const uri = encodeURIComponent(`${proto}://${host}/api/slack_redirect`)
+
+  return uri
 }

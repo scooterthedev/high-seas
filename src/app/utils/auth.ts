@@ -6,7 +6,12 @@
 import { cookies, headers } from 'next/headers'
 import { getPersonByMagicToken } from './airtable'
 import { getSelfPerson } from './server-only'
-import { HsSession, sessionCookieName, signAndSet } from './server/auth'
+import {
+  HsSession,
+  sessionCookieName,
+  signAndSet,
+  verifySession,
+} from './server/auth'
 
 export async function getSession(): Promise<HsSession | null> {
   try {
@@ -64,21 +69,4 @@ export async function impersonate(slackId: string) {
   }
 
   await signAndSet(session)
-}
-
-export async function deleteSession() {
-  const cookieKeys =
-    'academy-completed ships signpost-feed tickets verification waka'
-      .split(' ')
-      .forEach((key) => cookies().delete(key))
-  cookies().delete(sessionCookieName)
-}
-
-export async function getRedirectUri(): Promise<string> {
-  const headersList = headers()
-  const host = headersList.get('host') || ''
-  const proto = headersList.get('x-forwarded-proto') || 'http'
-  const uri = encodeURIComponent(`${proto}://${host}/api/slack_redirect`)
-
-  return uri
 }
