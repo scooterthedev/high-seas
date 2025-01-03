@@ -68,6 +68,11 @@ superstitions:
   - pins a ${this.t('superstitionItems')} to her hat
   - ties up a ${this.t('superstitionItems')} above the door frame
   - throws a ${this.t('superstitionItems')} over her shoulder # be careful. this one... is pretty out there
+blessed:
+  - Blimey! You got a blessing, didja? Well that's gotta do good for business seeing such upstanding pirate folk shoping here.
+  - Wow! You got the boon of a pirate's blessing!
+  - Blow me down! You got a pirate's blessing! That's gotta be good luck for me shop!
+  - Blimey, a pirate's blessing! *She ${this.t('superstitions')}, according to pirate tradition.* Please, shop to your heart's content!
 cursed:
   - Blimey! You've been cursed? *${this.t('superstitions')}* and then *${this.t('superstitions')}*
   - Ye've been cursed? *${this.t('superstitions')}* and then *${this.t('superstitions')}*
@@ -156,6 +161,11 @@ floatingThings:
   - seaweed
   - washed up beach ball # wilson!!!
   - washed up boot
+bigNumbers:
+  - '[ArithmeticOverflowException]'
+  - '[LargeIntegerOverflow]'
+  - a barrel-full
+  - a nautical butt-load
 item:
   base: icon:question|you want to buy a |speed:2.5|[${this.name.toUpperCase()}]|speed:default|?
   generic:
@@ -183,9 +193,11 @@ item:
     - "|icon:fluster| you have NO IDEA how much time i've sunk into this game"
     - "|icon:info| interesting fact: this is a GREAT way to kill the time when you're marooned on a deserted island"
   item_bambu_lab_a1_mini_49:
-    - If a picture is worth 1000 words, a 3d print should be worth [ArithmeticOverflowException]
+    - If a picture is worth 1000 words, a 3d print should be worth ${this.t('bigNumbers')}
     - Oh, do they print in chocolate?!
     - It's like a hot glue gun, but with more steps
+  item_100mhz_oscilloscope_53:
+    - if i were a smarter racoon i'd say something about "waves"
   item_hot_glue_gun:
     - cheaper than a 3d printer!
   item_pile_of_stickers_10:
@@ -202,3 +214,9 @@ item:
     - used to make sure your plank is just the right walkin' length
     - as sharp as a cutlass!
     - as sharp as me first mate's hook!
+  item_flipper_32:
+    - \|icon:info|I've tried these, but watch out. . .|icon:wet| they aren't water proof
+    - \|icon:tinfoil|*dons her tinfoil captain's hat*|speed:0.3|. . .|speed:default| don't point that at me head
+  item_hack_club_socks__34:
+    - they aren't hacker socks, but any ${this.t('pirateyThings')} worth their salt can make do...
+    - as a raccoon, i've already got natural socks, but these are good for me crew!
