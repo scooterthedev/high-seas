@@ -148,7 +148,11 @@ const SoundButton = () => {
     if (soundState) {
       audioRef.current.play()
       if (firstPlay) {
-        emit('shopkeeper', { interaction: transcript('music') })
+        setTimeout(() => {
+          if (!audioRef.current.paused) {
+            emit('shopkeeper', { interaction: transcript('music') })
+          }
+        }, 9 * 1000)
         setFirstPlay(false)
       }
     } else {
