@@ -40,6 +40,8 @@ export type YswsType =
   | 'anchor'
   | 'dessert'
   | 'asylum'
+  | 'hackapet'
+  | 'constellation'
 
 export interface Ship extends EditableShipFields {
   id: string // The Airtable row's ID.
