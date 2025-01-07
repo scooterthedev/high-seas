@@ -28,6 +28,18 @@ const Trumpet = ({ bot, rot, flip = false }) => {
     'animate-trumpet3',
     'animate-trumpet4',
   ]
+
+  const { emitYap } = useEventEmitter()
+
+  const handleClick = () => {
+    const dootUrl = 'https://cloud-npii7gys3-hack-club-bot.vercel.app/0skullsound2_1__audio.mp4'
+
+    const audio = new Audio(dootUrl)
+    audio.play()
+
+    emitYap( transcript('doot') )
+  }
+
   return (
     <div
       className={`fixed opacity-0 ${slide_in}`}
@@ -47,7 +59,8 @@ const Trumpet = ({ bot, rot, flip = false }) => {
           <div className="animate-quick_yapping">
             <img
               src={trumpetUrl}
-              className={`w-42 ${flip ? 'scale-x-[-1]' : ''}`}
+              className={`w-42 ${flip ? 'scale-x-[-1]' : ''} cursor-pointer`}
+              onClick={handleClick}
               alt="trumpet"
             />
           </div>
@@ -136,7 +149,7 @@ const SoundButton = () => {
   const [soundState, setSoundState] = useState(false)
   const [firstPlay, setFirstPlay] = useState(true)
   const audioRef = useRef()
-  const { emit } = useEventEmitter()
+  const { emitYap } = useEventEmitter()
 
   // toggle sound state
   const handleClick = () => {
@@ -150,7 +163,7 @@ const SoundButton = () => {
       if (firstPlay) {
         setTimeout(() => {
           if (!audioRef.current.paused) {
-            emit('shopkeeper', { interaction: transcript('music') })
+            emitYap( transcript('music') )
           }
         }, 9 * 1000)
         setFirstPlay(false)

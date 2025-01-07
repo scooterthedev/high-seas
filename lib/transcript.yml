@@ -131,6 +131,8 @@ music:
   - icon:question|who's playing that music?
   - icon:question|where are those instruments?
   - icon:holdingEars|that music is a little loud
+doot: # someone clicks a trumpet while music is playing
+  - icon:freaking|stop with the trumpet!
 fav:
   removed:
     - icon:question|ah, not interested in the [${this.name.toUpperCase()}]?
