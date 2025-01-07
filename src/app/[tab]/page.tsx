@@ -48,7 +48,7 @@ export default function Page({
       <div
         className="inset-0 z-[-1]"
         style={{
-          backgroundImage: 'url(/background.png)',
+          backgroundImage: 'url(/bg.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           position: 'fixed',
