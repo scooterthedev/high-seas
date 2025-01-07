@@ -246,3 +246,14 @@ item:
   item_raspberry_pi_5_45:
     - "|icon:cute| tiny computer that can do BIG things!"
     - "|icon:info| like myself, |icon:scallywag|small but strong!"
+  item_domain__1_year__11:
+    - icon:info|There's a joke in here about pirates and websites, |icon:question|but I can't think of it.
+    - icon:searching|Navigator, set sail for ${this.t('domains')}!
+    - icon:scallywag|Hoist the sails, we're off to ${this.t('domains')}!
+domains:
+  - eelslap.com
+  - endless.horse
+  - puginarug.com
+  - zombo.com
+  - heeeeeeeey.com
+  - fallingfalling.com
