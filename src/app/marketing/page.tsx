@@ -19,7 +19,7 @@ export default async function Marketing() {
     <div>
       <div className="relative h-screen">
         <img
-          src="/background.svg"
+          src="/background.webp"
           alt="background"
           className="absolute inset-0 w-full h-full object-cover"
         />
