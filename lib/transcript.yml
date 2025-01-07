@@ -177,6 +177,18 @@ item:
     - \|icon:cute|yes yes, you buy now!
     - '|icon:cute|youuuuu... pay this much? [${this.price} doubloons]'
     - '|icon:info|why does this label say DO NOT EAT?'
+  zine:
+    - \|icon:reading|I can't read, but i like the pictures!
+    - \|icon:freaking|speed:4.1|OMGWTFBBQ, JULIA EVANS MADE THESE!|pause:300| .|pause:300| .|pause:300| .|icon:question|speed:3|EErrrr, I mean,|icon:scallywag|speed:default|arrrr, set sail on a good story!
+    - \|icon:scallywag|A fine piece of literature, this be!
+    - \|icon:scallywag|My first mate reads these to me!
+    - \|icon:reading|You can even read it with an eyepatch!
+  item_the_pocket_guide_to_debugging_44:
+    - ${this.t('item.zine')}
+  item_hell_yes_css__43:
+    - ${this.t('item.zine')}
+  item_how_git_works_42:
+    - ${this.t('item.zine')}
   item_pinecil_20:
     - ${this.t('item.generic')}
     - '|icon:info|*Warning: May contain lead'
