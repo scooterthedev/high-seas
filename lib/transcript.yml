@@ -246,6 +246,14 @@ item:
   item_raspberry_pi_5_45:
     - "|icon:cute| tiny computer that can do BIG things!"
     - "|icon:info| like myself, |icon:scallywag|small but strong!"
+  item_framework_laptop_16__52:
+    - icon:freaking|The dread ship Theseus!
+    - icon:scallywag|Swap out the parts, just like me and my peg leg!
+    - icon:scallywag|Swap out the parts, just like my first mate's hook!
+    - icon:scallywag|Arrrr, this laptop be a fine vessel!
+    - icon:scallywag|A fine piece of craftsmanship, this be! Only some of the parts are plundered.
+    - icon:scallywag|I made me own framework once, with nothing but a handful of plundered parts lashed together using driftwood and seaweed!
+    - icon:scallywag|I heard they're made by Nirav himself!
   item_domain__1_year__11:
     - icon:info|There's a joke in here about pirates and websites, |icon:question|but I can't think of it.
     - icon:searching|Navigator, set sail for ${this.t('domains')}!
