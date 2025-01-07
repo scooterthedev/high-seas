@@ -74,7 +74,7 @@ export const ShopItemComponent = ({
             price: localPrice,
             affordable,
           })
-          if ((affordable && Math.random() > 0.9)) {
+          if (affordable && Math.random() > 0.9) {
             interaction +=
               ' ' +
               transcript('fav.addedCanAffort', {
@@ -141,10 +141,12 @@ export const ShopItemComponent = ({
                   const itemSpecificInteraction = transcript('item.' + item.id)
                   if (itemSpecificInteraction.startsWith('transcript.')) {
                     console.log('transcript not found', itemSpecificInteraction)
-                    interaction += ' ' + transcript('item.generic', {
-                      name: item.name,
-                      price: localPrice,
-                    })
+                    interaction +=
+                      ' ' +
+                      transcript('item.generic', {
+                        name: item.name,
+                        price: localPrice,
+                      })
                   } else {
                     interaction += ' ' + itemSpecificInteraction
                   }

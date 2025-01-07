@@ -32,12 +32,13 @@ const Trumpet = ({ bot, rot, flip = false }) => {
   const { emitYap } = useEventEmitter()
 
   const handleClick = () => {
-    const dootUrl = 'https://cloud-npii7gys3-hack-club-bot.vercel.app/0skullsound2_1__audio.mp4'
+    const dootUrl =
+      'https://cloud-npii7gys3-hack-club-bot.vercel.app/0skullsound2_1__audio.mp4'
 
     const audio = new Audio(dootUrl)
     audio.play()
 
-    emitYap( transcript('doot') )
+    emitYap(transcript('doot'))
   }
 
   return (
@@ -163,7 +164,7 @@ const SoundButton = () => {
       if (firstPlay) {
         setTimeout(() => {
           if (!audioRef.current.paused) {
-            emitYap( transcript('music') )
+            emitYap(transcript('music'))
           }
         }, 9 * 1000)
         setFirstPlay(false)

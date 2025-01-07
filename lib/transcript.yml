@@ -188,9 +188,9 @@ item:
   item_github_notebook_37:
     - "|icon:info| if only i could read... |icon:holdingEars| *sigh* |icon:info| i'd be able to tell you all about it"
     - "|icon:info|I can't read, but I can tell you it's a notebook!"
-    - "|icon:cute|a place to draw your treasure maps!"
-    - "|icon:info|write down where you buried your treasure!"
-    - "|icon:info|write down where you buried your treasure!|icon:holdingEars| *sigh* . . . i wish i could read"
+    - '|icon:cute|a place to draw your treasure maps!'
+    - '|icon:info|write down where you buried your treasure!'
+    - '|icon:info|write down where you buried your treasure!|icon:holdingEars| *sigh* . . . i wish i could read'
   item_factorio:
     - "|icon:fluster| you have NO IDEA how much time i've sunk into this game"
     - "|icon:info| interesting fact: this is a GREAT way to kill the time when you're marooned on a deserted island"

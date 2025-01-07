@@ -106,24 +106,27 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
         .join(' ')
       await handleInteraction(
         greetingSliced +
-        '-- wait... ' +
-        transcript('cursed') +
-        ' ' +
-        transcript('getout'),
+          '-- wait... ' +
+          transcript('cursed') +
+          ' ' +
+          transcript('getout'),
       )
     } else if (balance == 0) {
       await handleInteraction(
         transcript('greetings') +
-        ' ' +
-        transcript('noMoney') +
-        ' ' +
-        transcript('getout'),
+          ' ' +
+          transcript('noMoney') +
+          ' ' +
+          transcript('getout'),
       )
       // setAtCounter(false)
     } else if (continuousBellClicks > 1) {
       await handleInteraction(transcript('help'))
     } else {
-      await handleInteraction(transcript('greetings') + " just click on anything you're interested in!")
+      await handleInteraction(
+        transcript('greetings') +
+          " just click on anything you're interested in!",
+      )
     }
   }
 
@@ -156,7 +159,10 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
 
   return (
     <>
-      <div className="cursor-pointer text-center mt-5" onClick={handleServiceBellClick}>
+      <div
+        className="cursor-pointer text-center mt-5"
+        onClick={handleServiceBellClick}
+      >
         🛎️
       </div>
       <div className="text-center">(ring for service)</div>
