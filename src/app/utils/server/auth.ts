@@ -86,14 +86,6 @@ export async function verifySession(
   }
 }
 
-export async function deleteSession() {
-  const cookieKeys =
-    'academy-completed ships signpost-feed tickets verification waka'
-      .split(' ')
-      .forEach((key) => cookies().delete(key))
-  cookies().delete(sessionCookieName)
-}
-
 export async function signAndSet(session: HsSession) {
   session.sig = await hashSession(session)
 
