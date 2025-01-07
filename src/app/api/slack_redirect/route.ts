@@ -1,8 +1,4 @@
-import {
-  getRedirectUri,
-  getSession,
-  createSlackSession,
-} from '@/app/utils/auth'
+import { getRedirectUri, createSlackSession } from '@/app/utils/server/auth'
 import { redirect } from 'next/navigation'
 import { NextRequest } from 'next/server'
 

@@ -178,7 +178,7 @@ async function updateHours(): Promise<void> {
         continue
       }
       new Promise((resolve) => setTimeout(resolve, 1000))
-      const yswsRecord = await yswsBase('Grants Awarded').find(yswsRecordID)
+      const yswsRecord = await yswsBase('Approved Projects').find(yswsRecordID)
       if (!yswsRecord) {
         console.log('ysws record not found', yswsRecordID)
         continue

@@ -1,4 +1,4 @@
-import type { Ship } from '@/app/utils/data'
+import type { Ship } from '@/app/utils/server/data'
 import Pill from './pill'
 
 import DoubloonsImage from '/public/doubloon.svg'

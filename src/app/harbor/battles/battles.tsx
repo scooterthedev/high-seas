@@ -21,7 +21,7 @@ import Cursed from './cursed'
 import pluralize from '../../../../lib/pluralize'
 import ProjectCard from './project-card'
 import { markdownComponents } from './mdc'
-import { Ship } from '@/app/utils/data'
+import { Ship } from '@/app/utils/server/data'
 import Modal from '@/components/ui/modal'
 import { sendFraudReport } from './fraud-utils'
 import { Button } from '@/components/ui/button'
@@ -124,6 +124,9 @@ export default function Matchups({ session }: { session: HsSession }) {
     'https://cloud-1v9k8a4x7-hack-club-bot.vercel.app/0yr_sweep_up_01_audio.mp4',
   ].map((path) => new Howl({ src: path }))
 
+  const reducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  ).matches
   let shuffling = false
   function shuffle() {
     shuffling = true
@@ -132,7 +135,7 @@ export default function Matchups({ session }: { session: HsSession }) {
 
     document.body.style.willChange = 'transform'
     let rotation = 0
-    const duration = 1000 // total duration in milliseconds
+    const duration = reducedMotion ? 0 : 1000 // total duration in milliseconds
     const interval = 20 // interval in milliseconds
     const totalSteps = duration / interval
     let currentStep = 0
@@ -163,7 +166,10 @@ export default function Matchups({ session }: { session: HsSession }) {
       if (currentStep >= totalSteps) {
         clearInterval(spinInterval)
         document.body.style.transform = 'rotate(0deg)' // reset to initial state
-        document.body.style.paddingTop = '1px'
+        document.body.style.paddingTop = '0'
+        document.body.style.paddingBottom = '0'
+        document.body.style.transform = 'none'
+        document.body.style.willChange = 'auto'
       }
     }, interval)
   }
@@ -434,8 +440,8 @@ export default function Matchups({ session }: { session: HsSession }) {
           <p className="text-xl text-gray-300 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
             A good ship is technical, creative, and presented well so that
             others can understand and experience it. By that definition, which
-            of these two projects is better? (If you are not sure, just refresh
-            to skip!)
+            of these two projects is better? (If you are not sure, just hit
+            shuffle to skip!)
           </p>
 
           {blessed && <Blessed />}

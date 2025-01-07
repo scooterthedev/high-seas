@@ -84,13 +84,6 @@ export default function Shop({ session }: { session: HsSession }) {
           {bannerText}
         </p>
 
-        {!isTutorial && (
-          <JaggedCardSmall bgColor="#EF4444" className="text-white">
-            Heads up, the elves that run the shop are only part time and will be
-            busy with their other job in the north pole from Dec 21 - Jan 2nd.
-            You can still order, but prize fulfillment is delayed.
-          </JaggedCardSmall>
-        )}
         <br />
         <Progress val={favouriteItems} items={shopItems} />
         <br />
