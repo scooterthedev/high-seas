@@ -72,6 +72,13 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
             speed = undefined
           }
           break
+        case 'pause':
+          if (arg[0]) {
+            await new Promise((resolve) => setTimeout(resolve, parseFloat(arg[0])))
+          } else {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          }
+          break
         default:
           await new Promise((resolve) => {
             const yapOptions = {

@@ -177,6 +177,18 @@ item:
     - \|icon:cute|yes yes, you buy now!
     - '|icon:cute|youuuuu... pay this much? [${this.price} doubloons]'
     - '|icon:info|why does this label say DO NOT EAT?'
+  zine:
+    - \|icon:reading|I can't read, but i like the pictures!
+    - \|icon:freaking|speed:4.1|OMGWTFBBQ, JULIA EVANS MADE THESE!|pause:300| .|pause:300| .|pause:300| .|icon:question|speed:3|EErrrr, I mean,|icon:scallywag|speed:default|arrrr, set sail on a good story!
+    - \|icon:scallywag|A fine piece of literature, this be!
+    - \|icon:scallywag|My first mate reads these to me!
+    - \|icon:reading|You can even read it with an eyepatch!
+  item_the_pocket_guide_to_debugging_44:
+    - ${this.t('item.zine')}
+  item_hell_yes_css__43:
+    - ${this.t('item.zine')}
+  item_how_git_works_42:
+    - ${this.t('item.zine')}
   item_pinecil_20:
     - ${this.t('item.generic')}
     - '|icon:info|*Warning: May contain lead'
@@ -186,6 +198,7 @@ item:
     - \|icon:info|yes, let me fetch one from the back...|icon:freaking|speed:3.5|ow!|speed:4| Ow!|speed:4.5| OWOWOWOWOWOW!
     - \|icon:cute|It’s like welding but tiny!
   item_github_notebook_37:
+    - ${this.t('item.generic')}
     - "|icon:info| if only i could read... |icon:holdingEars| *sigh* |icon:info| i'd be able to tell you all about it"
     - "|icon:info|I can't read, but I can tell you it's a notebook!"
     - '|icon:cute|a place to draw your treasure maps!'
@@ -208,6 +221,7 @@ item:
     - ooooh, are you going to put that on your laptop?
     - Puts the "ad" in "adhesive"!
   item_signed_photo_of_malted_19:
+    - ${this.t('item.generic')}
     - '|icon:info|Due to inflation the average photo is only worth 700 words'
     - "|icon:info|I'm not sure who this is, but they look important!"
     - '|icon:question|i dont know why i have these, they just washed up one day'
@@ -216,9 +230,50 @@ item:
     - used to make sure your plank is just the right walkin' length
     - as sharp as a cutlass!
     - as sharp as me first mate's hook!
+    - "|icon:scallywag|ever been pinched by a crab's claws?|pause|icon:question| No?|pause|icon:info| Well, nevermind then"
   item_flipper_32:
     - \|icon:info|I've tried these, but watch out. . .|icon:wet| they aren't water proof
     - \|icon:tinfoil|*dons her tinfoil captain's hat*|speed:0.3|. . .|speed:default| don't point that at me head
   item_hack_club_socks__34:
     - they aren't hacker socks, but any ${this.t('pirateyThings')} worth their salt can make do...
     - as a raccoon, i've already got natural socks, but these are good for me crew!
+  item_blah_j_5:
+    - ${this.t('item.generic')}
+    - \|icon:fluster|kinda makes you wanna walk the plank, doesn't it?
+    - \|icon:cute| Cuddle friend!
+    - \|icon:cute| mine keeps me safe when i'm asleep
+    - \|icon:cute| cuddle friend!|icon:holdingEars| *sigh* . . . i wish i had mine still...
+  item_lockpick_set_31:
+    - ${this.t('item.generic')}
+    - "|icon:cute| tiny tools for unlockin' things!"
+    - "|icon:scallywag|fortunately, me twig-like paws are perfect for this sorta work, but these are good for me crew!"
+    - "|icon:cute| little helpers for gettin' into treasure chests!"
+    - "|icon:info| You can pick your friends, and you can pick your lock, but you can't pick your friend's lock. |icon:question| errrr... i guess you can, but please don't pick my locks!"
+    - "|icon:info| Take your pick!"
+    - "|icon:info| now YOU can master those masterlocks!"
+    - "|icon:info| it's a good skill to learn! it really opens doors for you!"
+  item_dremel_4300_kit_33:
+    - '|icon:info| thingamajig... |icon:question|with an on button... *CLICK* |icon:freaking|speed:3.5| OH DEAR!'
+    - "|icon:info| it's a spinny thing... |icon:question|but I forgot what you collet"
+  item_raspberry_pi_5_45:
+    - "|icon:cute| tiny computer that can do BIG things!"
+    - "|icon:info| like myself, |icon:scallywag|small but strong!"
+  item_framework_laptop_16__52:
+    - icon:freaking|The dread ship Theseus!
+    - icon:scallywag|Swap out the parts, just like me and my peg leg!
+    - icon:scallywag|Swap out the parts, just like my first mate's hook!
+    - icon:scallywag|Arrrr, this laptop be a fine vessel!
+    - icon:scallywag|A fine piece of craftsmanship, this be! Only some of the parts are plundered.
+    - icon:scallywag|I made me own framework once, with nothing but a handful of plundered parts lashed together using driftwood and seaweed!
+    - icon:scallywag|I heard they're made by Nirav himself!
+  item_domain__1_year__11:
+    - icon:info|There's a joke in here about pirates and websites, |icon:question|but I can't think of it.
+    - icon:searching|Navigator, set sail for ${this.t('domains')}!
+    - icon:scallywag|Hoist the sails, we're off to ${this.t('domains')}!
+domains:
+  - eelslap.com
+  - endless.horse
+  - puginarug.com
+  - zombo.com
+  - heeeeeeeey.com
+  - fallingfalling.com
