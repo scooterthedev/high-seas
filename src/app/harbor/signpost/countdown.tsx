@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import JaggedCardSmall from '@/components/jagged-card-small'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 const dateEnd = new Date('2025-02-01T05:00:00Z').getTime()
 const formatTime = (distance: number) => {
@@ -37,6 +39,15 @@ export default function Countdown() {
       <div className="text-center">
         <h2 className="text-xl">Time Remaining</h2>
         <h1 className="text-4xl font-bold">{timeLeft}</h1>
+        <div className="mt-4">
+          Arrrrr, you'd better{" "}
+          <Link href="/shipyard">
+            <Button variant={'link'} className="text-white mx-0 px-0 text-base">
+              ship all your ships
+            </Button>
+          </Link>{" "}
+          before the time runs out!
+        </div>
       </div>
     </JaggedCardSmall>
   )
