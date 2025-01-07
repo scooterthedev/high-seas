@@ -1,6 +1,6 @@
 'use client'
 
-import { SignpostFeedItem } from '@/app/utils/data'
+import { SignpostFeedItem } from '@/app/utils/server/data'
 import JaggedCardSmall from '@/components/jagged-card-small'
 import Cookies from 'js-cookie'
 import Markdown from 'react-markdown'

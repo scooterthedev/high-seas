@@ -1,6 +1,6 @@
 // Import necessary modules and components
 import { createShipUpdate } from './ship-utils'
-import type { Ship } from '@/app/utils/data'
+import type { Ship } from '@/app/utils/server/data'
 import { Button } from '@/components/ui/button'
 import JSConfetti from 'js-confetti'
 import { useCallback, useEffect, useRef, useState } from 'react'

@@ -1,7 +1,7 @@
 'use server'
 
 import { getSession } from '@/app/utils/auth'
-import { Ship } from '@/app/utils/data'
+import { Ship } from '@/app/utils/server/data'
 
 export async function sendFraudReport(
   project: Ship,
