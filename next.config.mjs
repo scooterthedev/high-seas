@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 import { withPlausibleProxy } from 'next-plausible'
+import withYaml from 'next-plugin-yaml'
 import { execSync } from 'child_process'
 const commitHash = execSync('git log --pretty=format:"%h" -n1')
   .toString()
@@ -15,6 +16,7 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  reactStrictMode: false,
   env: {
     COMMIT_HASH: commitHash,
   },
@@ -42,4 +44,6 @@ const sentryContext = {
 
 const plausibleConfig = withPlausibleProxy()(nextConfig)
 
-export default withSentryConfig(plausibleConfig, sentryContext)
+const yamlConfig = withYaml(plausibleConfig)
+
+export default withSentryConfig(yamlConfig, sentryContext)

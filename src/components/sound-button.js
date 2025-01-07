@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { sample } from '../../lib/flavor'
+import { useEventEmitter } from '../../lib/useEventEmitter'
+import { transcript } from '../../lib/transcript'
 
 const musicSamples = [
   'https://cloud-dx9y4rk8f-hack-club-bot.vercel.app/5drunk_raccoon_audio.mp4',
@@ -26,6 +28,19 @@ const Trumpet = ({ bot, rot, flip = false }) => {
     'animate-trumpet3',
     'animate-trumpet4',
   ]
+
+  const { emitYap } = useEventEmitter()
+
+  const handleClick = () => {
+    const dootUrl =
+      'https://cloud-npii7gys3-hack-club-bot.vercel.app/0skullsound2_1__audio.mp4'
+
+    const audio = new Audio(dootUrl)
+    audio.play()
+
+    emitYap(transcript('doot'))
+  }
+
   return (
     <div
       className={`fixed opacity-0 ${slide_in}`}
@@ -34,7 +49,7 @@ const Trumpet = ({ bot, rot, flip = false }) => {
         animationFillMode: 'forwards',
         bottom: `${bot}%`,
         ...pos,
-        zIndex: 3000,
+        zIndex: 1000, // over the page & the shopkeeper
       }}
     >
       <div style={{ transform: `rotate(${rot}deg)` }}>
@@ -45,7 +60,8 @@ const Trumpet = ({ bot, rot, flip = false }) => {
           <div className="animate-quick_yapping">
             <img
               src={trumpetUrl}
-              className={`w-42 ${flip ? 'scale-x-[-1]' : ''}`}
+              className={`w-42 ${flip ? 'scale-x-[-1]' : ''} cursor-pointer`}
+              onClick={handleClick}
               alt="trumpet"
             />
           </div>
@@ -132,7 +148,9 @@ const theFlags = () => {
 
 const SoundButton = () => {
   const [soundState, setSoundState] = useState(false)
+  const [firstPlay, setFirstPlay] = useState(true)
   const audioRef = useRef()
+  const { emitYap } = useEventEmitter()
 
   // toggle sound state
   const handleClick = () => {
@@ -143,6 +161,14 @@ const SoundButton = () => {
     // play sound if soundState is true
     if (soundState) {
       audioRef.current.play()
+      if (firstPlay) {
+        setTimeout(() => {
+          if (!audioRef.current.paused) {
+            emitYap(transcript('music'))
+          }
+        }, 9 * 1000)
+        setFirstPlay(false)
+      }
     } else {
       audioRef.current.pause()
     }

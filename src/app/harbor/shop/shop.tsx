@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import { LoadingSpinner } from '@/components/ui/loading_spinner'
-import { sample, shopBanner } from '../../../../lib/flavor.js'
 import { useState, useEffect } from 'react'
 import { getShop, ShopItem } from './shop-utils'
 import useLocalStorageState from '../../../../lib/useLocalStorageState.js'
@@ -11,6 +10,8 @@ import { ShopItemComponent } from './shop-item-component.js'
 import { ShopkeeperComponent } from './shopkeeper.js'
 import { safePerson } from '@/app/utils/airtable'
 import Progress from './progress.tsx'
+import { transcript } from '../../../../lib/transcript.js'
+
 export default function Shop({ session }: { session: HsSession }) {
   const [filterIndex, setFilterIndex] = useLocalStorageState(
     'shop.country.filter',
@@ -24,11 +25,15 @@ export default function Shop({ session }: { session: HsSession }) {
     useLocalStorageState<string>('cache.personTicketBalance', '-')
 
   const [bannerText, setBannerText] = useState('')
+  const [cursed, setCursed] = useState(false)
   const isTutorial = sessionStorage.getItem('tutorial')
   useEffect(() => {
-    setBannerText(sample(shopBanner))
+    setBannerText(transcript('banner'))
     getShop().then((shop) => setShopItems(shop))
-    safePerson().then((sp) => setPersonTicketBalance(sp.settledTickets))
+    safePerson().then((sp) => {
+      setPersonTicketBalance(sp.settledTickets)
+      setCursed(sp.cursed)
+    })
   }, [])
   const [favouriteItems, setFavouriteItems] = useState(
     JSON.parse(localStorage.getItem('favouriteItems') ?? '[]'),
@@ -70,7 +75,7 @@ export default function Shop({ session }: { session: HsSession }) {
   }
 
   return (
-    <motion.div className="container mx-auto px-4 py-8 text-white">
+    <motion.div className="container mx-auto px-4 py-8 text-white relative">
       <div className="text-center text-white">
         <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
           Pirate Shop
@@ -78,11 +83,12 @@ export default function Shop({ session }: { session: HsSession }) {
         <p className="text-xl animate-pulse mb-6 rotate-[-7deg] inline-block">
           {bannerText}
         </p>
-        <ShopkeeperComponent />
+
         <br />
         <Progress val={favouriteItems} items={shopItems} />
         <br />
       </div>
+      <ShopkeeperComponent balance={personTicketBalance} cursed={cursed} />
       <div className="text-center mb-6 mt-12" id="region-select">
         <label>pick a region to buy something!</label>
         <select

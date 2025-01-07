@@ -5,7 +5,7 @@ import Harbor from '../harbor/tabs/tabs'
 import { createMagicSession, getSession } from '../utils/auth'
 import { Card } from '@/components/ui/card'
 import { SoundButton } from '../../components/sound-button.js'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useLocalStorageState from '../../../lib/useLocalStorageState'
 
 export default function Page({
@@ -56,7 +56,7 @@ export default function Page({
       />
       <SoundButton />
       <Card
-        className="w-full max-w-full max-w-4xl flex flex-col mx-auto mt-20 overflow-x-hidden mb-14"
+        className="w-full max-w-full max-w-4xl flex flex-col mx-auto mt-20 mb-14"
         type={'cardboard'}
       >
         {session?.slackId ? (
