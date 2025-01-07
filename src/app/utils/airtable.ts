@@ -1,7 +1,7 @@
 'use server'
 
 import { getSession } from './auth'
-import { person, updateShowInLeaderboard } from './data'
+import { person, updateShowInLeaderboard } from './server/data'
 import { getSelfPerson } from './server/airtable'
 
 export async function getVotesRemainingForNextPendingShip(slackId: string) {

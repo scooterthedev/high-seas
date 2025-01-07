@@ -1,9 +1,7 @@
 'use server'
 
-import { cookies, headers } from 'next/headers'
-import { redirect } from 'next/navigation'
 import { getSession, HsSession } from './auth'
-import { fetchWaka } from './data'
+import { fetchWaka } from './server/data'
 
 const WAKA_API_KEY = process.env.WAKA_API_KEY
 export interface WakaSignupResponse {
