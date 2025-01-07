@@ -2,13 +2,14 @@
 
 import { getSelfPerson } from '@/app/utils/server/airtable'
 import { getSession } from '@/app/utils/auth'
-import { fetchShips, person } from '@/app/utils/server/data'
+import { person } from '@/app/utils/server/data'
 import { getWakaSessions } from '@/app/utils/waka'
 import { cookies } from 'next/headers'
-import type { Ship } from '@/app/utils/server/data'
 import Airtable from 'airtable'
 import { withLock } from '../../../../lib/redis-lock'
 import sum from '../../../../lib/sum'
+import { fetchShips } from '@/app/utils/data'
+import type { Ship } from '@/app/utils/data'
 
 const peopleTableName = 'people'
 const shipsTableName = 'ships'
