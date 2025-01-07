@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react'
 import JaggedCardSmall from '@/components/jagged-card-small'
 
 const dateEnd = new Date('2025-02-01T05:00:00Z').getTime()
+const formatTime = (distance: number) => {
+  const hours = Math.floor(distance / (1000 * 60 * 60))
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000)
+
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+}
+
 export default function Countdown() {
   const [timeLeft, setTimeLeft] = useState('00:00:00')
 
@@ -16,13 +24,7 @@ export default function Countdown() {
         return
       }
 
-      const hours = Math.floor(distance / (1000 * 60 * 60))
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000)
-
-      setTimeLeft(
-        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`,
-      )
+      setTimeLeft(formatTime(distance))
     }, 1000)
 
     return () => clearInterval(interval)
