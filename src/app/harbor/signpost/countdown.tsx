@@ -38,7 +38,7 @@ export default function Countdown() {
     <JaggedCardSmall bgColor="#efefef" shadow={true} className="text-white">
       <div className="text-center">
         <h2 className="text-xl">Time Remaining</h2>
-        <h1 className="text-4xl font-bold">{timeLeft}</h1>
+        <h1 className="text-4xl font-bold font-mono">{timeLeft}</h1>
         <div className="mt-4">
           Arrrrr, you'd better{" "}
           <Link href="/shipyard">
