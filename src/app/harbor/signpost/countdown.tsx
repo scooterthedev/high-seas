@@ -28,7 +28,9 @@ export default function Countdown() {
     return () => clearInterval(interval)
   }, [])
 
-  return (
+  return dateEnd - new Date().getTime() > 100 * 60 * 60 * 1000 ? (
+    <></>
+  ) : (
     <JaggedCardSmall bgColor="#efefef" shadow={true} className="text-white">
       <div className="text-center">
         <h2 className="text-xl">Time Remaining</h2>
