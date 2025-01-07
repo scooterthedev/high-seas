@@ -9,13 +9,13 @@ const formatTime = (distance: number) => {
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
   const seconds = Math.floor((distance % (1000 * 60)) / 1000)
 
-if (hours > 0) {
+  if (hours > 0) {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
-} else if (minutes > 0) {
+  } else if (minutes > 0) {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
-} else {
+  } else {
     return `${String(seconds).padStart(2, '0')}`
-}
+  }
 }
 
 export default function Countdown() {
@@ -43,16 +43,35 @@ export default function Countdown() {
   ) : (
     <JaggedCardSmall bgColor="#efefef" shadow={true} className="text-white">
       <div className="text-center">
-        <h2 className="text-xl">Time Remaining</h2>
-        <h1 className={`font-black font-mono ${dateEnd - new Date().getTime() < 60 * 60 * 1000 ? 'text-6xl' : 'text-5xl'}`}>{timeLeft}</h1>
+        <h2 className="text-xl">
+          {dateEnd - new Date().getTime() > 0 ? (
+            <>Time Remaining</>
+          ) : (
+            <>Ended.</>
+          )}
+        </h2>
+        <h1
+          className={`font-black font-mono ${dateEnd - new Date().getTime() < 60 * 60 * 1000 ? 'text-6xl' : 'text-5xl'}`}
+        >
+          {dateEnd - new Date().getTime() > 0 ? (
+            <>{timeLeft}</>
+          ) : (
+            <>High Seas is over!</>
+          )}
+        </h1>
         <div className="mt-4">
-          Arrrrr, you'd better{" "}
-          <Link href="/shipyard">
-            <Button variant={'link'} className="text-white mx-0 px-0 text-base">
-              ship all your ships
-            </Button>
-          </Link>{" "}
-          before the time runs out!
+        {dateEnd - new Date().getTime() > 0 ? (
+            <>Arrrrr, you'd better{' '}
+            <Link href="/shipyard">
+              <Button variant={'link'} className="text-white mx-0 px-0 text-base">
+                ship all your ships
+              </Button>
+            </Link>{' '}
+            before the time runs out!</>
+          ) : (
+            <>Arrr, thank you all for competing, you were worthy pirates!</>
+          )}
+          
         </div>
       </div>
     </JaggedCardSmall>
