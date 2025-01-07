@@ -123,7 +123,7 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     } else if (continuousBellClicks > 1) {
       await handleInteraction(transcript('help'))
     } else {
-      await handleInteraction(transcript('greetings'))
+      await handleInteraction(transcript('greetings') + " just click on anything you're interested in!")
     }
   }
 
