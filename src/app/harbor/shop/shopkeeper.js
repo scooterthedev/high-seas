@@ -22,7 +22,7 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
   const [bellClickCount, setBellClickCount] = useState(0)
   const [continuousBellClicks, setContinuousBellClicks] = useState(0)
   const [shopkeeperMsg, setShopkeeperMsg] = useState('')
-  const [shopkeeperImg, setShopkeeperImg] = useState('thinking.png')
+  const [shopkeeperImg, setShopkeeperImg] = useState(shopIcons.scallywag)
   const [interactionBusy, setInteractionBusy] = useState(false)
   const { on, off } = useEventEmitter()
 

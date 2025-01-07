@@ -104,13 +104,14 @@ greetings:
   - that coinpurse looks heavy, let me help you with that.
   - I have a feeling you're going to like what you see today.
   - Hey there! You look like you could use some help.
+  - Oh, hello! How can I help you have a GARBAGE day?
 tooManyBells:
   - icon:freaking|Alright! |icon:threat|Enough with the |speed:4.1|BLOODY BELLS!~
   - icon:holdingears|S-stop it! I got sensitive hear-holes over here!
   - icon:freaking|stop ringing that annoysing bell!
   - icon:notamused|argh, I'm regretting plundering that bell in the first place
-  - icon:threat|I swear on me mum & all my 27 siblings, stop with the bell!
-  - icon:threat|I didn't get marooned on this island to listen to that!
+  - icon:threat|I swear on me mum & all my ${21 + Math.floor(Math.random() * 8)} siblings, stop with the bell!
+  - icon:threat|I didn't get |speed:4|MAROONED|speed:default| on this dog-forsaken island to listen to that!
   - S-stop taunting me with those infernal bells!
   - Go annoy some tanuki on another island with those bells!
 pirateyThings:
@@ -170,7 +171,7 @@ item:
   base: icon:question|you want to buy a |speed:2.5|[${this.name.toUpperCase()}]|speed:default|?
   generic:
     - \|icon:question|see something you like?
-    - \|icon:info|those have been pretty popular lately. . . |icon:crying| *internally crying as she thinks about the ${this.t('floatingThings')} and ${this.t('floatingThings')} that have been her only customers for the past 3 years*
+    - \|icon:info|those have been pretty popular lately. . . |icon:peefest| *internally crying as she thinks about the ${this.t('floatingThings')} and ${this.t('floatingThings')} that have been her only customers for the past 3 years*
     - \|icon:question|uuuuh, how many you want?
     - \|icon:cute|yes yes, you buy now!
     - '|icon:cute|youuuuu... pay this much? [${this.price} doubloons]'
