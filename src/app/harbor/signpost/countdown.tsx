@@ -60,18 +60,22 @@ export default function Countdown() {
           )}
         </h1>
         <div className="mt-4">
-        {dateEnd - new Date().getTime() > 0 ? (
-            <>Arrrrr, you'd better{' '}
-            <Link href="/shipyard">
-              <Button variant={'link'} className="text-white mx-0 px-0 text-base">
-                ship all your ships
-              </Button>
-            </Link>{' '}
-            before the time runs out!</>
+          {dateEnd - new Date().getTime() > 0 ? (
+            <>
+              Arrrrr, you'd better{' '}
+              <Link href="/shipyard">
+                <Button
+                  variant={'link'}
+                  className="text-white mx-0 px-0 text-base"
+                >
+                  ship all your ships
+                </Button>
+              </Link>{' '}
+              before the time runs out!
+            </>
           ) : (
             <>Arrr, thank you all for competing, you were worthy pirates!</>
           )}
-          
         </div>
       </div>
     </JaggedCardSmall>
