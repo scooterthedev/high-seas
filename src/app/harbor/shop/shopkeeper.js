@@ -156,10 +156,10 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
 
   return (
     <>
-      <div className="cursor-pointer" onClick={handleServiceBellClick}>
+      <div className="cursor-pointer text-center mt-5" onClick={handleServiceBellClick}>
         🛎️
       </div>
-      <div>(ring for service)</div>
+      <div className="text-center">(ring for service)</div>
 
       <style jsx>
         {`
