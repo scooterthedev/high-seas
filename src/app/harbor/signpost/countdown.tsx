@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import JaggedCardSmall from '@/components/jagged-card-small'
 
-const dateEnd = new Date('2025-01-31').getTime()
+const dateEnd = new Date('2025-02-01T05:00:00Z').getTime()
 export default function Countdown() {
   const [timeLeft, setTimeLeft] = useState('00:00:00')
 
