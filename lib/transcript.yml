@@ -230,3 +230,12 @@ item:
     - \|icon:cute| Cuddle friend!
     - \|icon:cute| mine keeps me safe when i'm asleep
     - \|icon:cute| cuddle friend!|icon:holdingEars| *sigh* . . . i wish i had mine still...
+  item_lockpick_set_31:
+    - ${this.t('item.generic')}
+    - "|icon:cute| tiny tools for unlockin' things!"
+    - "|icon:scallywag|fortunately, me twig-like paws are perfect for this sorta work, but these are good for me crew!"
+    - "|icon:cute| little helpers for gettin' into treasure chests!"
+    - "|icon:info| You can pick your friends, and you can pick your lock, but you can't pick your friend's lock. |icon:question| errrr... i guess you can, but please don't pick my locks!"
+    - "|icon:info| Take your pick!"
+    - "|icon:info| now YOU can master those masterlocks!"
+    - "|icon:info| it's a good skill to learn! it really opens doors for you!"
