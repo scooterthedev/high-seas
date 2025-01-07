@@ -29,7 +29,6 @@ selfClick:
   - icon:threat|I'll have you know I'm not for sale!
   - icon:threat|You ain't gonna plunder this booty!
   - icon:freaking|N-no! You can't buy me! |icon:sticker|I'm not gonna be some collectible sticker sheet!
-  - icon:freaking|N-no! You can't buy me! |icon:sticker2|I'm not gonna be some collectible sticker sheet!
   - icon:threat|hey!! i'm allergic to cursors!
   - icon:thumbs|guess who's got 2 thumbs and is not for sale!
   - click me one more time, i dare you... ya ${this.t('pirateyThings')}!
@@ -171,7 +170,7 @@ item:
   base: icon:question|you want to buy a |speed:2.5|[${this.name.toUpperCase()}]|speed:default|?
   generic:
     - \|icon:question|see something you like?
-    - \|icon:info|those have been pretty popular lately. . . |icon:peefest| *internally crying as she thinks about the ${this.t('floatingThings')} and ${this.t('floatingThings')} that have been her only customers for the past 3 years*
+    - \|icon:info|those have been pretty popular lately. . . |icon:peefest|speed:4.5| *internally crying as she thinks about the ${this.t('floatingThings')} and ${this.t('floatingThings')} that have been her only customers for the past 3 years*|speed:default
     - \|icon:question|uuuuh, how many you want?
     - \|icon:cute|yes yes, you buy now!
     - '|icon:cute|youuuuu... pay this much? [${this.price} doubloons]'
@@ -181,7 +180,7 @@ item:
     - '|icon:info|*Warning: May contain lead'
     - \|icon:info|I hafta be careful with these– me first mate has a lead allergy!
     - \|icon:info|Be careful if you have a lead allergy!
-    - \|icon:freaking|hot! Hot! HOT!
+    - \|icon:freaking|hot! |speed:3.5|Hot! |speed:4|HOT!|speed:default
     - \|icon:info|yes, let me fetch one from the back...|icon:freaking|speed:3.5|ow!|speed:4| Ow!|speed:4.5| OWOWOWOWOWOW!
     - \|icon:cute|It’s like welding but tiny!
   item_github_notebook_37:
