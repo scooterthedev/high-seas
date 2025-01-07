@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { getShop, ShopItem } from './shop-utils'
 import useLocalStorageState from '../../../../lib/useLocalStorageState.js'
 import { HsSession } from '@/app/utils/auth.js'
-import JaggedCardSmall from '@/components/jagged-card-small'
 
 import { ShopItemComponent } from './shop-item-component.js'
 import { ShopkeeperComponent } from './shopkeeper.js'
@@ -88,7 +87,9 @@ export default function Shop({ session }: { session: HsSession }) {
         <Progress val={favouriteItems} items={shopItems} />
         <br />
       </div>
-      <ShopkeeperComponent balance={personTicketBalance} cursed={cursed} />
+      {!isTutorial && (
+        <ShopkeeperComponent balance={personTicketBalance} cursed={cursed} />
+      )}
       <div className="text-center mb-6 mt-12" id="region-select">
         <label>pick a region to buy something!</label>
         <select
