@@ -74,7 +74,9 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
           break
         case 'pause':
           if (arg[0]) {
-            await new Promise((resolve) => setTimeout(resolve, parseFloat(arg[0])))
+            await new Promise((resolve) =>
+              setTimeout(resolve, parseFloat(arg[0])),
+            )
           } else {
             await new Promise((resolve) => setTimeout(resolve, 1000))
           }
