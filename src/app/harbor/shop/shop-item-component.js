@@ -142,13 +142,13 @@ export const ShopItemComponent = ({
                   if (itemSpecificInteraction.startsWith('transcript.')) {
                     console.log('transcript not found', itemSpecificInteraction)
                     interaction +=
-                      ' ' +
+                      ' |' +
                       transcript('item.generic', {
                         name: item.name,
                         price: localPrice,
                       })
                   } else {
-                    interaction += ' ' + itemSpecificInteraction
+                    interaction += ' |' + itemSpecificInteraction
                   }
                   emitYap(interaction)
                 }}
