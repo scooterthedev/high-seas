@@ -9,6 +9,7 @@ const musicSamples = [
   'https://cloud-dx9y4rk8f-hack-club-bot.vercel.app/5drunk_raccoon_audio.mp4',
   'https://cloud-hrqk6nzbv-hack-club-bot.vercel.app/0old_runescape_soundtrack____sea_shanty2__bjhf0l7pfo8__audio.mp4',
   'https://cloud-lz0nnkmfw-hack-club-bot.vercel.app/0final_final_high_seas_audio.mp4', // written by @Rrr on slack!
+  'https://cloud-7hoafdd1y-hack-club-bot.vercel.app/0two_hornpipes__tortuga___unwk1x_tgsc__audio.mp4',
 ]
 
 const trumpetUrl =
