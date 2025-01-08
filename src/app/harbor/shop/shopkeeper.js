@@ -6,6 +6,7 @@ import { shopIcons, bound } from '../../../../lib/flavor'
 
 import { transcript } from '../../../../lib/transcript'
 import { useEventEmitter } from '../../../../lib/useEventEmitter'
+import { Button } from '@/components/ui/button'
 
 const bellSoundUrls = [
   'https://cloud-dx9y4rk8f-hack-club-bot.vercel.app/0ding-2-90199_audio.mp4',
@@ -20,11 +21,13 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
   const [atCounter, setAtCounter] = useState(false)
   const [bellIndex, setBellIndex] = useState(0)
   const [bellClickCount, setBellClickCount] = useState(0)
+  const [selfClickCount, setSelfClickCount] = useState(0)
   const [continuousBellClicks, setContinuousBellClicks] = useState(0)
   const [shopkeeperMsg, setShopkeeperMsg] = useState('')
   const [shopkeeperImg, setShopkeeperImg] = useState(shopIcons.scallywag)
   const [interactionBusy, setInteractionBusy] = useState(false)
   const { on, off } = useEventEmitter()
+  const [buyButton, setBuyButton] = useState()
 
   useEffect(() => {
     const handleEvent = (event) => {
@@ -53,6 +56,7 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     }
     setInteractionBusy(true)
     setShopkeeperMsg('')
+    setBuyButton()
     let speed
     console.log('handling interaction', interaction)
     for (const action of interaction.split('|')) {
@@ -72,9 +76,17 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
             speed = undefined
           }
           break
+        case 'buy':
+          if (arg[0]) {
+            await setBuyButton(arg[0])
+          } else {
+            await setBuyButton()
+          }
         case 'pause':
           if (arg[0]) {
-            await new Promise((resolve) => setTimeout(resolve, parseFloat(arg[0])))
+            await new Promise((resolve) =>
+              setTimeout(resolve, parseFloat(arg[0])),
+            )
           } else {
             await new Promise((resolve) => setTimeout(resolve, 1000))
           }
@@ -99,8 +111,8 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
 
   const handleServiceBellClick = async () => {
     setBellIndex(Math.floor(Math.random() * bellSounds.length))
-    setBellClickCount(bellClickCount + 1)
-    setContinuousBellClicks(continuousBellClicks + 1)
+    setBellClickCount((prev) => prev + 1)
+    setContinuousBellClicks((prev) => prev + 1)
     bellSounds[bellIndex].play()
     setAtCounter(true)
     // await new Promise(r => setTimeout(r, 1000))
@@ -130,15 +142,24 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     } else if (continuousBellClicks > 1) {
       await handleInteraction(transcript('help'))
     } else {
-      await handleInteraction(
-        transcript('greetings') +
-          " just click on anything you're interested in!",
-      )
+      if (bellClickCount == 0) {
+        await handleInteraction(
+          transcript('greetings') +
+            " just click on anything you're interested in!",
+        )
+      } else {
+        await handleInteraction(transcript('greetings'))
+      }
     }
   }
 
   const handleSelfClick = async () => {
-    await handleInteraction(transcript('selfClick'))
+    setSelfClickCount((prev) => prev + 1)
+    if (selfClickCount == 2) {
+      await handleInteraction(transcript('selfClickBuy'))
+    } else {
+      await handleInteraction(transcript('selfClick'))
+    }
   }
 
   const containerStyles = {
@@ -219,10 +240,26 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
                 }
               />
             </div>
-            <div id="shopkeeper-msg">{shopkeeperMsg}</div>
+            <div id="shopkeeper-msg">
+              {shopkeeperMsg}
+              {buyButton && <BuyButton itemId={buyButton} />}
+            </div>
           </div>
         </div>
       )}
     </>
+  )
+}
+
+const BuyButton = ({ itemId }) => {
+  return (
+    <form
+      action={`/api/buy/${itemId}`}
+      className="w-full text-center animate-pulse"
+    >
+      <Button className="bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 m-2 rounded transition-colors duration-200 text-3xl enchanted">
+        Buy
+      </Button>
+    </form>
   )
 }

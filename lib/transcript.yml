@@ -28,15 +28,18 @@ selfClick:
   - icon:holdingEars|hands off ${this.t('pirateyThings')}!
   - icon:threat|I'll have you know I'm not for sale!
   - icon:threat|You ain't gonna plunder this booty!
-  - icon:freaking|N-no! You can't buy me! |icon:sticker|I'm not gonna be some collectible sticker sheet!
   - icon:threat|hey!! i'm allergic to cursors!
   - icon:thumbs|guess who's got 2 thumbs and is not for sale!
   - click me one more time, i dare you... ya ${this.t('pirateyThings')}!
-  - icon:freaking|w-wait. |icon:blushing|you want to buy me? really?
+  - icon:freaking|w-wait. |icon:fluster|you want to buy me? really?
   - icon:fluster|stop clicking! t-that tickles!
   - icon:fluster|w-wait. you want to buy me? really?
   - d-did you just click me?!
   - icon:threat|*angry raccoon chittering noises*
+selfClickBuy:
+  - icon:freaking|N-no! |icon:sticker|don't turn me into a marketable sticker!|buy:item_find_out_stickers_104
+  - icon:freaking|N-no! You can't buy me! What am I...|icon:stickerSheet| just some collectible sticker sheet?|buy:item_bin_stickers_105
+  - icon:freaking|N-no! You can't buy me! |icon:sticker2|I'm not gonna be some commemorative event sticker!|buy:item_shopkeeper_stickers_106
 superstitionItems:
   - black cat
   - rabbit's foot
@@ -249,18 +252,18 @@ item:
   item_lockpick_set_31:
     - ${this.t('item.generic')}
     - "|icon:cute| tiny tools for unlockin' things!"
-    - "|icon:scallywag|fortunately, me twig-like paws are perfect for this sorta work, but these are good for me crew!"
+    - '|icon:scallywag|fortunately, me twig-like paws are perfect for this sorta work, but these are good for me crew!'
     - "|icon:cute| little helpers for gettin' into treasure chests!"
     - "|icon:info| You can pick your friends, and you can pick your lock, but you can't pick your friend's lock. |icon:question| errrr... i guess you can, but please don't pick my locks!"
-    - "|icon:info| Take your pick!"
-    - "|icon:info| now YOU can master those masterlocks!"
+    - '|icon:info| Take your pick!'
+    - '|icon:info| now YOU can master those masterlocks!'
     - "|icon:info| it's a good skill to learn! it really opens doors for you!"
   item_dremel_4300_kit_33:
     - '|icon:info| thingamajig... |icon:question|with an on button... *CLICK* |icon:freaking|speed:3.5| OH DEAR!'
     - "|icon:info| it's a spinny thing... |icon:question|but I forgot what you collet"
   item_raspberry_pi_5_45:
-    - "|icon:cute| tiny computer that can do BIG things!"
-    - "|icon:info| like myself, |icon:scallywag|small but strong!"
+    - '|icon:cute| tiny computer that can do BIG things!'
+    - '|icon:info| like myself, |icon:scallywag|small but strong!'
   item_framework_laptop_16__52:
     - icon:freaking|The dread ship Theseus!
     - icon:scallywag|Swap out the parts, just like me and my peg leg!
