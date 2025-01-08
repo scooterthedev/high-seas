@@ -133,6 +133,9 @@ music:
   - icon:holdingEars|that music is a little loud
 doot: # someone clicks a trumpet while music is playing
   - icon:freaking|stop with the trumpet!
+  - icon:freaking|i swear to the seven seas, stop with the trumpet!
+  - icon:freaking|that's enough!
+  - icon:freaking|NO MORE TRUMPETS!
 fav:
   removed:
     - icon:question|ah, not interested in the [${this.name.toUpperCase()}]?
