@@ -226,11 +226,15 @@ item:
     - the perfect way to vandalize your own property
     - ooooh, are you going to put that on your laptop?
     - Puts the "ad" in "adhesive"!
-  item_signed_photo_of_malted_19:
-    - ${this.t('item.generic')}
+  signed_photo:
     - icon:info|Due to inflation the average photo is only worth 700 words
     - icon:info|I'm not sure who this is, but they look important!
     - icon:question|i dont know why i have these, they just washed up one day
+  item_signed_photo_of_malted_19:
+    - ${this.t('item.signed_photo')}
+  item_signed_photo_of_graham_darcey_16:
+    - ${this.t('item.signed_photo')}
+    - yes yes, this one is UBER rare!
   item_digital_calipers_50:
     - icon:scallywag|measure twice, stab once!
     - used to make sure your plank is just the right walkin' length
