@@ -246,18 +246,18 @@ item:
   item_lockpick_set_31:
     - ${this.t('item.generic')}
     - "|icon:cute| tiny tools for unlockin' things!"
-    - "|icon:scallywag|fortunately, me twig-like paws are perfect for this sorta work, but these are good for me crew!"
+    - '|icon:scallywag|fortunately, me twig-like paws are perfect for this sorta work, but these are good for me crew!'
     - "|icon:cute| little helpers for gettin' into treasure chests!"
     - "|icon:info| You can pick your friends, and you can pick your lock, but you can't pick your friend's lock. |icon:question| errrr... i guess you can, but please don't pick my locks!"
-    - "|icon:info| Take your pick!"
-    - "|icon:info| now YOU can master those masterlocks!"
+    - '|icon:info| Take your pick!'
+    - '|icon:info| now YOU can master those masterlocks!'
     - "|icon:info| it's a good skill to learn! it really opens doors for you!"
   item_dremel_4300_kit_33:
     - '|icon:info| thingamajig... |icon:question|with an on button... *CLICK* |icon:freaking|speed:3.5| OH DEAR!'
     - "|icon:info| it's a spinny thing... |icon:question|but I forgot what you collet"
   item_raspberry_pi_5_45:
-    - "|icon:cute| tiny computer that can do BIG things!"
-    - "|icon:info| like myself, |icon:scallywag|small but strong!"
+    - '|icon:cute| tiny computer that can do BIG things!'
+    - '|icon:info| like myself, |icon:scallywag|small but strong!'
   item_framework_laptop_16__52:
     - icon:freaking|The dread ship Theseus!
     - icon:scallywag|Swap out the parts, just like me and my peg leg!
