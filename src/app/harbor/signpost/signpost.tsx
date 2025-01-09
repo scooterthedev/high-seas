@@ -13,7 +13,7 @@ import Referral from './referral'
 import pluralize from '../../../../lib/pluralize.js'
 import BestShips from './best-ships'
 import LeaderboardOptIn from './leaderboard'
-
+import Countdown from './countdown'
 export default function Signpost() {
   let wakaKey: string | null = null
   let hasHb: boolean | null = null
@@ -91,6 +91,7 @@ export default function Signpost() {
       </p>
 
       <Referral />
+      <Countdown />
       <Verification />
 
       <div className="text-center mb-2">
