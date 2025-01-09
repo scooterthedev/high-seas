@@ -40,13 +40,17 @@ export async function getShop(): Promise<ShopItem[]> {
     return
   }
   const person = await getSelfPerson(session.slackId)
+  const filter = person.fields.academy_completed
+    ? '{enabled_main_game}'
+    : '{enabled_high_seas}'
 
   return new Promise((resolve, reject) => {
     base()('shop_items')
       .select({
-        filterByFormula: person.fields.academy_completed
-          ? '{enabled_main_game}'
-          : '{enabled_high_seas}',
+        filterByFormula: `AND(
+          unlisted = FALSE(),
+          ${filter} = TRUE()
+        )`,
         sort: [{ field: 'tickets_us', direction: 'asc' }],
       })
       .eachPage(
