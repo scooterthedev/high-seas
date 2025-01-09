@@ -1,0 +1,289 @@
+legalThings:
+  - ®
+  - ™
+  - ℠
+  - ℗
+  - ©
+  - ${this.t('legalThings')}${this.t('legalThings')}
+banner:
+  - buy something or get out!
+  - spend your doubloons here!
+  - get that booty!
+  - NO REFUNDS
+  - feeling overburdened by money?
+  - plundered from the best dead adventurers in the land
+  - we accept doubloons and PiratePay${this.t('legalThings')}
+  - YARR
+  - 🏴‍☠️
+  - you wouldn't download a ship...
+  - These prices are walkin' the plank!
+  - you break it, you buy it!
+  - pirate-owned and operated!
+  - caveat emptor
+  - all sales are final
+selfClick:
+  - icon:question|w-what? but I'm not for sale
+  - icon:info|The only thing for sale here is the merchandise
+  - icon:holdingEars|hey buddy, hands to yourself
+  - icon:holdingEars|hands off ${this.t('pirateyThings')}!
+  - icon:threat|I'll have you know I'm not for sale!
+  - icon:threat|You ain't gonna plunder this booty!
+  - icon:threat|hey!! i'm allergic to cursors!
+  - icon:thumbs|guess who's got 2 thumbs and is not for sale!
+  - click me one more time, i dare you... ya ${this.t('pirateyThings')}!
+  - icon:freaking|w-wait. |icon:fluster|you want to buy me? really?
+  - icon:fluster|stop clicking! t-that tickles!
+  - icon:fluster|w-wait. you want to buy me? really?
+  - d-did you just click me?!
+  - icon:threat|*angry raccoon chittering noises*
+selfClickBuy:
+  - icon:freaking|N-no! |icon:sticker|don't turn me into a marketable sticker!|buy:item_find_out_stickers_104
+  - icon:freaking|N-no! You can't buy me! What am I...|icon:stickerSheet| just some collectible sticker sheet?|buy:item_bin_stickers_105
+  - icon:freaking|N-no! You can't buy me! |icon:sticker2|I'm not gonna be some commemorative event sticker!|buy:item_shopkeeper_stickers_106
+superstitionItems:
+  - black cat
+  - rabbit's foot
+  - horseshoe
+  - horse's paw
+  - rabbit's shoe
+  - monkey's paw
+  - whole rabbit
+  - broken mirror
+  - ladder
+  - whole salt shaker
+  - four-leaf clover
+  - three-leaf clover with an extra leaf taped on
+  - whole leprechaun (not just the bones)
+  - whole leprechaun (not just the charms)
+  - whole leprechaun (not just the gold)
+  - lucky coin
+  - pinch of salt
+superstitions:
+  - spits over shoulder
+  - spins around three times
+  - knocks on wood
+  - throws salt over shoulder
+  - crosses fingers
+  - signs the cross with her tail
+  - spits in her hat
+  - grabs a rabbit's foot
+  - pins a ${this.t('superstitionItems')} to her hat
+  - ties up a ${this.t('superstitionItems')} above the door frame
+  - throws a ${this.t('superstitionItems')} over her shoulder # be careful. this one... is pretty out there
+blessed:
+  - Blimey! You got a blessing, didja? Well that's gotta do good for business seeing such upstanding pirate folk shoping here.
+  - Wow! You got the boon of a pirate's blessing!
+  - Blow me down! You got a pirate's blessing! That's gotta be good luck for me shop!
+  - Blimey, a pirate's blessing! *She ${this.t('superstitions')}, according to pirate tradition.* Please, shop to your heart's content!
+cursed:
+  - Blimey! You've been cursed? *${this.t('superstitions')}* and then *${this.t('superstitions')}*
+  - Ye've been cursed? *${this.t('superstitions')}* and then *${this.t('superstitions')}*
+  - By the seven seas! You've been cursed? *spits over shoulder*
+  - You've been cursed?! Get off me island you ${this.t('pirateyThings')}!
+  - Hang on, you're cursed? Go take a long walk off a short plank!
+  - Hold on... are you cursed? Read the sign– no blessing, no business!
+  - wait... are you C-C-CURSED?! I don't want any trouble!
+getout:
+  - Getouttahere!
+  - out out out!
+  - Get out!
+  - Come back once you got gold!
+  - whaddya take me for? wonathose nonprofit thingymajigs?
+  - you tryin ta steal from a thief! what's the world coming to!
+  - you can't take this stuff, i stole it fare and square!
+  - you trying to pull my tail?!
+help:
+  - how can i help ye?
+  - wadya wanna buy?
+  - the mutinied capt' trash-beard at your service!
+greetings:
+  - icon:bapanada|speed:2|*sigh* . . . bapanada |speed:default|icon:freaking|errrr... i mean... |icon:scallywag|come in!
+  - well, if it isnt my favorite customer!
+  - Ahh, my favorite customer!
+  - raccoon has wares if you have coin!
+  - have a pretty penny you want to spend?
+  - your pockets look shiny today!
+  - that coinpurse looks heavy, let me help you with that.
+  - I have a feeling you're going to like what you see today.
+  - Hey there! You look like you could use some help.
+  - Oh, hello! How can I help you have a GARBAGE day?
+tooManyBells:
+  - icon:freaking|Alright! |icon:threat|Enough with the |speed:4.1|BLOODY BELLS!~
+  - icon:holdingears|S-stop it! I got sensitive hear-holes over here!
+  - icon:freaking|stop ringing that annoysing bell!
+  - icon:notamused|argh, I'm regretting plundering that bell in the first place
+  - icon:threat|I swear on me mum & all my ${21 + Math.floor(Math.random() * 8)} siblings, stop with the bell!
+  - icon:threat|I didn't get |speed:4|MAROONED|speed:default| on this dog-forsaken island to listen to that!
+  - S-stop taunting me with those infernal bells!
+  - Go annoy some tanuki on another island with those bells!
+pirateyThings:
+  - bilge rat
+  - salty dog
+  - scurvy dog
+  - scallywag
+  - landlubber
+  - scurvy swashbuckler
+  - scurvy pirate
+  - scurvy sea dog
+  - scurvy sea rat
+  - scurvy sea scoundrel
+  - scurvy rat
+  - scurvy scallywag
+music:
+  - icon:question|where's that music coming from?
+  - icon:question|who's playing that music?
+  - icon:question|where are those instruments?
+  - icon:holdingEars|that music is a little loud
+doot: # someone clicks a trumpet while music is playing
+  - icon:freaking|stop with the trumpet!
+  - icon:freaking|i swear to the seven seas, stop with the trumpet!
+  - icon:freaking|that's enough!
+  - icon:freaking|NO MORE TRUMPETS!
+fav:
+  removed:
+    - icon:question|ah, not interested in the [${this.name.toUpperCase()}]?
+    - icon:info|awwww, not interested in the [${this.name.toUpperCase()}]?
+    - icon:thinking|hmmmm... is the [${this.name.toUpperCase()}] not to your liking?
+    - icon:freaking|you're not interested in the [${this.name.toUpperCase()}]?|icon:threat| you try finding stuff to sell while being marooned on an island!
+    - icon:question|you don't want the [${this.name.toUpperCase()}]? |icon:info|just try finding it anywhere else for ${this.price} doubloons!
+  added:
+    - icon:question|ah, interested in the [${this.name.toUpperCase()}]?
+    - icon:info|for ${this.price} doubloons, some would consider this a steal!|icon:holdingEars|. . .  please don't report me to the authorities...
+    - icon:info|for ${this.price} doubloons, some would consider this a steal!
+    - icon:info|ooooh, that's a good choice!
+    - icon:info|you've got good taste!
+    - icon:info|just try finding [${this.name.toUpperCase()}] anywhere else for ${this.price} doubloons!
+  addedCanAffort:
+    - "|icon:thinking| . . . |icon:question| hold on... can't you already affort that?"
+    - '|icon:thinking| . . . |icon:question| but... you can already affort that?'
+    - "|icon:thinking| . . . |icon:question| why'd you fave that if you can already buy it?"
+    - '|icon:thinking| . . . |icon:question| you know you already have enough to buy that, right?'
+floatingThings:
+  - skull
+  - coconut
+  - empty bottle
+  - ship in a bottle
+  - drift wood
+  - turtle shell
+  - sea shell
+  - seaweed
+  - washed up beach ball # wilson!!!
+  - washed up boot
+bigNumbers:
+  - '[ArithmeticOverflowException]'
+  - '[LargeIntegerOverflow]'
+  - a barrel-full
+  - a nautical butt-load
+item:
+  base: icon:question|you want to buy a |speed:2.5|[${this.name.toUpperCase()}]|speed:default|?
+  generic:
+    - icon:question|see something you like?
+    - icon:info|those have been pretty popular lately. . . |icon:peefest|speed:4.5| *internally crying as she thinks about the ${this.t('floatingThings')} and ${this.t('floatingThings')} that have been her only customers for the past 3 years*|speed:default
+    - icon:question|uuuuh, how many you want?
+    - icon:cute|yes yes, you buy now!
+    - icon:cute|youuuuu... pay this much? [${this.price} doubloons]
+    - icon:info|why does this label say DO NOT EAT?
+  zine:
+    - icon:reading|I can't read, but i like the pictures!
+    - icon:freaking|speed:4.1|OMGWTFBBQ, JULIA EVANS MADE THESE!|pause:300| .|pause:300| .|pause:300| .|icon:question|speed:3|EErrrr, I mean,|icon:scallywag|speed:default|arrrr, set sail on a good story!
+    - icon:scallywag|A fine piece of literature, this be!
+    - icon:scallywag|My first mate reads these to me!
+    - icon:reading|You can even read it with an eyepatch!
+  item_the_pocket_guide_to_debugging_44:
+    - ${this.t('item.zine')}
+  item_hell_yes_css__43:
+    - ${this.t('item.zine')}
+  item_how_git_works_42:
+    - ${this.t('item.zine')}
+  item_pinecil_20:
+    - ${this.t('item.generic')}
+    - 'icon:info|*Warning: May contain lead'
+    - icon:info|I hafta be careful with these– me first mate has a lead allergy!
+    - icon:info|Be careful if you have a lead allergy!
+    - icon:freaking|hot! |speed:3.5|Hot! |speed:4|HOT!|speed:default
+    - icon:info|yes, let me fetch one from the back...|icon:freaking|speed:3.5|ow!|speed:4| Ow!|speed:4.5| OWOWOWOWOWOW!
+    - icon:cute|It’s like welding but tiny!
+  item_github_notebook_37:
+    - ${this.t('item.generic')}
+    - icon:info| if only i could read... |icon:holdingEars| *sigh* |icon:info| i'd be able to tell you all about it
+    - icon:info|I can't read, but I can tell you it's a notebook!
+    - icon:cute|a place to draw your treasure maps!
+    - icon:info|write down where you buried your treasure!
+    - icon:info|write down where you buried your treasure!|icon:holdingEars| *sigh* . . . i wish i could read
+  item_factorio:
+    - icon:fluster| you have NO IDEA how much time i've sunk into this game
+    - icon:info| interesting fact: this is a GREAT way to kill the time when you're marooned on a deserted island
+  item_bambu_lab_a1_mini_49:
+    - If a picture is worth 1000 words, a 3d print should be worth ${this.t('bigNumbers')}
+    - Oh, do they print in chocolate?!
+    - It's like a hot glue gun, but with more steps
+  item_100mhz_oscilloscope_53:
+    - if i were a smarter racoon i'd say something about "waves"
+  item_hot_glue_gun:
+    - cheaper than a 3d printer!
+  item_pile_of_stickers_10:
+    - it's like graffiti, but with less commitment
+    - the perfect way to vandalize your own property
+    - ooooh, are you going to put that on your laptop?
+    - Puts the "ad" in "adhesive"!
+  signed_photo:
+    - icon:info|Due to inflation the average photo is only worth 700 words
+    - icon:info|I'm not sure who this is, but they look important!
+    - icon:question|i dont know why i have these, they just washed up one day
+  item_signed_photo_of_malted_19:
+    - ${this.t('item.signed_photo')}
+  item_signed_photo_of_graham_darcey_16:
+    - ${this.t('item.signed_photo')}
+    - yes yes, this one is UBER rare!
+  item_digital_calipers_50:
+    - icon:scallywag|measure twice, stab once!
+    - used to make sure your plank is just the right walkin' length
+    - as sharp as a cutlass!
+    - as sharp as me first mate's hook!
+    - icon:scallywag|ever been pinched by a crab's claws?|pause|icon:question| No?|pause|icon:info| Well, nevermind then
+  item_flipper_32:
+    - icon:info|I've tried these, but watch out. . .|icon:wet| they aren't water proof
+    - icon:tinfoil|*dons her tinfoil captain's hat*|speed:0.3|. . .|speed:default| don't point that at me head
+  item_hack_club_socks__34:
+    - they aren't hacker socks, but any ${this.t('pirateyThings')} worth their salt can make do...
+    - as a raccoon, i've already got natural socks, but these are good for me crew!
+  item_blah_j_5:
+    - ${this.t('item.generic')}
+    - icon:fluster|kinda makes you wanna walk the plank, doesn't it?
+    - icon:cute| Cuddle friend!
+    - icon:cute| mine keeps me safe when i'm asleep
+    - icon:cute| cuddle friend!|icon:holdingEars| *sigh* . . . i wish i had mine still...
+  item_lockpick_set_31:
+    - ${this.t('item.generic')}
+    - icon:cute| tiny tools for unlockin' things!
+    - icon:scallywag|fortunately, me twig-like paws are perfect for this sorta work, but these are good for me crew!
+    - icon:cute| little helpers for gettin' into treasure chests!
+    - icon:info| You can pick your friends, and you can pick your lock, but you can't pick your friend's lock. |icon:question| errrr... i guess you can, but please don't pick my locks!
+    - icon:info| Take your pick!
+    - icon:info| now YOU can master those masterlocks!
+    - icon:info| it's a good skill to learn! it really opens doors for you!
+  item_dremel_4300_kit_33:
+    - icon:info| thingamajig... |icon:question|with an on button... *CLICK* |icon:freaking|speed:3.5| OH DEAR!
+    - icon:info| it's a spinny thing... |icon:question|but I forgot what you collet!
+  item_raspberry_pi_5_45:
+    - icon:cute| tiny computer that can do BIG things!
+    - icon:info| like myself, |icon:scallywag|small but strong!
+  item_framework_laptop_16__52:
+    - icon:freaking|The dread ship Theseus!
+    - icon:scallywag|Swap out the parts, just like me and my peg leg!
+    - icon:scallywag|Swap out the parts, just like my first mate's hook!
+    - icon:scallywag|Arrrr, this laptop be a fine vessel!
+    - icon:scallywag|A fine piece of craftsmanship, this be! Only some of the parts are plundered.
+    - icon:scallywag|I made me own framework once, with nothing but a handful of plundered parts lashed together using driftwood and seaweed!
+    - icon:scallywag|I heard they're made by Nirav himself!
+  item_domain__1_year__11:
+    - icon:info|There's a joke in here about pirates and websites, |icon:question|but I can't think of it.
+    - icon:searching|Navigator, set sail for ${this.t('domains')}!
+    - icon:scallywag|Hoist the sails, we're off to ${this.t('domains')}!
+domains:
+  - eelslap.com
+  - endless.horse
+  - puginarug.com
+  - zombo.com
+  - heeeeeeeey.com
+  - fallingfalling.com

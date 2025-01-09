@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Platforms from './platforms'
 import Modal from '../../../components/ui/modal'
-import { fetchWaka } from '../data'
+import { fetchWaka } from '../server/data'
 import useLocalStorageState from '../../../../lib/useLocalStorageState'
 
 function SetupModal({

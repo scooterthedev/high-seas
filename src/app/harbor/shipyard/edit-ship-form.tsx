@@ -1,11 +1,11 @@
 import { Button, buttonVariants } from '@/components/ui/button'
 import { deleteShip, updateShip } from './ship-utils'
-import type { Ship } from '@/app/utils/data'
+import type { Ship } from '@/app/utils/server/data'
 import { useToast } from '@/hooks/use-toast'
 import Icon from '@hackclub/icons'
 import React, { useState } from 'react'
 import Modal from '../../../components/ui/modal'
-import { EditableShipFields } from '../../utils/data'
+import { EditableShipFields } from '../../utils/server/data'
 
 const editMessages = [
   'Orpheus hopes you know that she put a lot of effort into recording your changes~',

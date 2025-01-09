@@ -11,15 +11,3 @@ import { getWakaSessions } from '@/app/utils/waka'
 export async function wakaSessions() {
   return await getWakaSessions()
 }
-
-export async function getStickyUrls(): string[] {
-  const allStickies = (await base('sticky_holidays').select({}).all()).sort(
-    (a, b) => a.fields.id - b.fields.id,
-  )
-  const safeStickies = allStickies.filter(
-    (s) => new Date(s.fields.day).getTime() < Date.now(),
-  )
-  const urls = safeStickies.map((s) => s.fields.image_url)
-  urls.push(allStickies[safeStickies.length].fields.blacked_image_url)
-  return urls
-}

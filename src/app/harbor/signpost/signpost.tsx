@@ -6,16 +6,14 @@ import { motion } from 'framer-motion'
 import Verification from './verification'
 import Platforms from '@/app/utils/wakatime-setup/platforms'
 import JaggedCard from '../../../components/jagged-card'
-import JaggedCardSmall from '@/components/jagged-card-small'
 import Cookies from 'js-cookie'
 import FeedItems from './feed-items'
 import { getWakaSessions } from '@/app/utils/waka'
 import Referral from './referral'
-import { getStickyUrls } from './help'
 import pluralize from '../../../../lib/pluralize.js'
 import BestShips from './best-ships'
 import LeaderboardOptIn from './leaderboard'
-
+import Countdown from './countdown'
 export default function Signpost() {
   let wakaKey: string | null = null
   let hasHb: boolean | null = null
@@ -52,8 +50,6 @@ export default function Signpost() {
         hasHb = true
       }
     })
-
-    getStickyUrls().then(setStickyUrls)
   }, [])
 
   const wakaDuration = wakaSessions?.reduce((a, p) => (a += p.total), 0)
@@ -95,6 +91,7 @@ export default function Signpost() {
       </p>
 
       <Referral />
+      <Countdown />
       <Verification />
 
       <div className="text-center mb-2">
@@ -140,41 +137,6 @@ export default function Signpost() {
           <p>Loading Hackatime token...</p>
         )}
       </JaggedCard>
-
-      <a
-        className="block mt-6 mb-2"
-        href="https://hackclub.slack.com/archives/C0266FRGT/p1734471796551819"
-      >
-        <img
-          className="mx-auto rounded w-1/2"
-          src="https://cloud-l35vudm4s-hack-club-bot.vercel.app/0sticky-holidays.png"
-          alt="sticky holidays banner"
-        />
-        <p className="text-center mt-1 text-sm">
-          Confused? Click to see the #announcements post ^^
-        </p>
-      </a>
-
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {stickyUrls.map((slug, idx) => (
-          <div className="w-full h-fit" key={idx}>
-            <JaggedCard
-              shadow={false}
-              className="w-full pb-8 h-full flex flex-col gap-2 justify-between items-center"
-            >
-              <p className="text-lg">Day {idx + 1}</p>
-              <p>{stickyUrls.length - 1 === idx ? 'Unlocks tomorrow' : null}</p>
-              <div className="h-40 mx-auto rounded">
-                <img
-                  src={`https://pub-37a91ce7bf5e4bd4a21b81796a4b66c4.r2.dev/${slug}`}
-                  alt=""
-                  className="h-full"
-                />
-              </div>
-            </JaggedCard>
-          </div>
-        ))}
-      </div>
 
       <BestShips />
 

@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 
+import { useEventEmitter } from '../../../../lib/useEventEmitter'
+
 import {
   Card,
   CardContent,
@@ -8,11 +10,10 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { cantAffordWords, purchaseWords, sample } from '../../../../lib/flavor'
-import useLocalStorageState from '../../../../lib/useLocalStorageState.js'
-import { useState } from 'react'
 import Icon from '@hackclub/icons'
+import { transcript } from '../../../../lib/transcript'
 import Modal from '@/components/ui/modal'
 import Image from 'next/image'
 const ActionArea = ({ item, filterIndex, affordable }) => {
@@ -54,6 +55,42 @@ export const ShopItemComponent = ({
     whileHover: {
       scale: 1.05,
     },
+  }
+  const localPrice = filterIndex == 1 ? item.priceUs : item.priceGlobal
+  const affordable = localPrice <= parseInt(personTicketBalance)
+
+  const { emitYap } = useEventEmitter()
+
+  const handleFavouriteToggle = () => {
+    setFavouriteItems((prevFav) => {
+      if (prevFav.includes(item.id)) {
+        emitYap(
+          transcript('fav.removed', {
+            name: item.name,
+            price: item.priceGlobal,
+          }),
+        )
+        return prevFav.filter((favItem) => String(favItem) !== item.id)
+      } else {
+        if (Math.random() > 0.5) {
+          let interaction = transcript('fav.added', {
+            name: item.name,
+            price: localPrice,
+            affordable,
+          })
+          if (affordable && Math.random() > 0.9) {
+            interaction +=
+              ' ' +
+              transcript('fav.addedCanAffort', {
+                name: item.name,
+                price: localPrice,
+              })
+          }
+          emitYap(interaction)
+        }
+        return [...prevFav, item.id]
+      }
+    })
   }
 
   const linkIndex = Number(filterIndex) - 1
@@ -176,6 +213,27 @@ export const ShopItemComponent = ({
               <img
                 src={item.imageUrl}
                 alt={item.name}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setDetailsModal(false)
+                  let interaction = transcript('item.base', {
+                    name: item.name,
+                    price: localPrice,
+                  })
+                  const itemSpecificInteraction = transcript('item.' + item.id)
+                  if (itemSpecificInteraction.startsWith('transcript.')) {
+                    console.log('transcript not found', itemSpecificInteraction)
+                    interaction +=
+                      ' |' +
+                      transcript('item.generic', {
+                        name: item.name,
+                        price: localPrice,
+                      })
+                  } else {
+                    interaction += ' |' + itemSpecificInteraction
+                  }
+                  emitYap(interaction)
+                }}
                 className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
               />
             </div>
@@ -186,27 +244,9 @@ export const ShopItemComponent = ({
           <ActionArea
             item={item}
             filterIndex={filterIndex}
-            affordable={
-              (filterIndex == 1 ? item.priceUs : item.priceGlobal) <=
-              parseInt(personTicketBalance)
-            }
+            affordable={affordable}
           />
-          <Button
-            onClick={(e) => {
-              e.stopPropagation()
-              setFavouriteItems((prevFav) => {
-                if (prevFav.includes(item.id)) {
-                  console.log('remove', prevFav)
-                  return prevFav.filter(
-                    (favItem) => String(favItem) !== item.id,
-                  )
-                } else {
-                  console.log('add', prevFav)
-                  return [...prevFav, item.id]
-                }
-              })
-            }}
-          >
+          <Button onClick={handleFavouriteToggle}>
             <Icon
               glyph={favouriteItems.includes(item.id) ? 'like-fill' : 'like'}
             />

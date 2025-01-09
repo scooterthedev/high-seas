@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { getVotesRemainingForNextPendingShip } from '@/app/utils/airtable'
 import Pill from '@/components/ui/pill'
 import { fetchShips, Ship } from '@/app/utils/data'
+import { IdeaGenerator } from './idea-generator/impl'
 
 const tutorialShips: Ship[] = [
   {
@@ -77,6 +78,7 @@ export default function Shipyard({ session }: any) {
           </div>
         )}
         <div className="mt-6">
+          <IdeaGenerator />
           <Ships
             ships={isTutorial ? tutorialShips : ships}
             setShips={setShips}

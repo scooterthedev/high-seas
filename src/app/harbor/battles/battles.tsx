@@ -21,7 +21,7 @@ import Cursed from './cursed'
 import pluralize from '../../../../lib/pluralize'
 import ProjectCard from './project-card'
 import { markdownComponents } from './mdc'
-import { Ship } from '@/app/utils/data'
+import { Ship } from '@/app/utils/server/data'
 import Modal from '@/components/ui/modal'
 import { sendFraudReport } from './fraud-utils'
 import { Button } from '@/components/ui/button'
@@ -440,8 +440,8 @@ export default function Matchups({ session }: { session: HsSession }) {
           <p className="text-xl text-gray-300 dark:text-gray-300 mb-4 max-w-3xl mx-auto">
             A good ship is technical, creative, and presented well so that
             others can understand and experience it. By that definition, which
-            of these two projects is better? (If you are not sure, just refresh
-            to skip!)
+            of these two projects is better? (If you are not sure, just hit
+            shuffle to skip!)
           </p>
 
           {blessed && <Blessed />}

@@ -2,13 +2,8 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { get } from '@vercel/edge-config'
 import { getSession, HsSession } from './app/utils/auth'
-import {
-  fetchShips,
-  fetchSignpostFeed,
-  fetchWaka,
-  fetchShopItems,
-  person,
-} from './app/utils/data'
+import { fetchSignpostFeed, fetchWaka, person } from './app/utils/server/data'
+import { fetchShips } from './app/utils/data'
 
 async function loadShipsCookie(
   request: NextRequest,
@@ -19,7 +14,7 @@ async function loadShipsCookie(
   try {
     const shipyardPage = request.nextUrl.pathname.startsWith('/shipyard')
     if (shipyardPage && !request.cookies.get('ships')) {
-      const ships = await fetchShips(slackId, 2)
+      const ships = await fetchShips(slackId, 1)
       response.cookies.set({
         name: 'ships',
         value: JSON.stringify(
