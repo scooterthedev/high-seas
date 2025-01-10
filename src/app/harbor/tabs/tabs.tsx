@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Shipyard from '../shipyard/shipyard'
 import Battles from '../battles/battles'
 import Shop from '../shop/shop'
+import Tavern from '../tavern/tavern'
 import { useEffect } from 'react'
 import SignPost from '../signpost/signpost'
 import { tour } from './tour'
@@ -210,6 +211,11 @@ export default function Harbor({
       name: <>Shop</>,
       path: 'shop',
       component: <Shop session={session} />,
+    },
+    {
+      name: <>Tavern 🍻</>,
+      path: 'tavern',
+      component: <Tavern />,
     },
   ]
 
