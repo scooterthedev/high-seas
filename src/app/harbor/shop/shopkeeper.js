@@ -28,6 +28,7 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
   const [interactionBusy, setInteractionBusy] = useState(false)
   const { on, off } = useEventEmitter()
   const [buyButton, setBuyButton] = useState()
+  const [bellButton, setBellButton] = useState(false)
 
   useEffect(() => {
     const handleEvent = (event) => {
@@ -57,6 +58,7 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     setInteractionBusy(true)
     setShopkeeperMsg('')
     setBuyButton()
+    setBellButton(false)
     let speed
     console.log('handling interaction', interaction)
     for (const action of interaction.split('|')) {
@@ -81,6 +83,12 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
             await setBuyButton(arg[0])
           } else {
             await setBuyButton()
+          }
+        case 'bellButton':
+          if (arg[0]) {
+            await setBellButton(arg[0])
+          } else {
+            await setBellButton()
           }
         case 'pause':
           if (arg[0]) {
@@ -116,8 +124,14 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
     bellSounds[bellIndex].play()
     setAtCounter(true)
     // await new Promise(r => setTimeout(r, 1000))
-    if (continuousBellClicks > 5) {
+    if (continuousBellClicks > 7) {
       await handleInteraction(transcript('tooManyBells'))
+    } else if (continuousBellClicks == 7) {
+      await handleInteraction(transcript('bellClicker'))
+    } else if (continuousBellClicks > 5) {
+      await handleInteraction(transcript('tooManyBells'))
+    } else if (continuousBellClicks > 3) {
+      await handleInteraction(transcript('lotsOfBells'))
     } else if (cursed) {
       const greetingSliced = transcript('greetings')
         .split(' ')
@@ -243,6 +257,7 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
             <div id="shopkeeper-msg">
               {shopkeeperMsg}
               {buyButton && <BuyButton itemId={buyButton} />}
+              {bellButton && <BellButton />}
             </div>
           </div>
         </div>
@@ -261,5 +276,15 @@ const BuyButton = ({ itemId }) => {
         Buy
       </Button>
     </form>
+  )
+}
+
+const BellButton = () => {
+  return (
+    <a href="https://maxwofford.com/clicker">
+      <Button className="bg-black hover:bg-gray-800 text-white font-semibold py-2 px-4 m-2 rounded transition-colors duration-200 text-3xl enchanted">
+        Take
+      </Button>
+    </a>
   )
 }
