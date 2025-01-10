@@ -107,6 +107,9 @@ greetings:
   - I have a feeling you're going to like what you see today.
   - Hey there! You look like you could use some help.
   - Oh, hello! How can I help you have a GARBAGE day?
+lotsOfBells:
+  - icon:question|you... really like that bell, don't you?
+  - icon:holdingEars|ok, you can stop clicking that now...
 tooManyBells:
   - icon:freaking|Alright! |icon:threat|Enough with the |speed:4.1|BLOODY BELLS!~
   - icon:holdingears|S-stop it! I got sensitive hear-holes over here!
@@ -116,6 +119,7 @@ tooManyBells:
   - icon:threat|I didn't get |speed:4|MAROONED|speed:default| on this dog-forsaken island to listen to that!
   - S-stop taunting me with those infernal bells!
   - Go annoy some tanuki on another island with those bells!
+bellClicker: icon:freaking|speed:3.5|you know what? |speed:4|just take the bell!|bellButton:true|speed:3.5| it's yours! go on! take it! take it and leave me be!
 pirateyThings:
   - bilge rat
   - salty dog
