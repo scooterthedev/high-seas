@@ -84,12 +84,14 @@ export const ShopkeeperComponent = ({ balance, cursed }) => {
           } else {
             await setBuyButton()
           }
+          break
         case 'bellButton':
           if (arg[0]) {
             await setBellButton(arg[0])
           } else {
             await setBellButton()
           }
+          break
         case 'pause':
           if (arg[0]) {
             await new Promise((resolve) =>
