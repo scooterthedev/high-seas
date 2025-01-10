@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { cantAffordWords, purchaseWords, sample } from '../../../../lib/flavor'
 import Icon from '@hackclub/icons'
 import { transcript } from '../../../../lib/transcript'
@@ -196,7 +196,7 @@ export const ShopItemComponent = ({
                 height={20}
                 className="mr-1"
               />
-              {filterIndex == 1 ? item.priceUs : item.priceGlobal}
+              {localPrice}
             </span>
 
             {item.minimumHoursEstimated && item.maximumHoursEstimated ? (
