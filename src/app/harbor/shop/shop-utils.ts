@@ -23,6 +23,7 @@ export interface ShopItem {
   enabledXx: boolean | null
   enabledCa: boolean | null
   enabledAll: boolean | null
+  enabledAu: boolean | null
   priceUs: number
   priceGlobal: number
   fulfilledAtEnd: boolean
@@ -67,6 +68,7 @@ export async function getShop(): Promise<ShopItem[]> {
               enabledXx: Boolean(record.get('enabled_xx')) as boolean,
               enabledCa: Boolean(record.get('enabled_ca')) as boolean,
               enabledAll: Boolean(record.get('enabled_all')) as boolean,
+              enabledAu: Boolean(record.get('enabled_au')) as boolean,
               priceUs: Number(record.get('tickets_us')) as number,
               priceGlobal: Number(record.get('tickets_global')) as number,
               fulfilledAtEnd: Boolean(

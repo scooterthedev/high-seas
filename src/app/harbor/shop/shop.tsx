@@ -45,6 +45,7 @@ export default function Shop({ session }: { session: HsSession }) {
     '3': (item: any) => item.enabledIn,
     '4': (item: any) => item.enabledCa,
     '5': (item: any) => item.enabledXx,
+    '6': (item: any) => item.enabledAu,
   }
   const getFilter = () => {
     // @ts-expect-error reason reason reason
@@ -102,6 +103,7 @@ export default function Shop({ session }: { session: HsSession }) {
           <option value="2">🇪🇺 EU + 🇬🇧 UK</option>
           <option value="3">🇮🇳 India</option>
           <option value="4">🍁 Canada</option>
+          <option value="6">🇦🇺 Australia</option>
           <option value="5">🗺 other countries worldwide...</option>
         </select>
       </div>
