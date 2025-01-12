@@ -7,11 +7,6 @@ import Modal from '@/components/ui/modal'
 import { Button } from '@/components/ui/button'
 import { useChat } from 'ai/react'
 
-const thinkingSounds = [
-  new Howl({ src: 'audio/yapping/thonk1.wav' }),
-  new Howl({ src: 'audio/yapping/thonk2.wav' }),
-  new Howl({ src: 'audio/yapping/thonk3.wav' }),
-]
 
 const yap_sounds = {
   a: new Howl({ src: 'audio/yapping/a.wav' }),
