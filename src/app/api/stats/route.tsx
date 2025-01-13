@@ -7,6 +7,7 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 )
 
 export async function GET({ url }) {
+  return null
   let shipCount = await kv.get('ship-count')
 
   if (!shipCount) {
