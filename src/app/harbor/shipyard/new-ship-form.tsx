@@ -91,6 +91,8 @@ export default function NewShipForm({
     { label: 'Asylum', value: 'asylum' },
     { label: 'Hackapet', value: 'hackapet' },
     { label: 'Constellation', value: 'constellation' },
+    { label: 'RaspiAPI', value: 'raspi-api' },
+    { label: 'Say Cheese', value: 'say-cheese' },
   ]
 
   // Initialize confetti on mount

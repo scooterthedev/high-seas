@@ -57,8 +57,8 @@ function loadYapSounds() {
 async function yap(
   text,
   {
-    letterCallback = () => { },
-    endCallback = () => { },
+    letterCallback = () => {},
+    endCallback = () => {},
     baseRate = 3.2,
     rateVariance = 1,
   } = {},
@@ -196,8 +196,9 @@ const IdeaGenerator = () => {
     <div className="idea-generator flex flex-col justify-center items-center mb-24">
       <img
         src={imgSrc}
-        className={`mb-4 ${activeClass} ${loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-          }`}
+        className={`mb-4 ${activeClass} ${
+          loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+        }`}
         alt="idea generator"
         onClick={loading ? null : generateIdea}
         style={{ pointerEvents: loading ? 'none' : 'auto' }}
