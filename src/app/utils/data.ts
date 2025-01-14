@@ -140,7 +140,7 @@ export async function fetchShips(
       paidOut: Boolean(r.fields.paid_out),
       yswsType: r.fields.yswsType,
       feedback: r.fields.ai_feedback_summary,
-      isInYswsBase: Boolean(r.fields.entrant__ysws_submission),
+      isInYswsBase: Boolean(r.fields.has_ysws_submission_id),
     }
 
     return ship
