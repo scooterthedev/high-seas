@@ -11,7 +11,6 @@ interface AirtableShipRow {
     screenshot_url: string
     hours: number
     rating: number
-    entrant__ysws_submission: string[]
   }
 }
 
