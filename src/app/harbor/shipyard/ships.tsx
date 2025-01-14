@@ -185,7 +185,7 @@ export default function Ships({
           className="flex flex-col sm:gap-2 sm:flex-row items-start sm:items-center p-4 hover:bg-gray-100 transition-colors duration-200"
           style={
             latestShip.isInYswsBase
-              ? { border: '4px solid gold', background: '#FFF7CB' }
+              ? { border: '1.5px solid gold', background: '#FFFCEB' }
               : {}
           }
         >
