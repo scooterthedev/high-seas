@@ -89,6 +89,16 @@ function TavernMarkers(props: MapProps) {
   })
   const eventMarkers = props.events
     .map((e) => {
+      if (!e.geocode) {
+        return null
+      }
+
+      const geocodeObj = JSON.parse(atob(e.geocode.slice(2).trim()))
+
+      if (geocodeObj.o.status !== 'OK') {
+        return null
+      }
+
       let iconUrl
       if (e.organizers.length === 0) {
         iconUrl = '/handraise.png'
@@ -100,12 +110,6 @@ function TavernMarkers(props: MapProps) {
         iconUrl,
         iconSize: [50, 50],
       })
-
-      const geocodeObj = JSON.parse(atob(e.geocode.slice(2).trim()))
-
-      if (geocodeObj.o.status !== 'OK') {
-        return null
-      }
 
       return (
         <Marker
