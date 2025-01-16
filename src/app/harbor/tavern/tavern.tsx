@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import useLocalStorageState from '../../../../lib/useLocalStorageState'
 import { setTavernRsvpStatus, getTavernRsvpStatus } from '@/app/utils/tavern'
 import { Card } from '@/components/ui/card'
+import Map from './map'
 
 const RsvpStatusSwitcher = () => {
   const [rsvpStatus, setRsvpStatus] = useLocalStorageState(
@@ -45,6 +46,7 @@ export default function Tavern() {
         <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
           Mystic Tavern
         </h1>
+        <Map />
         <Card className="mb-8 p-6">
           <p className="mb-4">
             On January 31st, thousands of ships will sail back to port,
