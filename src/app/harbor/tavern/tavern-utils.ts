@@ -40,11 +40,16 @@ export const getTavernPeople = async () => {
     })
     .all()
 
-  return records.map((r) => ({
+  const items = records.map((r) => ({
     id: r.id,
     status: r.get('tavern_rsvp_status'),
     coordinates: r.get('tavern_map_coordinates'),
   })) as TavernPersonItem[]
+
+  cachedPeople = items
+  lastPeopleFetch = Date.now()
+
+  return items
 }
 
 export const getTavernEvents = async () => {
@@ -59,10 +64,14 @@ export const getTavernEvents = async () => {
     })
     .all()
 
-  return records.map((r) => ({
+  const items = records.map((r) => ({
     id: r.id,
     city: r.get('city'),
     geocode: r.get('map_geocode'),
     organizers: r.get('organizers') ?? [],
   })) as TavernEventItem[]
+
+  cachedEvents = items
+  lastEventsFetch = Date.now()
+  return items
 }
