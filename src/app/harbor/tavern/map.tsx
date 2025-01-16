@@ -1,5 +1,6 @@
-import Head from 'next/head'
+'use client'
 
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import {
   getTavernPeople,
@@ -7,7 +8,6 @@ import {
   type TavernPersonItem,
   type TavernEventItem,
 } from './tavern-utils'
-import MapParent from './map-parent'
 import { type LatLngExpression, DivIcon, Icon } from 'leaflet'
 import { MapContainer, TileLayer, Marker, useMap, Tooltip } from 'react-leaflet'
 
@@ -18,43 +18,32 @@ export default function Map() {
   const [tavernPeople, setTavernPeople] = useState<TavernPersonItem[]>([])
   const [tavernEvents, setTavernEvents] = useState<TavernEventItem[]>([])
 
-  // useEffect(() => {
-  //   async function foo() {
-  //     setTavernPeople(await getTavernPeople())
-  //     setTavernEvents(await getTavernEvents())
-  //     // Promise.all([getTavernPeople(), getTavernEvents()]).then(([tp, te]) => {
-  //     //   setTavernPeople(tp)
-  //     //   setTavernEvents(te)
-  //     // })
-  //   }
-  //   foo()
-  // }, [])
+  useEffect(() => {
+    Promise.all([getTavernPeople(), getTavernEvents()]).then(([tp, te]) => {
+      setTavernPeople(tp)
+      setTavernEvents(te)
+    })
+  }, [])
 
   return (
     <div>
-      {/* <Head>
+      <Head>
         <link
           rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossOrigin=""
         />
-      </Head> */}
+      </Head>
 
-      {/* <MapParent tavernPeople={tavernPeople} tavernEvents={tavernEvents}>
-        <MapContainer
-          center={MAP_CENTRE}
-          zoom={MAP_ZOOM}
-          scrollWheelZoom={false}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
-          />
-          <TavernMarkers people={tavernPeople} events={tavernEvents} />
-          <UserLocation />
-        </MapContainer>
-      </MapParent> */}
+      <MapContainer center={MAP_CENTRE} zoom={MAP_ZOOM} scrollWheelZoom={false}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+        />
+        <TavernMarkers people={tavernPeople} events={tavernEvents} />
+        <UserLocation />
+      </MapContainer>
     </div>
   )
 }

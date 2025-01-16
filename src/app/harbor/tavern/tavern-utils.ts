@@ -24,7 +24,7 @@ let cachedPeople: TavernPersonItem[] | null,
   cachedEvents: TavernEventItem[] | null
 let lastPeopleFetch = 0,
   lastEventsFetch = 0
-const TTL = 5 * 60 * 1000
+const TTL = 30 * 60 * 1000
 
 export const getTavernPeople = async () => {
   if (Date.now() - lastPeopleFetch < TTL) return cachedPeople
