@@ -30,6 +30,7 @@ export const getAllProjects = async (): Promise<Ships[]> => {
         'title',
         'credited_hours',
         'doubloon_payout',
+        'doubloon_payout_adjusted',
         'project_source',
         'total_hours',
         'rating',
