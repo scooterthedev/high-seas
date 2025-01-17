@@ -30,7 +30,6 @@ export const getTavernPeople = async () => {
   if (Date.now() - lastPeopleFetch < TTL) return cachedPeople
 
   console.log('Fetching tavern people')
-  lastPeopleFetch = Date.now()
   const base = Airtable.base(process.env.BASE_ID!)
   const records = await base('people')
     .select({
@@ -56,7 +55,6 @@ export const getTavernEvents = async () => {
   if (Date.now() - lastEventsFetch < TTL) return cachedEvents
 
   console.log('Fetching tavern events')
-  lastEventsFetch = Date.now()
   const base = Airtable.base(process.env.BASE_ID!)
   const records = await base('taverns')
     .select({

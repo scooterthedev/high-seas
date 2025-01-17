@@ -1,6 +1,5 @@
 'use client'
 
-import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import {
   getTavernPeople,
@@ -10,6 +9,8 @@ import {
 } from './tavern-utils'
 import { type LatLngExpression, DivIcon, Icon } from 'leaflet'
 import { MapContainer, TileLayer, Marker, useMap, Tooltip } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import { Card } from '@/components/ui/card'
 
 const MAP_ZOOM = 11,
   MAP_CENTRE: LatLngExpression = [0, 0]
@@ -27,16 +28,12 @@ export default function Map() {
 
   return (
     <div>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossOrigin=""
-        />
-      </Head>
-
-      <MapContainer center={MAP_CENTRE} zoom={MAP_ZOOM} scrollWheelZoom={false}>
+      <MapContainer
+        className="h-96 rounded-lg"
+        center={MAP_CENTRE}
+        zoom={MAP_ZOOM}
+        scrollWheelZoom={false}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
@@ -44,6 +41,43 @@ export default function Map() {
         <TavernMarkers people={tavernPeople} events={tavernEvents} />
         <UserLocation />
       </MapContainer>
+      <Card className="mt-8 p-3 flex flex-row justify-center items-center gap-5 flex-wrap">
+        <p className="w-full text-center">Map Legend</p>
+        <div className="flex flex-row justify-start items-center gap-2">
+          <img
+            src="/tavern.png"
+            alt="a star representing a tavern"
+            width={20}
+            className="inline-block ml-4 hidden sm:inline"
+          />
+          <p>Mystic Tavern</p>
+        </div>
+        <div className="flex flex-row justify-start items-center gap-2">
+          <img
+            src="/handraise.png"
+            alt="someone raising a hand"
+            width={20}
+            className="inline-block ml-4 hidden sm:inline"
+          />
+          <p>Mystic Tavern without organizer</p>
+        </div>
+        <div className="flex flex-row justify-start items-center gap-2">
+          <div className="h-7 w-7 rounded-full border-2 border-white bg-[#cfdfff]"></div>
+          <p>Someone unable to organize or attend</p>
+        </div>
+        <div className="flex flex-row justify-start items-center gap-2">
+          <div className="h-7 w-7 rounded-full border-2 border-white bg-[#ffd66e]"></div>
+          <p>Someone able to organize</p>
+        </div>
+        <div className="flex flex-row justify-start items-center gap-2">
+          <div className="h-7 w-7 rounded-full border-2 border-white bg-[#f82b60]"></div>
+          <p>Someone able to attend</p>
+        </div>
+        <div className="flex flex-row justify-start items-center gap-2">
+          <div className="h-7 w-7 rounded-full border-2 border-white bg-[#666666]"></div>
+          <p>Someone who has not responded</p>
+        </div>
+      </Card>
     </div>
   )
 }
@@ -70,7 +104,26 @@ function TavernMarkers(props: MapProps) {
   if (!map) return null
 
   const peopleMarkers = props.people.map((t) => {
-    const iconClass = `tavern-marker tavern-${!t.status ? 'default' : t.status}`
+    let iconClass = `rounded-full border-2 border-white w-full h-full `
+
+    switch (t.status) {
+      case 'none': {
+        iconClass += 'bg-[#cfdfff]'
+        break
+      }
+      case 'organizer': {
+        iconClass += 'bg-[#ffd66e]'
+        break
+      }
+      case 'participant': {
+        iconClass += 'bg-[#f82b60]'
+        break
+      }
+      default: {
+        iconClass += 'bg-[#666666]'
+        break
+      }
+    }
 
     const icon = new DivIcon({
       className: iconClass,
