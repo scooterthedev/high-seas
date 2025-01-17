@@ -125,7 +125,7 @@ export async function fetchShips(
         r.fields.vote_balance_exceeds_requirement,
       ),
       matchups_count: r.fields.matchups_count,
-      doubloonPayout: r.fields.doubloon_payout,
+      doubloonPayout: r.fields.doubloon_payout_adjusted,
       shipType: r.fields.ship_type,
       shipStatus: r.fields.ship_status,
       wakatimeProjectNames,
