@@ -97,7 +97,6 @@ export default function Tavern() {
             😉
           </p>
         </Card>
-
         <RsvpStatusSwitcher />
 
         <Map />
