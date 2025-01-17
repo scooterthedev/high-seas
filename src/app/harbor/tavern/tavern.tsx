@@ -45,6 +45,38 @@ export default function Tavern() {
         <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
           Mystic Tavern
         </h1>
+        <div className="mb-4 rounded-lg overflow-clip">
+          <iframe
+            src="https://high-seas-tavern-map.vercel.app"
+            className="w-full h-96"
+          />
+          <style>{`
+          .tavern-organizer {
+            background-color: #ffd66e;
+          }
+
+          .tavern-participant {
+            background-color: #f82b60;
+          }
+
+          .tavern-none {
+            background-color: #cfdfff;
+          }
+
+          .tavern-default {
+            background-color: #666666;
+          }
+        `}</style>
+
+          <div className="w-fit ml-auto flex">
+            <p className="px-2">легенда:</p>
+            <p className="tavern-organizer px-2 text-black">Organiser</p>
+            <p className="tavern-participant px-2">Participant</p>
+            <p className="tavern-none px-2 text-black">Can not go</p>
+            <p className="tavern-default px-2">Unresponded</p>
+          </div>
+        </div>
+        cla
         <Card className="mb-8 p-6">
           <p className="mb-4">
             On January 31st, thousands of ships will sail back to port,
@@ -92,7 +124,6 @@ export default function Tavern() {
             😉
           </p>
         </Card>
-
         <RsvpStatusSwitcher />
       </div>
     </div>
