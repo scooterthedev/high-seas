@@ -45,7 +45,7 @@ export default function Tavern() {
         <h1 className="font-heading text-5xl mb-6 text-center relative w-fit mx-auto">
           Mystic Tavern
         </h1>
-        <div className="mb-4 rounded-lg overflow-clip">
+        {/* <div className="mb-4 rounded-lg overflow-clip">
           <iframe
             src="https://high-seas-tavern-map.vercel.app"
             allow="geolocation 'self' https://highseas.hackclub.com"
@@ -76,7 +76,7 @@ export default function Tavern() {
             <p className="tavern-none px-2 text-black">Can not go</p>
             <p className="tavern-default px-2">Unresponded</p>
           </div>
-        </div>
+        </div> */}
 
         <Card className="mb-8 p-6">
           <p className="mb-4">
