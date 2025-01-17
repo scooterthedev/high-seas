@@ -48,6 +48,7 @@ export default function Tavern() {
         <div className="mb-4 rounded-lg overflow-clip">
           <iframe
             src="https://high-seas-tavern-map.vercel.app"
+            allow="geolocation 'self' https://highseas.hackclub.com"
             className="w-full h-96"
           />
           <style>{`
@@ -76,7 +77,7 @@ export default function Tavern() {
             <p className="tavern-default px-2">Unresponded</p>
           </div>
         </div>
-        cla
+
         <Card className="mb-8 p-6">
           <p className="mb-4">
             On January 31st, thousands of ships will sail back to port,
