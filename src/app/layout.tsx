@@ -57,7 +57,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="High Seas" />
         <link rel="manifest" href="/favicons/site.webmanifest" />
       </head>
-      <body className={`${mainFont.variable} antialiased`}>
+      <body className={`${mainFont.variable} antialiased overflow-x-hidden`}>
         <Nav />
         <main>{children}</main>
         <PlausibleProvider domain="highseas.hackclub.com" />
