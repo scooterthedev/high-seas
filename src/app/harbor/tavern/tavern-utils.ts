@@ -9,12 +9,10 @@ Airtable.configure({
 
 type RsvpStatus = 'none' | 'organizer' | 'participant'
 export type TavernPersonItem = {
-  id: string
   status: RsvpStatus
   coordinates: string
 }
 export type TavernEventItem = {
-  id: string
   city: string
   geocode: string
   organizers: string[]
@@ -40,7 +38,6 @@ export const getTavernPeople = async () => {
     .all()
 
   const items = records.map((r) => ({
-    id: r.id,
     status: r.get('tavern_rsvp_status'),
     coordinates: r.get('tavern_map_coordinates'),
   })) as TavernPersonItem[]
@@ -63,7 +60,6 @@ export const getTavernEvents = async () => {
     .all()
 
   const items = records.map((r) => ({
-    id: r.id,
     city: r.get('city'),
     geocode: r.get('map_geocode'),
     organizers: r.get('organizers') ?? [],
