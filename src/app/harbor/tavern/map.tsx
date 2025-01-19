@@ -132,7 +132,7 @@ function TavernMarkers(props: MapProps) {
 
     return (
       <Marker
-        key={t.id}
+        key={t.coordinates}
         position={
           t.coordinates.split(', ').map((c) => Number(c)) as LatLngExpression
         }
@@ -166,7 +166,7 @@ function TavernMarkers(props: MapProps) {
 
       return (
         <Marker
-          key={e.id}
+          key={e.city}
           position={[geocodeObj.o.lat, geocodeObj.o.lng]}
           icon={icon}
           zIndexOffset={20}
