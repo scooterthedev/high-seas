@@ -12,7 +12,7 @@ import { MapContainer, TileLayer, Marker, useMap, Tooltip } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { Card } from '@/components/ui/card'
 
-const MAP_ZOOM = 11,
+const MAP_ZOOM = 2,
   MAP_CENTRE: LatLngExpression = [0, 0]
 
 export default function Map() {
