@@ -168,7 +168,8 @@ export default function NewShipForm({
     if (deploymentUrl.startsWith('file://')) {
       toast({
         title: "Local file URLs aren't allowed",
-        description: 'You cannot use a local file as a demo. Try using #cdn instead to host a video or vercel for a deployed project!',
+        description: 
+          "You cannot use a local file as a demo. Try using #cdn instead to host a video or vercel for a deployed project!",
       })
       setStaging(false)
       return
